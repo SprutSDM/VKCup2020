@@ -7,6 +7,8 @@ buildscript {
         lifecycleVersion = '2.2.0'
         appCompatVersion = '1.1.0'
         constraintLayoutVersion = '1.1.3'
+
+        vkAndroidSdkVersion = '2.2.0'
     }
 
     repositories {
