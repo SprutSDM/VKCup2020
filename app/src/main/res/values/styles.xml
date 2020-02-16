@@ -2,12 +2,20 @@
     <style name="AppThemeBase" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
         <item name="android:background">@android:color/white</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
         <item name="elevation">0dp</item>
     </style>
 
-    <style name="AppThemeFinal" parent="AppThemeBase">
+    <style name="AppThemeFinal" parent="AppThemeBase"/>
+
+    <style name="PopupMenuStyle" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@drawable/popup_shape</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:itemBackground">@android:color/transparent</item>
+        <item name="android:dropDownHorizontalOffset">-4dp</item>
+        <item name="android:popupElevation">16dp</item>
     </style>
 </resources>

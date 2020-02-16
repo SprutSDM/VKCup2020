@@ -1,10 +1,14 @@
 package ru.zakoulov.vkcupa.ui.main
 
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.appcompat.view.ContextThemeWrapper
+import androidx.core.widget.PopupWindowCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupa.R
 import ru.zakoulov.vkcupa.data.Document
@@ -36,6 +40,19 @@ class DocumentViewAdapter(documents: List<Document>) : RecyclerView.Adapter<Docu
             findViewById<TextView>(R.id.doc_title).text = document.title
             findViewById<TextView>(R.id.doc_description).text = document.description
             findViewById<TextView>(R.id.doc_tags).text = document.prettyTags
+            findViewById<View>(R.id.doc_button_options).setOnClickListener {
+                val wrapper = ContextThemeWrapper(context, R.style.PopupMenuStyle)
+                val popup = PopupMenu(wrapper, it, Gravity.END)
+                popup.inflate(R.menu.document_options_menu)
+                popup.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.rename_document -> true
+                        R.id.delete_document -> true
+                        else -> false
+                    }
+                }
+                popup.show()
+            }
         }
     }
 
