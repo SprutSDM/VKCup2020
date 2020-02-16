@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Document viewer</string>
+    <string name="fragment_documents_title">Документы</string>
     <string name="rename_document">Переименовать</string>
     <string name="delete_document">Удалить документ</string>
     <integer name="com_vk_sdk_AppId">7321959</integer>

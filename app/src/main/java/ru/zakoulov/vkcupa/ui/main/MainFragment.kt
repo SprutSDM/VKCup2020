@@ -33,6 +33,7 @@ class MainFragment : Fragment() {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+        activity?.setTitle(R.string.fragment_documents_title)
     }
 
     companion object {
