@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="84dp">
+
+    <!--  Left  -->
+    <FrameLayout
+        android:id="@+id/doc_left"
+        android:layout_width="96dp"
+        android:layout_height="84dp"
+        android:layout_gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/doc_middle">
+
+        <ImageView
+            android:id="@+id/doc_img"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
+    <!--  Middle  -->
+    <LinearLayout
+        android:id="@+id/doc_middle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/doc_button_options"
+        app:layout_constraintStart_toEndOf="@id/doc_left"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/doc_title"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorDocTitle"
+            android:textSize="16sp"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/doc_description"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginTop="3dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/colorDocDescription"
+            android:textSize="13sp" />
+        
+        <LinearLayout
+            android:id="@+id/doc_tags_container"
+            android:layout_width="wrap_content"
+            android:layout_height="16dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+            
+            <ImageView
+                android:layout_width="11dp"
+                android:layout_height="11dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginTop="2dp"
+                android:src="@mipmap/tag_badge"/>
+            
+            <TextView
+                android:id="@+id/doc_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="16dp"
+                android:fontFamily="sans-serif"
+                android:textColor="@color/colorDocTags"
+                android:gravity="top"
+                android:includeFontPadding="false"
+                android:textSize="13sp" />
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+    <!--  Button  -->
+    <View
+        android:id="@+id/doc_button_options"
+        android:layout_width="36dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/doc_middle"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/three_dots"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
