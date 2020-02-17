@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupa.R
 import ru.zakoulov.vkcupa.data.Document
@@ -21,8 +22,10 @@ class DocumentViewAdapter(
 
     var documents: List<Document> = documents
         set(value) {
+            val documentDiffCallback = DocumentDiffCallback(field, value)
+            val documentDiffResult = DiffUtil.calculateDiff(documentDiffCallback, false)
             field = value
-            notifyDataSetChanged()
+            documentDiffResult.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentViewHolder {
@@ -59,13 +62,13 @@ class DocumentViewAdapter(
         }
 
         if (position + DOCS_BEFORE_LOAD > documents.size) {
-            documentRepository.loadDocuments(5)
+            documentRepository.loadDocuments(15)
         }
     }
 
     class DocumentViewHolder(val documentItem: View): RecyclerView.ViewHolder(documentItem)
 
     companion object {
-        const val DOCS_BEFORE_LOAD = 15
+        const val DOCS_BEFORE_LOAD = 20
     }
 }

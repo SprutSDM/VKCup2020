@@ -39,6 +39,6 @@ class DocumentRepository(
     fun deleteDocument(document: Document) = Unit
 
     companion object {
-        const val DOCUMENTS_FOR_LOADING = 20
+        const val DOCUMENTS_FOR_LOADING = 10
     }
 }
