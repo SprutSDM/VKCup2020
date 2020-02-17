@@ -1,8 +1,10 @@
 package ru.zakoulov.vkcupa.data.source.vk.models
 
+import com.google.gson.annotations.SerializedName
+
 data class VkDocument(
     val id: Int,
-    val ownerId: Int,
+    @SerializedName("owner_id") val ownerId: Int,
     val title: String,
     val size: Long,
     val ext: String,

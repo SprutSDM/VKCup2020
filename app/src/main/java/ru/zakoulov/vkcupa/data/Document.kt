@@ -3,10 +3,10 @@ package ru.zakoulov.vkcupa.data
 import android.content.Context
 import android.graphics.drawable.Drawable
 import ru.zakoulov.vkcupa.R
-import java.util.*
 
 data class Document(
     val id: Int,
+    val ownerId: Int,
     val title: String,
     val size: Long,
     val type: DocumentType,

@@ -36,7 +36,18 @@ class DocumentRepository(
 
     fun renameDocument(document: Document) = Unit
 
-    fun deleteDocument(document: Document) = Unit
+    fun deleteDocument(document: Document) {
+        remoteSource.deleteDocument(document,
+            object: DocumentsDataSource.DeleteDocumentCallback {
+                override fun onSuccess(response: Int) {
+                    if (response == 1) {
+                        documents.value = documents.value!! - document
+                    }
+                }
+
+                override fun onFail(message: String) = Unit
+            })
+    }
 
     companion object {
         const val DOCUMENTS_FOR_LOADING = 10

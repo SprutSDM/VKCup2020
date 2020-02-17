@@ -10,6 +10,7 @@ class DocumentMapper : Mapper<VkDocument, Document> {
     override fun map(input: VkDocument): Document {
         return Document(
             id = input.id,
+            ownerId = input.ownerId,
             title = input.title,
             size = input.size,
             type = when (input.type) {

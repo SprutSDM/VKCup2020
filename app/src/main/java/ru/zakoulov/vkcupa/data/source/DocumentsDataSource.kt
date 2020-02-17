@@ -8,10 +8,15 @@ interface DocumentsDataSource {
 
     fun renameDocument(document: Document)
 
-    fun deleteDocument(document: Document)
+    fun deleteDocument(document: Document, callback: DeleteDocumentCallback)
 
     interface GetDocumentsCallback {
         fun onSuccess(newDocuments: List<Document>, totalCount: Int)
+        fun onFail(message: String)
+    }
+
+    interface DeleteDocumentCallback {
+        fun onSuccess(response: Int)
         fun onFail(message: String)
     }
 }

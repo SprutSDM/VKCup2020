@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
@@ -58,7 +59,10 @@ class DocumentViewAdapter(
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
                         R.id.rename_document -> true
-                        R.id.delete_document -> true
+                        R.id.delete_document -> {
+                            documentRepository.deleteDocument(document)
+                            true
+                        }
                         else -> false
                     }
                 }
