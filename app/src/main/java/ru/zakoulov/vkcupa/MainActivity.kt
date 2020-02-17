@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (!VK.isLoggedIn()) {
-            VK.login(this, arrayListOf(VKScope.WALL, VKScope.PHOTOS))
+            VK.login(this, arrayListOf(VKScope.DOCS))
         }
 
         setContentView(R.layout.main_activity)

@@ -8,13 +8,16 @@ import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
-import androidx.core.widget.PopupWindowCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupa.R
 import ru.zakoulov.vkcupa.data.Document
+import ru.zakoulov.vkcupa.data.DocumentRepository
 import ru.zakoulov.vkcupa.data.getDocumentPlaceHolder
 
-class DocumentViewAdapter(documents: List<Document>) : RecyclerView.Adapter<DocumentViewAdapter.DocumentViewHolder>() {
+class DocumentViewAdapter(
+    documents: List<Document>,
+    private val documentRepository: DocumentRepository
+) : RecyclerView.Adapter<DocumentViewAdapter.DocumentViewHolder>() {
 
     var documents: List<Document> = documents
         set(value) {
@@ -54,7 +57,15 @@ class DocumentViewAdapter(documents: List<Document>) : RecyclerView.Adapter<Docu
                 popup.show()
             }
         }
+
+        if (position + DOCS_BEFORE_LOAD > documents.size) {
+            documentRepository.loadDocuments(5)
+        }
     }
 
     class DocumentViewHolder(val documentItem: View): RecyclerView.ViewHolder(documentItem)
+
+    companion object {
+        const val DOCS_BEFORE_LOAD = 15
+    }
 }

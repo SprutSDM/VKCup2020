@@ -5,18 +5,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.zakoulov.vkcupa.App
 import ru.zakoulov.vkcupa.R
+import ru.zakoulov.vkcupa.data.DocumentRepository
 
 class MainFragment : Fragment() {
 
-    private val viewModel: MainViewModel by viewModels()
-
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
+    private lateinit var viewAdapter: DocumentViewAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var documentRepository: DocumentRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,13 +28,17 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        documentRepository = (requireActivity().application as App).documentRepository
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = DocumentViewAdapter(emptyList())
+        viewAdapter = DocumentViewAdapter(emptyList(), documentRepository)
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = viewManager
             adapter = viewAdapter
         }
         activity?.setTitle(R.string.fragment_documents_title)
+        documentRepository.getDocuments().observe(viewLifecycleOwner) {
+            viewAdapter.documents = it
+        }
     }
 
     companion object {

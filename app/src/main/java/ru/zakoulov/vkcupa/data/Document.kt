@@ -6,11 +6,12 @@ import ru.zakoulov.vkcupa.R
 import java.util.*
 
 data class Document(
+    val id: Int,
     val title: String,
-    val size: String,
+    val size: Int,
     val type: DocumentType,
     val fileExtension: String,
-    val date: String,
+    val date: Int,
     val tags: List<String>
 ) {
     val description = "${fileExtension.toUpperCase(Locale.getDefault())} · $size · $date"
@@ -23,6 +24,7 @@ enum class DocumentType {
     BOOK,
     TEXT,
     ZIP,
+    IMAGE,
     OTHER
 }
 
@@ -34,6 +36,6 @@ fun getDocumentPlaceHolder(context: Context, document: Document?): Drawable? {
         DocumentType.BOOK -> context.getDrawable(R.drawable.placeholder_book)
         DocumentType.TEXT -> context.getDrawable(R.drawable.placeholder_text)
         DocumentType.ZIP -> context.getDrawable(R.drawable.placeholder_zip)
-        else -> context.getDrawable(R.drawable.placeholder_zip)
+        else -> context.getDrawable(R.drawable.placeholder_text)
     }
 }
