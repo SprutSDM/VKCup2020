@@ -4,4 +4,9 @@
     <string name="rename_document">Переименовать</string>
     <string name="delete_document">Удалить документ</string>
     <integer name="com_vk_sdk_AppId">7321959</integer>
+
+    <string name="sdf_today">H:m</string>
+    <string name="sdf_yesterday">вчера</string>
+    <string name="sdf_this_year">d MMM</string>
+    <string name="sdf_old_year">d MMM yyyy</string>
 </resources>

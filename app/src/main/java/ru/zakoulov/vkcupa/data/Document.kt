@@ -8,14 +8,13 @@ import java.util.*
 data class Document(
     val id: Int,
     val title: String,
-    val size: Int,
+    val size: Long,
     val type: DocumentType,
     val fileExtension: String,
-    val date: Int,
+    val date: Long,
     val tags: List<String>,
     val preview: String?
 ) {
-    val description = "${fileExtension.toUpperCase(Locale.getDefault())} · $size · $date"
     val prettyTags = tags.joinToString(", ")
 }
 
@@ -29,9 +28,9 @@ enum class DocumentType {
     OTHER
 }
 
-fun getDocumentPlaceHolder(context: Context, document: Document?): Drawable? {
-    document ?: return null
-    return when (document.type) {
+fun getDocumentPlaceHolder(context: Context, type: DocumentType?): Drawable? {
+    type ?: return null
+    return when (type) {
         DocumentType.AUDIO -> context.getDrawable(R.drawable.placeholder_audio)
         DocumentType.VIDEO -> context.getDrawable(R.drawable.placeholder_video)
         DocumentType.BOOK -> context.getDrawable(R.drawable.placeholder_book)

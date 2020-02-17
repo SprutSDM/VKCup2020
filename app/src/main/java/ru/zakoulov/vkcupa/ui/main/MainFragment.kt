@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupa.App
 import ru.zakoulov.vkcupa.R
 import ru.zakoulov.vkcupa.data.DocumentRepository
+import java.util.Locale
 
 class MainFragment : Fragment() {
 
@@ -30,7 +31,13 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         documentRepository = (requireActivity().application as App).documentRepository
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = DocumentViewAdapter(emptyList(), documentRepository)
+        val dateFormatter = DateFormatter(
+            view.context.getString(R.string.sdf_today),
+            view.context.getString(R.string.sdf_yesterday),
+            view.context.getString(R.string.sdf_this_year),
+            view.context.getString(R.string.sdf_old_year),
+            Locale.getDefault())
+        viewAdapter = DocumentViewAdapter(emptyList(), documentRepository, dateFormatter)
         recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = viewManager
             adapter = viewAdapter

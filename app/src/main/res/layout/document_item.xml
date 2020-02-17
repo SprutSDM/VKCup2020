@@ -37,21 +37,24 @@
 
         <TextView
             android:id="@+id/doc_title"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorDocTitle"
             android:textSize="16sp"
-            android:maxLines="1"/>
+            android:maxLines="2"
+            android:ellipsize="end"/>
 
         <TextView
             android:id="@+id/doc_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="16dp"
             android:layout_marginTop="3dp"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorDocDescription"
-            android:textSize="13sp" />
+            android:textSize="13sp"
+            android:maxLines="1"
+            android:ellipsize="end"/>
         
         <LinearLayout
             android:id="@+id/doc_tags_container"
@@ -69,13 +72,15 @@
             
             <TextView
                 android:id="@+id/doc_tags"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="16dp"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/colorDocTags"
                 android:gravity="top"
                 android:includeFontPadding="false"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:maxLines="1"
+                android:ellipsize="end"/>
         </LinearLayout>
         
     </LinearLayout>
