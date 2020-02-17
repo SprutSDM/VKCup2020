@@ -12,7 +12,8 @@ data class Document(
     val type: DocumentType,
     val fileExtension: String,
     val date: Int,
-    val tags: List<String>
+    val tags: List<String>,
+    val preview: String?
 ) {
     val description = "${fileExtension.toUpperCase(Locale.getDefault())} · $size · $date"
     val prettyTags = tags.joinToString(", ")

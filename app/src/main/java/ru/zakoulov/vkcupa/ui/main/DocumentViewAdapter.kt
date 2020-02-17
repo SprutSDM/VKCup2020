@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupa.R
 import ru.zakoulov.vkcupa.data.Document
 import ru.zakoulov.vkcupa.data.DocumentRepository
@@ -40,12 +42,25 @@ class DocumentViewAdapter(
         val document = documents[position]
 
         holder.documentItem.apply {
-            findViewById<ImageView>(R.id.doc_img).setImageDrawable(
+            val docImg = findViewById<ImageView>(R.id.doc_img)
+            docImg.setImageDrawable(
                 getDocumentPlaceHolder(holder.documentItem.context, document)
             )
+            document.preview?.let { src ->
+                Picasso.get()
+                    .load(src)
+                    .fit()
+                    .centerCrop()
+                    .into(docImg)
+            }
             findViewById<TextView>(R.id.doc_title).text = document.title
             findViewById<TextView>(R.id.doc_description).text = document.description
-            findViewById<TextView>(R.id.doc_tags).text = document.prettyTags
+            if (document.tags.isNotEmpty()) {
+                findViewById<LinearLayout>(R.id.doc_tags_container).visibility = View.VISIBLE
+                findViewById<TextView>(R.id.doc_tags).text = document.prettyTags
+            } else {
+                findViewById<LinearLayout>(R.id.doc_tags_container).visibility = View.GONE
+            }
             findViewById<View>(R.id.doc_button_options).setOnClickListener {
                 val wrapper = ContextThemeWrapper(context, R.style.PopupMenuStyle)
                 val popup = PopupMenu(wrapper, it, Gravity.END)

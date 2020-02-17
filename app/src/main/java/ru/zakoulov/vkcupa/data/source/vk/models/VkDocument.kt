@@ -9,6 +9,6 @@ data class VkDocument(
     val url: String,
     val date: Int,
     val type: Int,
-    val preview: VkPreview,
+    val preview: VkPreview?,
     val tags: List<String>?
 )

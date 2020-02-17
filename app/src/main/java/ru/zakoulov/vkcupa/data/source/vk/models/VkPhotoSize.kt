@@ -1,6 +1,6 @@
 package ru.zakoulov.vkcupa.data.source.vk.models
 
-data class VkPhoto(
+data class VkPhotoSize(
     val src: String,
     val width: Int,
     val height: Int,

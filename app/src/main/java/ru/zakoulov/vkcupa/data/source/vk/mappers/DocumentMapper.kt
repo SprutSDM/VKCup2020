@@ -23,7 +23,8 @@ class DocumentMapper : Mapper<VkDocument, Document> {
             },
             fileExtension = input.ext,
             date = input.date,
-            tags = input.tags ?: emptyList()
+            tags = input.tags ?: emptyList(),
+            preview = input.preview?.photo?.sizes?.find { it.type == "m" }?.src ?: input.preview?.graffiti?.src
         )
     }
 }
