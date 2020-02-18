@@ -13,4 +13,8 @@ data class VkDocument(
     val type: Int,
     val preview: VkPreview?,
     val tags: List<String>?
-)
+) {
+    companion object {
+        const val NO_PREVIEW_QUERY_ARG = "no_preview=1"
+    }
+}

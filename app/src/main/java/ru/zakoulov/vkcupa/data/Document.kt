@@ -13,7 +13,8 @@ data class Document(
     val fileExtension: String,
     val date: Long,
     val tags: List<String>,
-    val preview: String?
+    val preview: String?,
+    val url: String
 ) {
     val prettyTags = tags.joinToString(", ")
 }

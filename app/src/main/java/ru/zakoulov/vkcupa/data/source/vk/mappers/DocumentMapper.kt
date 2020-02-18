@@ -25,7 +25,8 @@ class DocumentMapper : Mapper<VkDocument, Document> {
             fileExtension = input.ext,
             date = input.date,
             tags = input.tags ?: emptyList(),
-            preview = input.preview?.photo?.sizes?.find { it.type == "m" }?.src ?: input.preview?.graffiti?.src
+            preview = input.preview?.photo?.sizes?.find { it.type == "m" }?.src ?: input.preview?.graffiti?.src,
+            url = input.url.replace(VkDocument.NO_PREVIEW_QUERY_ARG, "")
         )
     }
 }

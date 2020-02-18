@@ -9,8 +9,12 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
+import ru.zakoulov.vkcupa.data.Document
+import ru.zakoulov.vkcupa.ui.docsviewer.DocsViewerFragment
 import ru.zakoulov.vkcupa.ui.main.MainFragment
 import ru.zakoulov.vkcupa.ui.welcome.WelcomeFragment
+import android.net.Uri
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +45,23 @@ class MainActivity : AppCompatActivity() {
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance)
 
     fun navigateToMain() = navigateTo(MainFragment.instance)
+
+    fun openDocsViewer(document: Document) {
+        if (document.fileExtension.toLowerCase(Locale.getDefault()) !in DocsViewerFragment.ALLOWED_EXTS) {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(document.url))
+            startActivity(browserIntent)
+            return
+        }
+        val docsViewFragment = DocsViewerFragment.newInstance()
+        val bundle = Bundle()
+        bundle.putString(DocsViewerFragment.KEY_URL_FOR_OPEN, document.url)
+        bundle.putString(DocsViewerFragment.KEY_DOC_TITLE, document.title)
+        docsViewFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, docsViewFragment)
+            .addToBackStack(DocsViewerFragment.TAG)
+            .commitAllowingStateLoss()
+    }
 
     private fun navigateTo(fragment: Fragment) {
         supportFragmentManager.beginTransaction()

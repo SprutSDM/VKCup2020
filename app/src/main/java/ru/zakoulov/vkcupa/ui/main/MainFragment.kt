@@ -3,7 +3,6 @@ package ru.zakoulov.vkcupa.ui.main
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +13,11 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupa.App
+import ru.zakoulov.vkcupa.MainActivity
 import ru.zakoulov.vkcupa.R
 import ru.zakoulov.vkcupa.data.Document
 import ru.zakoulov.vkcupa.data.DocumentRepository
+import ru.zakoulov.vkcupa.ui.renameDialog.RenameDialogFragment
 import java.util.Locale
 
 class MainFragment : Fragment() {
@@ -77,11 +78,13 @@ class MainFragment : Fragment() {
         }
     }
 
-    interface RenameCallback {
+    interface AdapterCallbacks {
         fun renameDocument(doc: Document)
+
+        fun openDocument(doc: Document)
     }
 
-    private val renameCallback = object : RenameCallback {
+    private val renameCallback = object : AdapterCallbacks {
         override fun renameDocument(doc: Document) {
             val dialogFragment = RenameDialogFragment()
             val bundle = Bundle()
@@ -91,6 +94,8 @@ class MainFragment : Fragment() {
             dialogFragment.setTargetFragment(this@MainFragment, REQUEST_RENAME_DOC)
             dialogFragment.show(requireActivity().supportFragmentManager, dialogFragment::class.java.name)
         }
+
+        override fun openDocument(doc: Document) = (requireActivity() as MainActivity).openDocsViewer(doc)
     }
 
     companion object {

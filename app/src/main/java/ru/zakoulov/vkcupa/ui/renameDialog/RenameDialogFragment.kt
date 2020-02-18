@@ -1,4 +1,4 @@
-package ru.zakoulov.vkcupa.ui.main
+package ru.zakoulov.vkcupa.ui.renameDialog
 
 import android.app.Activity
 import android.content.Intent
@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.DialogFragment
 import ru.zakoulov.vkcupa.R
+import ru.zakoulov.vkcupa.ui.main.MainFragment
 
 class RenameDialogFragment : DialogFragment() {
 
