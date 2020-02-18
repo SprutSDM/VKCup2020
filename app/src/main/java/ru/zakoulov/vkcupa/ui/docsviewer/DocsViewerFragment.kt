@@ -23,7 +23,7 @@ class DocsViewerFragment : Fragment() {
             webView = findViewById(R.id.web_view)
             progressBar = findViewById(R.id.progress_bar)
             errorContainer = findViewById(R.id.error_container)
-            buttonRetry = findViewById(R.id.but_retry)
+            buttonRetry = findViewById(R.id.but_reload)
         }
         return root
     }

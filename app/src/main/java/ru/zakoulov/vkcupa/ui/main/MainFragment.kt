@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +29,9 @@ class MainFragment : Fragment() {
     private lateinit var viewAdapter: DocumentViewAdapter
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var documentRepository: DocumentRepository
+    private lateinit var errorContainer: View
+    private lateinit var errorText: TextView
+    private lateinit var butReload: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +41,9 @@ class MainFragment : Fragment() {
         with (root) {
             progressBar = findViewById(R.id.progress_bar)
             recyclerView = findViewById(R.id.recycler_view)
+            errorContainer = findViewById(R.id.error_container)
+            errorText = findViewById(R.id.error_text)
+            butReload = findViewById(R.id.but_reload)
         }
         return root
     }
@@ -60,7 +68,22 @@ class MainFragment : Fragment() {
             viewAdapter.documents = it
         }
         documentRepository.isDocsLoadingProgress().observe(viewLifecycleOwner) {
-            progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            if (it) {
+                showLoading()
+            } else {
+                if (documentRepository.getDocuments().value?.size == 0) {
+                    if ((requireActivity() as MainActivity).isInternetAvailable()) {
+                        showNoDocsFound()
+                    } else {
+                        showNetworkError()
+                    }
+                } else {
+                    showLoaded()
+                }
+            }
+        }
+        butReload.setOnClickListener {
+            documentRepository.loadDocuments(trackProgress = true)
         }
     }
 
@@ -74,6 +97,26 @@ class MainFragment : Fragment() {
             }
         }
     }
+
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+        errorContainer.visibility = View.GONE
+    }
+
+    private fun showLoaded() {
+        progressBar.visibility = View.GONE
+        errorContainer.visibility = View.GONE
+    }
+
+    private fun showError(@StringRes error: Int) {
+        progressBar.visibility = View.GONE
+        errorContainer.visibility = View.VISIBLE
+        errorText.text = getString(error)
+    }
+
+    private fun showNoDocsFound() = showError(R.string.no_docs_found)
+
+    private fun showNetworkError() = showError(R.string.error_doc_load)
 
     interface AdapterCallbacks {
         fun renameDocument(doc: Document)
