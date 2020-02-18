@@ -51,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
+                (application as App).documentRepository.loadDocuments(trackProgress = true)
                 navigateToMain()
             }
 

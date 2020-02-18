@@ -10,29 +10,38 @@ class DocumentRepository(
     private var documents: MutableLiveData<List<Document>> = MutableLiveData(emptyList())
     fun getDocuments(): LiveData<List<Document>> = documents
 
-    private var docsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
-    fun isDocsLoading(): LiveData<Boolean> = docsLoading
+    private var docsLoading: Boolean = false
+    private var docsLoadingProgress: MutableLiveData<Boolean> = MutableLiveData(false)
+    fun isDocsLoadingProgress(): LiveData<Boolean> = docsLoadingProgress
 
     private var message: MutableLiveData<String> = MutableLiveData()
     fun getMessage(): LiveData<String> = message
 
-    fun loadDocuments(count: Int = DOCUMENTS_FOR_LOADING) {
-        if (docsLoading.value == true) {
+    fun loadDocuments(count: Int = DOCUMENTS_FOR_LOADING, trackProgress: Boolean = false) {
+        if (docsLoading) {
             return
         }
-        docsLoading.value = true
+        docsLoading = true
+        if (trackProgress) {
+            docsLoadingProgress.value = true
+        }
         remoteSource.getDocuments(count, documents.value?.size ?: 0,
             object : DocumentsDataSource.GetDocumentsCallback {
                 override fun onSuccess(newDocuments: List<Document>, totalCount: Int) {
                     // It's ok because we have init data in LiveData
                     documents.value = documents.value!! + newDocuments
 
-                    docsLoading.value = false
+                    docsLoading = false
+                    docsLoadingProgress.value = false
                 }
 
                 override fun onFail(failMessage: String) {
                     message.value = failMessage
-                    docsLoading.value = false
+
+                    docsLoading = false
+                    if (trackProgress) {
+                        docsLoadingProgress.value = false
+                    }
                 }
             }
         )

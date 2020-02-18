@@ -20,7 +20,9 @@ class App : Application() {
         super.onCreate()
         VK.addTokenExpiredHandler(tokenTracker)
         documentRepository = DocumentRepository(VkDocumentsDataSource(DocumentMapper()))
-        documentRepository.loadDocuments()
+        if (VK.isLoggedIn()) {
+            documentRepository.loadDocuments(trackProgress = true)
+        }
     }
 
     private val tokenTracker = object: VKTokenExpiredHandler {
