@@ -10,6 +10,7 @@
     <string name="dialog_ok">OK</string>
     <string name="hint_put_new_doc_title">Введите новое название документа</string>
     <integer name="com_vk_sdk_AppId">7321959</integer>
+    <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
 
     <string name="sdf_today">H:m</string>
     <string name="sdf_yesterday">вчера</string>

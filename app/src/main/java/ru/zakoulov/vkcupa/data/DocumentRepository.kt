@@ -15,9 +15,6 @@ class DocumentRepository(
     private var docsLoadingProgress: MutableLiveData<Boolean> = MutableLiveData(false)
     fun isDocsLoadingProgress(): LiveData<Boolean> = docsLoadingProgress
 
-    private var message: MutableLiveData<String> = MutableLiveData()
-    fun getMessage(): LiveData<String> = message
-
     fun loadDocuments(count: Int = DOCUMENTS_FOR_LOADING, trackProgress: Boolean = false) {
         if (docsLoading) {
             return
@@ -37,8 +34,6 @@ class DocumentRepository(
                 }
 
                 override fun fail(failMessage: String) {
-                    message.value = failMessage
-
                     docsLoading = false
                     if (trackProgress) {
                         docsLoadingProgress.value = false
@@ -62,9 +57,7 @@ class DocumentRepository(
                     }
                 }
 
-                override fun fail(failMessage: String) {
-                    message.value = failMessage
-                }
+                override fun fail(failMessage: String) { }
             })
     }
 
@@ -77,9 +70,7 @@ class DocumentRepository(
                     }
                 }
 
-                override fun fail(failMessage: String) {
-                    message.value = failMessage
-                }
+                override fun fail(failMessage: String) { }
             })
     }
 

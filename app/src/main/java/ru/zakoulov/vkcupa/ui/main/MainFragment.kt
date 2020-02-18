@@ -59,9 +59,6 @@ class MainFragment : Fragment() {
         documentRepository.getDocuments().observe(viewLifecycleOwner) {
             viewAdapter.documents = it
         }
-        documentRepository.getMessage().observe(viewLifecycleOwner) {
-            Toast.makeText(requireActivity(), it, Toast.LENGTH_LONG).show()
-        }
         documentRepository.isDocsLoadingProgress().observe(viewLifecycleOwner) {
             progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
