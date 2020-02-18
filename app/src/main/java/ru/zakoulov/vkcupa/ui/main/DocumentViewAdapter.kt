@@ -77,6 +77,7 @@ class DocumentViewAdapter(
 
     private fun setItemIcon(documentItem: View, type: DocumentType, src: String?) {
         val docImg = documentItem.findViewById<ImageView>(R.id.doc_img)
+        docImg.clipToOutline = true
         if (src == null) {
             docImg.setImageDrawable(getDocumentPlaceHolder(documentItem.context, type))
         } else {
@@ -84,6 +85,7 @@ class DocumentViewAdapter(
                 .load(src)
                 .fit()
                 .centerCrop()
+                .placeholder(R.mipmap.ic_placeholder_document_image_72)
                 .into(docImg)
         }
     }

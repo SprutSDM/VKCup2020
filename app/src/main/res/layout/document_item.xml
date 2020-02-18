@@ -19,6 +19,7 @@
 
         <ImageView
             android:id="@+id/doc_img"
+            android:background="@drawable/shape_doc_placeholder"
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_gravity="center"/>
@@ -68,7 +69,8 @@
                 android:layout_height="11dp"
                 android:layout_marginEnd="6dp"
                 android:layout_marginTop="2dp"
-                android:src="@mipmap/tag_badge"/>
+                android:src="@mipmap/ic_tag_12"
+                android:tint="@color/colorTag"/>
             
             <TextView
                 android:id="@+id/doc_tags"
@@ -86,7 +88,7 @@
     </LinearLayout>
     
     <!--  Button  -->
-    <View
+    <FrameLayout
         android:id="@+id/doc_button_options"
         android:layout_width="36dp"
         android:layout_height="48dp"
@@ -95,6 +97,13 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/doc_middle"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/three_dots"/>
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:tint="@color/colorMore"
+            android:src="@mipmap/ic_more_vertical_16"/>
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

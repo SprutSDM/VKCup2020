@@ -12,7 +12,7 @@
     <style name="AppThemeFinal" parent="AppThemeBase"/>
 
     <style name="PopupMenuStyle" parent="Widget.AppCompat.PopupMenu.Overflow">
-        <item name="android:popupBackground">@drawable/popup_shape</item>
+        <item name="android:popupBackground">@drawable/shape_popup</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:itemBackground">@android:color/transparent</item>
         <item name="android:dropDownHorizontalOffset">-4dp</item>

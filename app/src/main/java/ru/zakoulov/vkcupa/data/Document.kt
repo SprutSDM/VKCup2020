@@ -31,11 +31,12 @@ enum class DocumentType {
 fun getDocumentPlaceHolder(context: Context, type: DocumentType?): Drawable? {
     type ?: return null
     return when (type) {
-        DocumentType.AUDIO -> context.getDrawable(R.drawable.placeholder_audio)
-        DocumentType.VIDEO -> context.getDrawable(R.drawable.placeholder_video)
-        DocumentType.BOOK -> context.getDrawable(R.drawable.placeholder_book)
-        DocumentType.TEXT -> context.getDrawable(R.drawable.placeholder_text)
-        DocumentType.ZIP -> context.getDrawable(R.drawable.placeholder_zip)
-        else -> context.getDrawable(R.drawable.placeholder_text)
+        DocumentType.AUDIO -> context.getDrawable(R.mipmap.ic_placeholder_document_music_72)
+        DocumentType.VIDEO -> context.getDrawable(R.mipmap.ic_placeholder_document_video_72)
+        DocumentType.BOOK -> context.getDrawable(R.mipmap.ic_placeholder_document_book_72)
+        DocumentType.TEXT -> context.getDrawable(R.mipmap.ic_placeholder_document_text_72)
+        DocumentType.ZIP -> context.getDrawable(R.mipmap.ic_placeholder_document_archive_72)
+        DocumentType.IMAGE -> context.getDrawable(R.mipmap.ic_placeholder_document_image_72)
+        else -> context.getDrawable(R.mipmap.ic_placeholder_document_other_72)
     }
 }
