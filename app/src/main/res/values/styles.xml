@@ -1,11 +1,12 @@
 <resources>
     <style name="AppThemeBase" parent="Theme.AppCompat.Light">
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
-        <item name="android:background">@android:color/white</item>
+<!--        <item name="android:background">@android:color/white</item>-->
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
 
     <style name="AppTheme.ActionBar" parent="@style/Widget.AppCompat.ActionBar">
+        <item name="background">@android:color/white</item>
         <item name="elevation">0dp</item>
     </style>
 

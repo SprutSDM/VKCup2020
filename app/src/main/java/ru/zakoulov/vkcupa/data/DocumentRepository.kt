@@ -13,6 +13,9 @@ class DocumentRepository(
     private var docsLoading: MutableLiveData<Boolean> = MutableLiveData(false)
     fun isDocsLoading(): LiveData<Boolean> = docsLoading
 
+    private var message: MutableLiveData<String> = MutableLiveData()
+    fun getMessage(): LiveData<String> = message
+
     fun loadDocuments(count: Int = DOCUMENTS_FOR_LOADING) {
         if (docsLoading.value == true) {
             return
@@ -27,7 +30,8 @@ class DocumentRepository(
                     docsLoading.value = false
                 }
 
-                override fun onFail(message: String) {
+                override fun onFail(failMessage: String) {
+                    message.value = failMessage
                     docsLoading.value = false
                 }
             }
@@ -45,11 +49,13 @@ class DocumentRepository(
                     }
                 }
 
-                override fun onFail(message: String) = Unit
+                override fun onFail(failMessage: String) {
+                    message.value = failMessage
+                }
             })
     }
 
     companion object {
-        const val DOCUMENTS_FOR_LOADING = 10
+        const val DOCUMENTS_FOR_LOADING = 20
     }
 }

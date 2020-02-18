@@ -12,11 +12,11 @@ interface DocumentsDataSource {
 
     interface GetDocumentsCallback {
         fun onSuccess(newDocuments: List<Document>, totalCount: Int)
-        fun onFail(message: String)
+        fun onFail(failMessage: String)
     }
 
     interface DeleteDocumentCallback {
         fun onSuccess(response: Int)
-        fun onFail(message: String)
+        fun onFail(failMessage: String)
     }
 }
