@@ -4,19 +4,9 @@ import ru.zakoulov.vkcupa.data.Document
 
 interface DocumentsDataSource {
 
-    fun getDocuments(count: Int, offset: Int, callback: GetDocumentsCallback)
+    fun getDocuments(count: Int, offset: Int, callback: CommonResponseCallback<List<Document>>)
 
-    fun renameDocument(document: Document)
+    fun renameDocument(document: Document, newTitle: String, callback: CommonResponseCallback<Int>)
 
-    fun deleteDocument(document: Document, callback: DeleteDocumentCallback)
-
-    interface GetDocumentsCallback {
-        fun onSuccess(newDocuments: List<Document>, totalCount: Int)
-        fun onFail(failMessage: String)
-    }
-
-    interface DeleteDocumentCallback {
-        fun onSuccess(response: Int)
-        fun onFail(failMessage: String)
-    }
+    fun deleteDocument(document: Document, callback: CommonResponseCallback<Int>)
 }

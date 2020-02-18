@@ -5,5 +5,8 @@
     <color name="colorDocDescription">#818C99</color>
     <color name="colorDocTags">#818C99</color>
     <color name="colorTag">#99A2AD</color>
+    <color name="colorButtonSecondary">#e2e3e7</color>
+    <color name="colorTextSecondary">#454648</color>
+    <color name="colorGray">#616161</color>
     <color name="colorMore">#AEB7C2</color>
 </resources>

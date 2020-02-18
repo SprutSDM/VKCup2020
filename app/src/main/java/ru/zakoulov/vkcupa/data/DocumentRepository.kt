@@ -2,6 +2,7 @@ package ru.zakoulov.vkcupa.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import ru.zakoulov.vkcupa.data.source.CommonResponseCallback
 import ru.zakoulov.vkcupa.data.source.DocumentsDataSource
 
 class DocumentRepository(
@@ -26,16 +27,16 @@ class DocumentRepository(
             docsLoadingProgress.value = true
         }
         remoteSource.getDocuments(count, documents.value?.size ?: 0,
-            object : DocumentsDataSource.GetDocumentsCallback {
-                override fun onSuccess(newDocuments: List<Document>, totalCount: Int) {
+            object : CommonResponseCallback<List<Document>> {
+                override fun success(response: List<Document>) {
                     // It's ok because we have init data in LiveData
-                    documents.value = documents.value!! + newDocuments
+                    documents.value = documents.value!! + response
 
                     docsLoading = false
                     docsLoadingProgress.value = false
                 }
 
-                override fun onFail(failMessage: String) {
+                override fun fail(failMessage: String) {
                     message.value = failMessage
 
                     docsLoading = false
@@ -43,22 +44,40 @@ class DocumentRepository(
                         docsLoadingProgress.value = false
                     }
                 }
-            }
-        )
+            })
     }
 
-    fun renameDocument(document: Document) = Unit
+    fun renameDocument(document: Document, newTitle: String) {
+        remoteSource.renameDocument(document, newTitle,
+            object : CommonResponseCallback<Int> {
+                override fun success(response: Int) {
+                    if (response == 1) {
+                        documents.value = documents.value?.map {
+                            if (it.id == document.id) {
+                                document.copy(title = newTitle)
+                            } else {
+                                it
+                            }
+                        }
+                    }
+                }
+
+                override fun fail(failMessage: String) {
+                    message.value = failMessage
+                }
+            })
+    }
 
     fun deleteDocument(document: Document) {
         remoteSource.deleteDocument(document,
-            object: DocumentsDataSource.DeleteDocumentCallback {
-                override fun onSuccess(response: Int) {
+            object : CommonResponseCallback<Int> {
+                override fun success(response: Int) {
                     if (response == 1) {
                         documents.value = documents.value!! - document
                     }
                 }
 
-                override fun onFail(failMessage: String) {
+                override fun fail(failMessage: String) {
                     message.value = failMessage
                 }
             })

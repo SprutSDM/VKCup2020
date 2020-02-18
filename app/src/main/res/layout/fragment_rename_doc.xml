@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="310dp"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:textColor="@color/colorGray"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:text="@string/fragment_dialog_rename_title" />
+
+    <EditText
+        android:id="@+id/doc_title"
+        android:layout_width="290dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:hint="@string/hint_put_new_doc_title"
+        android:lines="3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/but_cancel"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:backgroundTint="@color/colorButtonSecondary"
+            android:layout_marginEnd="10dp"
+            android:text="@string/dialog_cancel"
+            android:textColor="@color/colorTextSecondary"/>
+        <Button
+            android:id="@+id/but_ok"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:text="@string/dialog_ok"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</LinearLayout>

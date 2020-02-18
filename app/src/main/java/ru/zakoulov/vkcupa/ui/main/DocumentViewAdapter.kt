@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.view.ContextThemeWrapper
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +25,8 @@ import java.util.Locale
 class DocumentViewAdapter(
     documents: List<Document>,
     private val documentRepository: DocumentRepository,
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: DateFormatter,
+    private val renameCallback: MainFragment.RenameCallback
 ) : RecyclerView.Adapter<DocumentViewAdapter.DocumentViewHolder>() {
 
     var documents: List<Document> = documents
@@ -58,7 +60,10 @@ class DocumentViewAdapter(
                 popup.inflate(R.menu.document_options_menu)
                 popup.setOnMenuItemClickListener { item ->
                     when (item.itemId) {
-                        R.id.rename_document -> true
+                        R.id.rename_document -> {
+                            renameCallback.renameDocument(document)
+                            true
+                        }
                         R.id.delete_document -> {
                             documentRepository.deleteDocument(document)
                             true

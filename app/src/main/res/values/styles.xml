@@ -1,7 +1,10 @@
 <resources>
     <style name="AppThemeBase" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/colorVkPrimary</item>
+        <item name="colorPrimaryDark">@color/colorVkPrimary</item>
+        <item name="colorAccent">@color/colorVkPrimary</item>
         <item name="actionBarStyle">@style/AppTheme.ActionBar</item>
-<!--        <item name="android:background">@android:color/white</item>-->
+        <item name="android:colorButtonNormal">@color/colorVkPrimary</item>
         <item name="android:popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
 

@@ -6,7 +6,6 @@
         android:layout_width="100dp"
         android:layout_height="40dp"
         android:text="@string/login"
-        android:background="@color/colorVkPrimary"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:layout_gravity="center"/>
