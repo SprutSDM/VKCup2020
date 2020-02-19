@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorVkPrimary">#5281b9</color>
+    <color name="colorVkPrimary">#4986CC</color>
+    <color name="colorShareOutline">#99A2AD</color>
+    <color name="colorDescription">#818C99</color>
 </resources>
