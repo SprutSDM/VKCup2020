@@ -1,8 +1,8 @@
-package ru.zakoulov.vkcupa.data.source.vk.responses
+package ru.zakoulov.vkcupa.data.source.vk.models
 
 import ru.zakoulov.vkcupa.data.source.vk.models.VkDocument
 
-data class GetDocumentsResponse(
+data class VkDocuments(
     val count: Int,
     val items: List<VkDocument>
 )

@@ -11,7 +11,7 @@ import ru.zakoulov.vkcupa.data.source.vk.mappers.DocumentMapper
 import ru.zakoulov.vkcupa.data.source.vk.requests.VkDeleteDocumentRequest
 import ru.zakoulov.vkcupa.data.source.vk.requests.VkGetDocumentsRequest
 import ru.zakoulov.vkcupa.data.source.vk.requests.VkRenameDocumentRequest
-import ru.zakoulov.vkcupa.data.source.vk.responses.GetDocumentsResponse
+import ru.zakoulov.vkcupa.data.source.vk.models.VkDocuments
 
 class VkDocumentsDataSource(
     private val documentMapper: DocumentMapper
@@ -21,8 +21,8 @@ class VkDocumentsDataSource(
     private val jsonParser = JsonParser()
 
     override fun getDocuments(count: Int, offset: Int, callback: CommonResponseCallback<List<Document>>) {
-        VK.execute(VkGetDocumentsRequest(gson, jsonParser, count, offset), object: VKApiCallback<GetDocumentsResponse> {
-            override fun success(result: GetDocumentsResponse) {
+        VK.execute(VkGetDocumentsRequest(gson, jsonParser, count, offset), object: VKApiCallback<VkDocuments> {
+            override fun success(result: VkDocuments) {
                 callback.success(result.items.map { documentMapper.map(it) })
             }
 
