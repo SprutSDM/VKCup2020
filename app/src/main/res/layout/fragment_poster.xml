@@ -34,24 +34,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textColor="@color/colorDescription"
+            android:textColor="@color/colorHint"
             android:textSize="16sp"
             android:fontFamily="sans-serif"
             android:textAlignment="center"
             android:text="@string/description_share_photo"/>
 
         <Button
+            android:id="@+id/but_choose"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
             android:layout_marginTop="24dp"
             android:text="@string/but_choose_photo"
-            android:textColor="@android:color/white"
             android:textSize="15sp"
-            android:fontFamily="sans-serif"
-            android:includeFontPadding="false"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 </FrameLayout>

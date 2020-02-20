@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorVkPrimary">#4986CC</color>
+    <color name="colorVkPrimaryDark">#376499</color>
     <color name="colorShareOutline">#99A2AD</color>
-    <color name="colorDescription">#818C99</color>
+    <color name="colorHint">#818C99</color>
+    <color name="colorTextEditFill">#F2F3F5</color>
+    <color name="colorTextEditBorders">#E1E3E6</color>
 </resources>

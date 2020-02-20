@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +13,7 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
+import ru.zakoulov.vkcupe.ui.poster.PosterFragment
 import ru.zakoulov.vkcupe.ui.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -24,16 +24,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             if (VK.isLoggedIn()) {
-//                navigateToMain()
+                navigateToPoster()
             } else {
                 navigateToWelcome()
-
             }
         }
 
         (application as App).tokenExpired.observe(this) {
             if (it != null && it != 0) {
-//                navigateToWelcome()
+                navigateToWelcome()
             }
         }
     }
@@ -43,8 +42,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance)
-//
-//    fun navigateToMain() = navigateTo(MainFragment.instance)
+
+    fun navigateToPoster() = navigateTo(PosterFragment.instance)
 
     fun isInternetAvailable(): Boolean {
         var result = false
@@ -85,8 +84,7 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-//                (application as App).documentRepository.loadDocuments(trackProgress = true)
-//                navigateToMain()
+                navigateToPoster()
             }
 
             override fun onLoginFailed(errorCode: Int) {

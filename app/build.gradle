@@ -54,6 +54,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.squareup.picasso:picasso:$picassoVersion"
 
     implementation "com.vk:androidsdk:$vkAndroidSdkVersion"
 }
