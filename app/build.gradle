@@ -48,13 +48,10 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "androidx.appcompat:appcompat:$appCompatVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-    implementation "com.google.code.gson:gson:$gsonVersion"
+//    implementation "com.google.code.gson:gson:$gsonVersion"
     implementation "com.google.android.material:material:$materialVersion"
-    implementation "com.squareup.picasso:picasso:$picassoVersion"
 
     implementation "com.vk:androidsdk:$vkAndroidSdkVersion"
 }
