@@ -16,13 +16,14 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.zakoulov.vkcupe.App
 import ru.zakoulov.vkcupe.R
 import ru.zakoulov.vkcupe.data.PostsRepository
-import ru.zakoulov.vkcupe.data.source.CommonResponseCallback
+import ru.zakoulov.vkcupe.data.source.PostStatus
 import ru.zakoulov.vkcupe.utils.getAbsolutePathUri
 import ru.zakoulov.vkcupe.utils.hideKeyboard
 import kotlin.math.max
@@ -68,21 +69,22 @@ class PostEditorFragment : BottomSheetDialogFragment() {
             hideBs()
         }
         butPost.setOnClickListener {
-            showPostStartLoading()
+            hideKeyboard()
             postsRepository.addPost(postMessageView.editableText.toString(),
-                listOf(imageUri.getAbsolutePathUri(requireContext())), object : CommonResponseCallback<Int> {
-                    override fun success(response: Int) {
-                        if (isAdded) {
-                            showPostLoadingSuccess()
-                        }
-                    }
-
-                    override fun fail(failMessage: String) {
-                        if (isAdded) {
-                            showPostLoadingFail()
-                        }
-                    }
-                })
+                listOf(imageUri.getAbsolutePathUri(requireContext())))
+        }
+        postsRepository.postStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                is PostStatus.Loading -> showPostLoading()
+                is PostStatus.Success -> {
+                    postsRepository.postStatus.value = null
+                    showPostLoadingSuccess()
+                }
+                is PostStatus.Fail -> {
+                    postsRepository.postStatus.value = null
+                    showPostLoadingFail()
+                }
+            }
         }
     }
 
@@ -100,8 +102,7 @@ class PostEditorFragment : BottomSheetDialogFragment() {
         bsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
-    private fun showPostStartLoading() {
-        hideKeyboard()
+    private fun showPostLoading() {
         butPost.isEnabled = false
     }
 

@@ -28,8 +28,6 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
-            android:text="@string/login"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:text="@string/login"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,9 +14,6 @@
     </style>
 
     <style name="VkCupTheme.BottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="colorPrimary">@color/colorVkPrimary</item>
-        <item name="colorPrimaryDark">@color/colorVkPrimary</item>
-        <item name="colorAccent">@color/colorVkPrimary</item>
         <item name="bottomSheetStyle">@style/VkCupTheme.BottomSheet</item>
         <item name="buttonStyle">@style/VkCupTheme.Button</item>
         <item name="editTextStyle">@style/VkCupTheme.EditText</item>
