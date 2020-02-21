@@ -80,7 +80,7 @@ class VKWallPostCommand(private val message: String? = null,
         val fileUploadCall = VKHttpPostCall.Builder()
             .url(serverUploadInfo.uploadUrl)
             .args("photo", uri, "image.jpg")
-            .timeout(TimeUnit.MINUTES.toMillis(5))
+            .timeout(TimeUnit.SECONDS.toMillis(15))
             .retryCount(RETRY_COUNT)
             .build()
         val fileUploadInfo = manager.execute(fileUploadCall, null, FileUploadInfoParser())

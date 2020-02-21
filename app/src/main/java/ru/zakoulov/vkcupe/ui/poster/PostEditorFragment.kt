@@ -7,23 +7,34 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.Button
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.squareup.picasso.Picasso
+import ru.zakoulov.vkcupe.App
 import ru.zakoulov.vkcupe.R
+import ru.zakoulov.vkcupe.data.PostsRepository
+import ru.zakoulov.vkcupe.data.source.CommonResponseCallback
+import ru.zakoulov.vkcupe.utils.getAbsolutePathUri
+import ru.zakoulov.vkcupe.utils.hideKeyboard
 import kotlin.math.max
 
 class PostEditorFragment : BottomSheetDialogFragment() {
 
     private lateinit var postImage: ImageView
+    private lateinit var butCloseBs: View
+    private lateinit var butPost: Button
+    private lateinit var bsBehavior: BottomSheetBehavior<FrameLayout>
+    private lateinit var postMessageView: EditText
+    private lateinit var postsRepository: PostsRepository
 
     override fun getTheme() = R.style.VkCupTheme_BottomSheetDialog
 
@@ -31,31 +42,63 @@ class PostEditorFragment : BottomSheetDialogFragment() {
         val root = inflater.inflate(R.layout.fragment_post_editor, container, false)
         with (root) {
             postImage = findViewById(R.id.image_post)
+            butCloseBs = findViewById(R.id.but_close_bs)
+            butPost = findViewById(R.id.but_post)
+            postMessageView = findViewById(R.id.post_message_view)
         }
         return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val imageUri = arguments?.getString(KEY_IMAGE_URI) ?: return
+
+        postsRepository = (requireActivity().application as App).postsRepository
+
+        val imageUri: Uri = arguments?.getParcelable(KEY_IMAGE_URI) ?: return
         postImage.clipToOutline = true
         postImage.viewTreeObserver.addOnGlobalLayoutListener( object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 postImage.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 if (context != null) {
-                    postImage.setImageBitmap(getResizedBitmapImage(Uri.parse(imageUri), postImage.width))
+                    postImage.setImageBitmap(getResizedBitmapImage(imageUri, postImage.width))
                 }
             }
         })
+        butCloseBs.setOnClickListener {
+            hideBs()
+        }
+        butPost.setOnClickListener {
+            hideKeyboard()
+            postsRepository.addPost(postMessageView.editableText.toString(),
+                listOf(imageUri.getAbsolutePathUri(requireContext())), object : CommonResponseCallback<Int> {
+                    override fun success(response: Int) {
+                        if (isAdded) {
+                            hideBs()
+                            Toast.makeText(context, R.string.post_publish_success, Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun fail(failMessage: String) {
+                        if (isAdded) {
+                            Toast.makeText(context, R.string.post_publish_fail, Toast.LENGTH_LONG).show()
+                        }
+                    }
+                })
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
-        bottomSheetDialog.behavior.skipCollapsed = true
+        bsBehavior = bottomSheetDialog.behavior
+        bsBehavior.skipCollapsed = true
         bottomSheetDialog.setOnShowListener {
-            bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            bsBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         return bottomSheetDialog
+    }
+
+    private fun hideBs() {
+        bsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     private fun getResizedBitmapImage(uri: Uri, viewWidth: Int): Bitmap? {
