@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">VK Cup F</string>
+    <string name="fragment_welcome_title">Авторизация</string>
+    <string name="login">Войти</string>
+    <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
+
+    <integer name="com_vk_sdk_AppId">7330241</integer>
+</resources>
