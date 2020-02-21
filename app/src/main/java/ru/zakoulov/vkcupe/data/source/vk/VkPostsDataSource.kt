@@ -11,7 +11,7 @@ class VkPostsDataSource : PostsDataSource {
     override fun addPost(message: String?, photos: List<Uri>, callback: CommonResponseCallback<Int>) {
         VK.execute(VKWallPostCommand(message = message, photos = photos), object: VKApiCallback<Int> {
             override fun success(result: Int) {
-                 callback.success(result)
+                callback.success(result)
             }
 
             override fun fail(error: Exception) {

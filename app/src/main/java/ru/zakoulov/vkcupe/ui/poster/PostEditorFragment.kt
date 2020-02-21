@@ -68,19 +68,18 @@ class PostEditorFragment : BottomSheetDialogFragment() {
             hideBs()
         }
         butPost.setOnClickListener {
-            hideKeyboard()
+            showPostStartLoading()
             postsRepository.addPost(postMessageView.editableText.toString(),
                 listOf(imageUri.getAbsolutePathUri(requireContext())), object : CommonResponseCallback<Int> {
                     override fun success(response: Int) {
                         if (isAdded) {
-                            hideBs()
-                            Toast.makeText(context, R.string.post_publish_success, Toast.LENGTH_LONG).show()
+                            showPostLoadingSuccess()
                         }
                     }
 
                     override fun fail(failMessage: String) {
                         if (isAdded) {
-                            Toast.makeText(context, R.string.post_publish_fail, Toast.LENGTH_LONG).show()
+                            showPostLoadingFail()
                         }
                     }
                 })
@@ -99,6 +98,22 @@ class PostEditorFragment : BottomSheetDialogFragment() {
 
     private fun hideBs() {
         bsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    private fun showPostStartLoading() {
+        hideKeyboard()
+        butPost.isEnabled = false
+    }
+
+    private fun showPostLoadingSuccess() {
+        butPost.isEnabled = true
+        hideBs()
+        Toast.makeText(context, R.string.post_publish_success, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showPostLoadingFail() {
+        butPost.isEnabled = true
+        Toast.makeText(context, R.string.post_publish_fail, Toast.LENGTH_LONG).show()
     }
 
     private fun getResizedBitmapImage(uri: Uri, viewWidth: Int): Bitmap? {
