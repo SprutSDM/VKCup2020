@@ -4,5 +4,7 @@
     <string name="login">Войти</string>
     <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
 
+    <string name="header_title">Отписаться от сообществ</string>
+    <string name="header_description">Коснитесь и удерживайте,\nчтобы увидеть информацию\nо сообществе</string>
     <integer name="com_vk_sdk_AppId">7330241</integer>
 </resources>

@@ -9,6 +9,8 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
+import kotlinx.android.synthetic.main.activity_main.*
+import ru.zakoulov.vkcupf.ui.groups.GroupsFragment
 import ru.zakoulov.vkcupf.ui.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -17,19 +19,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
+//        setSupportActionBar(toolbar)
         if (savedInstanceState == null) {
-            if (VK.isLoggedIn()) {
-//                navigateToPoster()
-            } else {
-                navigateToWelcome()
-            }
+//            if (VK.isLoggedIn()) {
+////                navigateToPoster()
+//            } else {
+//                navigateToWelcome()
+//            }
+            navigateToGroups()
         }
 
-        (application as App).tokenExpired.observe(this) {
-            if (it != null && it != 0) {
-                navigateToWelcome()
-            }
-        }
+//        (application as App).tokenExpired.observe(this) {
+//            if (it != null && it != 0) {
+//                navigateToWelcome()
+//            }
+//        }
     }
 
     fun login() {
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance)
 
-//    fun navigateToPoster() = navigateTo(PosterFragment.instance)
+    fun navigateToGroups() = navigateTo(GroupsFragment.INSTANCE)
 
     private fun navigateTo(fragment: Fragment) {
         supportFragmentManager.beginTransaction()

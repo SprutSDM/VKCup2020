@@ -1,13 +1,14 @@
 <resources>
+
     <style name="VkCupTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorVkPrimary</item>
-        <item name="colorPrimaryDark">@color/colorVkPrimary</item>
-        <item name="colorAccent">@color/colorVkPrimary</item>
+        <item name="colorPrimary">@color/vkPrimary</item>
+        <item name="colorPrimaryDark">@color/vkPrimary</item>
+        <item name="colorAccent">@color/vkPrimary</item>
         <item name="buttonStyle">@style/VkCupTheme.Button</item>
         <item name="editTextStyle">@style/VkCupTheme.EditText</item>
     </style>
 
-    <style name="VkCupTheme.Final" parent="VkCupTheme"/>
+    <style name="VkCupTheme.Final" parent="VkCupTheme" />
 
     <style name="VkCupTheme.BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/shape_bottom_sheet</item>
@@ -41,7 +42,11 @@
         <item name="android:paddingTop">7.5dp</item>
         <item name="android:paddingBottom">8.5dp</item>
         <item name="android:includeFontPadding">false</item>
-        <item name="android:textColorHint">@color/colorHint</item>
+        <item name="android:textColorHint">@color/textEditHint</item>
         <item name="android:textColor">@android:color/black</item>
     </style>
+
+    <style name="VkCupTheme.Final.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="VkCupTheme.Final.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

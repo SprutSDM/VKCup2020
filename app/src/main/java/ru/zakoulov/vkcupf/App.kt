@@ -9,19 +9,19 @@ class App : Application() {
 
 //    lateinit var postsRepository: PostsRepository
 
-    val tokenExpired = MutableLiveData<Int>()
-
-    private var countOfTokenExpiration: Int = 0
-
-    override fun onCreate() {
-        super.onCreate()
-        VK.addTokenExpiredHandler(tokenTracker)
-//        postsRepository = PostsRepository(VkPostsDataSource())
-    }
-
-    private val tokenTracker = object: VKTokenExpiredHandler {
-        override fun onTokenExpired() {
-            tokenExpired.value = ++countOfTokenExpiration
-        }
-    }
+//    val tokenExpired = MutableLiveData<Int>()
+//
+//    private var countOfTokenExpiration: Int = 0
+//
+//    override fun onCreate() {
+//        super.onCreate()
+//        VK.addTokenExpiredHandler(tokenTracker)
+////        postsRepository = PostsRepository(VkPostsDataSource())
+//    }
+//
+//    private val tokenTracker = object: VKTokenExpiredHandler {
+//        override fun onTokenExpired() {
+//            tokenExpired.value = ++countOfTokenExpiration
+//        }
+//    }
 }
