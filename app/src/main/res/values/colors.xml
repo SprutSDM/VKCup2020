@@ -15,4 +15,6 @@
     <color name="groupImageSelectedOuterBorder">#3F8AE0</color>
     <color name="groupImageSelectedInnerBorder">#FFFFFF</color>
     <color name="groupImageBorder">#20000000</color>
+    <color name="counterBackground">#FFFFFF</color>
+    <color name="counterText">@color/vkPrimary</color>
 </resources>
