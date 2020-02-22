@@ -6,14 +6,35 @@
     android:orientation="vertical"
     android:layout_margin="6dp">
 
-    <ImageView
-        android:id="@+id/group_img"
+    <FrameLayout
+        android:id="@+id/group_img_wrapper"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:foreground="@drawable/shape_image_selected"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        android:padding="@dimen/group_image_border">
+        <ImageView
+            android:id="@+id/group_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_image"/>
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/group_check_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check_circle_28"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="@id/group_img_wrapper"
+        app:layout_constraintStart_toStartOf="@id/group_img_wrapper"
+        app:layout_constraintEnd_toEndOf="@id/group_img_wrapper"
+        app:layout_constraintBottom_toBottomOf="@id/group_img_wrapper"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintVertical_bias="0.95"/>
 
     <TextView
         android:id="@+id/group_title"
@@ -21,7 +42,7 @@
         android:layout_height="52dp"
         android:layout_gravity="center"
         android:textColor="@color/groupTitle"
-        app:layout_constraintTop_toBottomOf="@id/group_img"
+        app:layout_constraintTop_toBottomOf="@id/group_img_wrapper"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

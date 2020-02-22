@@ -12,4 +12,7 @@
     <color name="groupTitle">#000000</color>
     <color name="title">#000000</color>
     <color name="groupInfoDescription">#000000</color>
+    <color name="groupImageSelectedOuterBorder">#3F8AE0</color>
+    <color name="groupImageSelectedInnerBorder">#FFFFFF</color>
+    <color name="groupImageBorder">#20000000</color>
 </resources>
