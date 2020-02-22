@@ -11,4 +11,5 @@
     <color name="headerDescription">#818C99</color>
     <color name="groupTitle">#000000</color>
     <color name="title">#000000</color>
+    <color name="groupInfoDescription">#000000</color>
 </resources>
