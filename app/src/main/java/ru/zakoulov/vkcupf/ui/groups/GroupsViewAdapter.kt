@@ -3,9 +3,12 @@ package ru.zakoulov.vkcupf.ui.groups
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
+import android.view.animation.ScaleAnimation
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupf.R
@@ -47,7 +50,7 @@ class GroupsViewAdapter(
         }
         holder.groupItem.setOnClickListener {
             wrappedGroup.switchSelected()
-            holder.setSelected(wrappedGroup.selected)
+            holder.setSelected(wrappedGroup.selected, true)
 
             countOfSelectedGroups += if (wrappedGroup.selected) 1 else -1
             callback.countOfSelectedItemsChanged(countOfSelectedGroups)
@@ -71,11 +74,26 @@ class GroupsViewAdapter(
                 .into(groupImg)
         }
 
-        fun setSelected(selected: Boolean) {
+        fun setSelected(selected: Boolean, withAnimation: Boolean = false) {
             imageWrapper.foreground = groupItem.context.getDrawable(
                 if (selected) R.drawable.shape_image_border_selected else R.drawable.shape_image_border_normal
             )
             checkImage.visibility = if (selected) View.VISIBLE else View.GONE
+            if (withAnimation) {
+                animateCheckImage(selected)
+            }
+        }
+
+        private fun animateCheckImage(selected: Boolean) {
+            val fromX = if (selected) 0f else 1f
+            val toX = if (selected) 1f else 0f
+            val fromY = if (selected) 0f else 1f
+            val toY = if (selected) 1f else 0f
+            val anim = ScaleAnimation(fromX, toX, fromY, toY,
+                checkImage.measuredWidth.toFloat() / 2, checkImage.measuredHeight.toFloat() / 2)
+            anim.duration = 200
+            anim.interpolator = if (selected) OvershootInterpolator() else FastOutLinearInInterpolator()
+            checkImage.startAnimation(anim)
         }
 
         fun setTitle(title: String) {
