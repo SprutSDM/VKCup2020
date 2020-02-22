@@ -55,6 +55,10 @@ class GroupsViewAdapter(
             countOfSelectedGroups += if (wrappedGroup.selected) 1 else -1
             callback.countOfSelectedItemsChanged(countOfSelectedGroups)
         }
+        holder.groupItem.setOnLongClickListener {
+            callback.showGroupInfo(wrappedGroup.group)
+            true
+        }
     }
 
     fun getSelectedGroups() = wrappedGroups.filter { it.selected }.map { it.group }

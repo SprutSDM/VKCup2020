@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.Group
+import ru.zakoulov.vkcupf.ui.groupInfo.GroupInfoFragment
 
 class GroupsFragment : Fragment() {
 
@@ -108,10 +109,25 @@ class GroupsFragment : Fragment() {
         }
     }
 
+    private fun showGroupInfo(group: Group) {
+        val groupInfo = GroupInfoFragment()
+        val bundle = Bundle()
+        bundle.putString(GroupInfoFragment.KEY_GROUP_TITLE, group.title)
+        bundle.putString(GroupInfoFragment.KEY_GROUP_FOLLOWERS, "followers")
+        bundle.putString(GroupInfoFragment.KEY_GROUP_DESCRIPTION, "description")
+        bundle.putString(GroupInfoFragment.KEY_GROUP_LAST_POST, "last post was today")
+        groupInfo.arguments = bundle
+        groupInfo.show(requireActivity().supportFragmentManager, groupInfo.tag)
+    }
+
     private val callback = object : GroupsCallback {
         override fun countOfSelectedItemsChanged(count: Int) {
             updateUnsubscribeFrame(count)
             Log.d("abacaba", "$count")
+        }
+
+        override fun showGroupInfo(group: Group) {
+            this@GroupsFragment.showGroupInfo(group)
         }
     }
 
