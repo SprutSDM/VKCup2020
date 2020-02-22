@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,8 @@ import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.Group
 
 class GroupsViewAdapter(
-    groups: List<Group>
+    groups: List<Group>,
+    private val callback: GroupsCallback
 ) : RecyclerView.Adapter<GroupsViewAdapter.GroupViewHolder>() {
 
     var groups: List<Group> = groups
@@ -22,6 +24,8 @@ class GroupsViewAdapter(
             field = value
             //documentDiffResult.dispatchUpdatesTo(this)
         }
+
+    var countOfSelectedGroups = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val documentView = LayoutInflater.from(parent.context)
@@ -34,25 +38,45 @@ class GroupsViewAdapter(
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val group = groups[position]
-        holder.groupItem.apply {
-            setIcon(this, group.img)
-            setTitle(this, group.title)
+        holder.apply {
+            setIcon(group.img)
+            setTitle(group.title)
+        }
+        holder.groupItem.setOnClickListener {
+            countOfSelectedGroups += if (holder.selected) -1 else 1
+            holder.switchSelectState()
+            callback.countOfSelectedItemsChanged(countOfSelectedGroups)
         }
     }
 
-    private fun setIcon(groupItem: View, src: String) {
-        val groupImg = groupItem.findViewById<ImageView>(R.id.group_img)
-        groupImg.clipToOutline = true
-        Picasso.get()
-            .load(src)
-            .fit()
-            .centerCrop()
-            .into(groupImg)
-    }
+    class GroupViewHolder(val groupItem: View, selected: Boolean = false) : RecyclerView.ViewHolder(groupItem) {
 
-    private fun setTitle(groupItem: View, title: String) {
-        groupItem.findViewById<TextView>(R.id.group_title).text = title
-    }
+        var selected = selected
+            private set
 
-    class GroupViewHolder(val groupItem: View) : RecyclerView.ViewHolder(groupItem)
+        private val imageWrapper: FrameLayout = groupItem.findViewById(R.id.group_img_wrapper)
+        private val checkImage: ImageView = groupItem.findViewById(R.id.group_check_circle)
+
+        fun setIcon(src: String) {
+            val groupImg = groupItem.findViewById<ImageView>(R.id.group_img)
+            groupImg.clipToOutline = true
+            Picasso.get()
+                .load(src)
+                .fit()
+                .centerCrop()
+                .into(groupImg)
+        }
+
+        fun switchSelectState() {
+            selected = !selected
+            imageWrapper.foreground = groupItem.context.getDrawable(
+                if (selected) R.drawable.shape_image_border_selected else R.drawable.shape_image_border_normal
+            )
+            checkImage.visibility = if (selected) View.VISIBLE else View.GONE
+        }
+
+        fun setTitle(title: String) {
+            groupItem.findViewById<TextView>(R.id.group_title).text = title
+        }
+    }
 }

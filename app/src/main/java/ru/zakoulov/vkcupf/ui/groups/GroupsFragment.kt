@@ -59,10 +59,16 @@ class GroupsFragment : Fragment() {
                 title = "Пикабу12"),
             Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
                 title = "Пикабу13")
-        ))
+        ), callback)
         recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
+        }
+    }
+
+    private val callback = object : GroupsCallback {
+        override fun countOfSelectedItemsChanged(count: Int) {
+            Log.d("abacaba", "$count")
         }
     }
 
