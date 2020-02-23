@@ -1,5 +1,6 @@
 package ru.zakoulov.vkcupf.data.source.vk
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.vk.api.sdk.VK
@@ -14,6 +15,7 @@ import ru.zakoulov.vkcupf.data.source.vk.mappers.GroupMapper
 import ru.zakoulov.vkcupf.data.source.vk.models.VkGroup
 import ru.zakoulov.vkcupf.data.source.vk.requests.VkGetGroupMembersRequest
 import ru.zakoulov.vkcupf.data.source.vk.requests.VkGetGroupsCommand
+import ru.zakoulov.vkcupf.data.source.vk.requests.VkLeaveGroupsCommand
 
 class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSource {
 
@@ -79,5 +81,18 @@ class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSourc
             membersInGroup = members.data!!,
             friendsInGroup = friends.data!!,
             lastPostDate = lastPostDate.data!!)
+    }
+
+    override fun leaveGroups(groupsId: List<Int>, callback: CommonResponseCallback<List<Int>>) {
+        VK.execute(VkLeaveGroupsCommand(groupsId), object : VKApiCallback<List<Int>> {
+            override fun success(result: List<Int>) {
+                callback.success(result)
+            }
+
+            override fun fail(error: Exception) {
+                Log.d("abacaba", "error $error")
+                callback.fail(error.localizedMessage ?: error.message ?: "Error leaving groups")
+            }
+        })
     }
 }

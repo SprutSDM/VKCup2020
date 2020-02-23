@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupf.R
@@ -28,8 +29,14 @@ class GroupsViewAdapter(
 
     fun setGroups(groups: List<Group>?) {
         groups ?: return
-        this.wrappedGroups = wrapGroups(groups)
-        notifyDataSetChanged()
+        val newWrappedGroups = wrapGroups(groups)
+        val groupsDiffCallback = GroupsDiffCallback(this.wrappedGroups, newWrappedGroups)
+        val groupsDiffResult = DiffUtil.calculateDiff(groupsDiffCallback, false)
+        this.wrappedGroups = newWrappedGroups
+        countOfSelectedGroups = 0
+        groupsDiffResult.dispatchUpdatesTo(this)
+        callback.countOfSelectedItemsChanged(countOfSelectedGroups)
+
     }
 
     private fun wrapGroups(groups: List<Group>) = groups.map { GroupWrapper(it, false) }

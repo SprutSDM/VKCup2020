@@ -19,6 +19,7 @@ import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.Group
 import ru.zakoulov.vkcupf.data.GroupRepository
 import ru.zakoulov.vkcupf.data.RequestStatus
+import ru.zakoulov.vkcupf.data.source.CommonResponseCallback
 import ru.zakoulov.vkcupf.ui.groupInfo.GroupInfoFragment
 
 class GroupsFragment : Fragment() {
@@ -58,6 +59,18 @@ class GroupsFragment : Fragment() {
             adapter = viewAdapter
         }
         unsubscribe.setOnClickListener {
+            groupRepository.leaveGroups(viewAdapter.getSelectedGroups(), object : CommonResponseCallback<Int> {
+                override fun success(response: Int) {
+                    if (!isAdded) { return }
+                    Toast.makeText(requireContext(), R.string.unsubscribe_successful, Toast.LENGTH_LONG).show()
+                    viewAdapter
+                }
+
+                override fun fail(failMessage: String) {
+                    if (!isAdded) { return }
+                    Toast.makeText(requireContext(), R.string.unsubscribe_fail, Toast.LENGTH_LONG).show()
+                }
+            })
             Log.d("abacaba" , viewAdapter.getSelectedGroups().toString())
         }
 
@@ -108,7 +121,6 @@ class GroupsFragment : Fragment() {
     private val callback = object : GroupsCallback {
         override fun countOfSelectedItemsChanged(count: Int) {
             updateUnsubscribeFrame(count)
-            Log.d("abacaba", "$count")
         }
 
         override fun showGroupInfo(group: Group) {

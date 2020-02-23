@@ -18,6 +18,8 @@ class GroupRepository(
 
     private val groupsInfo = SparseArray<StatusLiveData<GroupInfo>>()
 
+    private var leavingExecuting = false
+
     fun getAllGroups() {
         groups.value = RequestStatus.Loading(groups.value?.data)
         remoteGroupSource.getAllGroups(object : CommonResponseCallback<List<Group>> {
@@ -45,5 +47,25 @@ class GroupRepository(
         groupsInfo[group.id] = groupInfo
         remoteGroupSource.getGroupInfo(group, remoteWallSource, LiveDataResponseCallback(groupInfo))
         return groupInfo
+    }
+
+    fun leaveGroups(groups: List<Group>, callback: CommonResponseCallback<Int>) {
+        if (leavingExecuting) {
+            return
+        }
+        leavingExecuting = true
+        remoteGroupSource.leaveGroups( groups.map { it.id }, object : CommonResponseCallback<List<Int>> {
+            override fun success(response: List<Int>) {
+                this@GroupRepository.groups.value = RequestStatus.Success(
+                    this@GroupRepository.groups.data?.filter { it.id !in response })
+                leavingExecuting = false
+                callback.success(1)
+            }
+
+            override fun fail(failMessage: String) {
+                leavingExecuting = false
+                callback.fail(failMessage)
+            }
+        })
     }
 }

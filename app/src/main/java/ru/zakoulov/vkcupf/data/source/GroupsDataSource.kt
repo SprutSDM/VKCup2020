@@ -10,4 +10,6 @@ interface GroupsDataSource {
     fun getGroupMembers(groupId: Int, onlyFriends: Boolean, callback: CommonResponseCallback<Int>)
 
     fun getGroupInfo(group: Group, wallDataSource: WallDataSource, callback: CommonResponseCallback<GroupInfo>)
+
+    fun leaveGroups(groupsId: List<Int>, callback: CommonResponseCallback<List<Int>>)
 }

@@ -8,6 +8,8 @@
 
     <string name="header_title">Отписаться от сообществ</string>
     <string name="header_description">Коснитесь и удерживайте,\nчтобы увидеть информацию\nо сообществе</string>
+    <string name="unsubscribe_successful">Вы успешно отписались от сообществ</string>
+    <string name="unsubscribe_fail">Не получилось отписаться от сообществ</string>
     <string name="unsubscribe">Отписаться</string>
     <string name="open_group">Открыть</string>
     <string name="last_post_args">Последняя запись %1$s</string>
