@@ -16,6 +16,9 @@ import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.GroupInfo
 import ru.zakoulov.vkcupf.data.GroupRepository
 import ru.zakoulov.vkcupf.data.RequestStatus
+import ru.zakoulov.vkcupf.utils.DateFormatter
+import ru.zakoulov.vkcupf.utils.toShortPretty
+import java.util.Locale
 
 class GroupInfoFragment : BottomSheetDialogFragment() {
 
@@ -44,29 +47,44 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (savedInstanceState != null) {
-            return
-        }
+
         groupRepository = (requireActivity().application as App).groupRepository
+
+        val dateFormatter = DateFormatter(
+            view.context.getString(R.string.sdf_today),
+            view.context.getString(R.string.sdf_yesterday),
+            view.context.getString(R.string.sdf_this_year),
+            view.context.getString(R.string.sdf_old_year),
+            Locale.getDefault())
 
         val groupId = arguments?.getInt(KEY_GROUP_ID) ?: return dismiss()
         val group = groupRepository.getGroupById(groupId) ?: return dismiss()
         groupRepository.getGroupInfo(group).observe(viewLifecycleOwner) {
             when (it) {
-                is RequestStatus.Success -> it.data?.let { setupGroupInfo(it)}
+                is RequestStatus.Success -> it.data?.let { setupGroupInfo(it, dateFormatter)}
             }
         }
         title.text = group.title
+        description.text = group.description.ifEmpty { "Описание отсутствует" }
         butCloseBs.setOnClickListener {
             hideBs()
         }
     }
 
-    private fun setupGroupInfo(groupInfo: GroupInfo) {
-        title.text = groupInfo.title
-        description.text = groupInfo.description
-        followers.text = "${groupInfo.membersInGroup} ${groupInfo.friendsInGroup}"
-        lastPost.text = groupInfo.lastPostDate.toString()
+    private fun setupGroupInfo(groupInfo: GroupInfo, dateFormatter: DateFormatter) {
+        val formattedDate = dateFormatter.getFormattedDate(groupInfo.lastPostDate * 1000)
+        lastPost.text = getString(R.string.last_post_args, formattedDate)
+        val subscribers = resources.getQuantityString(
+            R.plurals.subscribers,
+            if (groupInfo.membersInGroup < 1000) groupInfo.membersInGroup else 1000,
+            groupInfo.membersInGroup.toShortPretty()
+        )
+        val friends = resources.getQuantityString(
+            R.plurals.friends,
+            if (groupInfo.friendsInGroup < 1000) groupInfo.friendsInGroup else 1000,
+            groupInfo.friendsInGroup.toShortPretty()
+        )
+        followers.text = getString(R.string.followers_info, subscribers, friends)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

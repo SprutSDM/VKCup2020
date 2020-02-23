@@ -13,7 +13,7 @@ class VkGetFirstPostRequest(
 ) : VKRequestGson<VkPost?>(gson, jsonParser, "wall.get") {
 
     init {
-        addParam("group_id", groupId)
+        addParam("owner_id", -groupId)
         addParam("count", 1)
     }
 

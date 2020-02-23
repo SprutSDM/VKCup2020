@@ -35,6 +35,10 @@ class GroupRepository(
 
     fun getGroupInfo(group: Group): StatusLiveData<GroupInfo> {
         if (group.id in groupsInfo) {
+            if (groupsInfo[group.id].value is RequestStatus.Fail) {
+                groupsInfo[group.id].value = RequestStatus.Loading(groupsInfo[group.id].data)
+                remoteGroupSource.getGroupInfo(group, remoteWallSource, LiveDataResponseCallback(groupsInfo[group.id]))
+            }
             return groupsInfo[group.id]
         }
         val groupInfo: StatusLiveData<GroupInfo> = StatusLiveData(RequestStatus.Loading<GroupInfo>(null))

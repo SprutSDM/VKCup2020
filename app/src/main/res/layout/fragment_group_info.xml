@@ -44,79 +44,105 @@
         </FrameLayout>
     </LinearLayout>
 
-    <!-- Followers -->
-    <LinearLayout
+    <!-- Content -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:paddingEnd="16dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_followers_outline_20"
-            android:alpha=".4"/>
-
-        <TextView
-            android:id="@+id/group_followers"
-            android:layout_marginStart="12dp"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/groupInfoDescription"/>
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <!-- Followers -->
-    <LinearLayout
+            <!-- Followers -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_followers_outline_20"
+                    android:alpha=".4"/>
+
+                <TextView
+                    android:id="@+id/group_followers"
+                    android:layout_marginStart="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/groupInfoDescription"/>
+            </LinearLayout>
+
+            <!-- Followers -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_article_outline_20"
+                    android:alpha=".4"/>
+
+                <TextView
+                    android:id="@+id/group_description"
+                    android:layout_marginStart="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/groupInfoDescription"/>
+            </LinearLayout>
+
+            <!-- Last post -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_newsfeed_outline_20"
+                    android:alpha=".4"/>
+
+                <TextView
+                    android:id="@+id/group_last_post"
+                    android:layout_marginStart="12dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/groupInfoDescription"/>
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_article_outline_20"
-            android:alpha=".4"/>
-
-        <TextView
-            android:id="@+id/group_description"
-            android:layout_marginStart="12dp"
+        <Button
+            android:id="@+id/but_open_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/groupInfoDescription"/>
-    </LinearLayout>
-
-    <!-- Last post -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_newsfeed_outline_20"
-            android:alpha=".4"/>
-
-        <TextView
-            android:id="@+id/group_last_post"
-            android:layout_marginStart="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/groupInfoDescription"/>
-    </LinearLayout>
+            android:layout_height="44dp"
+            android:text="@string/open_group"
+            android:textSize="16sp"/>
+    </FrameLayout>
 
 </LinearLayout>
