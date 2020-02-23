@@ -8,10 +8,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.zakoulov.vkcupf.App
 import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.Group
+import ru.zakoulov.vkcupf.data.GroupRepository
 import ru.zakoulov.vkcupf.ui.groupInfo.GroupInfoFragment
 
 class GroupsFragment : Fragment() {
@@ -23,6 +26,7 @@ class GroupsFragment : Fragment() {
 
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: GroupsViewAdapter
+    private lateinit var groupRepository: GroupRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +44,7 @@ class GroupsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        groupRepository = (requireActivity().application as App).groupRepository
         viewManager = GridLayoutManager(this.context, NUMBER_OF_COLUMNS)
         viewAdapter = GroupsViewAdapter(emptyList(), callback)
         recyclerView.apply {
@@ -48,6 +53,10 @@ class GroupsFragment : Fragment() {
         }
         unsubscribe.setOnClickListener {
             Log.d("abacaba" , viewAdapter.getSelectedGroups().toString())
+        }
+
+        groupRepository.getGroups().observe(viewLifecycleOwner) {
+            viewAdapter.setGroups(it)
         }
     }
 

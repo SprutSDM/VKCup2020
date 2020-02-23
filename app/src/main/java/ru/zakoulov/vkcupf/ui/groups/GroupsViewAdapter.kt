@@ -28,7 +28,7 @@ class GroupsViewAdapter(
 
     fun setGroups(groups: List<Group>) {
         this.wrappedGroups = wrapGroups(groups)
-        countOfSelectedGroups = 0
+        notifyDataSetChanged()
     }
 
     private fun wrapGroups(groups: List<Group>) = groups.map { GroupWrapper(it, false) }
