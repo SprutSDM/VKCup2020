@@ -10,10 +10,12 @@
     <string name="header_description">Коснитесь и удерживайте,\nчтобы увидеть информацию\nо сообществе</string>
     <string name="unsubscribe_successful">Вы успешно отписались от сообществ</string>
     <string name="unsubscribe_fail">Не получилось отписаться от сообществ</string>
+    <string name="fail_open_group">Ошибка при открытии группы</string>
     <string name="unsubscribe">Отписаться</string>
     <string name="open_group">Открыть</string>
     <string name="last_post_args">Последняя запись %1$s</string>
     <string name="followers_info">%1$s · %2$s</string>
+    <string name="members_info">%1$s</string>
 
     <plurals name="subscribers">
         <item quantity="zero">%1$s подписчиков</item>

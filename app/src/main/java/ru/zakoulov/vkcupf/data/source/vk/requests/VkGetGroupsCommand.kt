@@ -1,6 +1,5 @@
 package ru.zakoulov.vkcupf.data.source.vk.requests
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.vk.api.sdk.VKApiManager
@@ -24,7 +23,7 @@ class VkGetGroupsCommand(
                 .method("groups.get")
                 .args("count", CHUNK_LIMIT)
                 .args("offset", result.size)
-                .args("fields", "description")
+                .args("fields", "description,members_count")
                 .args("extended", 1)
                 .version(manager.config.version)
                 .build()

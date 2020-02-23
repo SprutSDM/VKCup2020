@@ -1,6 +1,5 @@
 package ru.zakoulov.vkcupf.data.source.vk
 
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.vk.api.sdk.VK
@@ -41,7 +40,11 @@ class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSourc
             }
 
             override fun fail(error: Exception) {
-                callback.fail(error.localizedMessage ?: error.message ?: "Error getting group members.")
+                if (error.message == "Access denied: group hide members | by [groups.getMembers]") {
+                    callback.success(-1)
+                } else {
+                    callback.fail(error.localizedMessage ?: error.message ?: "Error getting group members.")
+                }
             }
         })
     }
@@ -62,14 +65,12 @@ class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSourc
         callback: CommonResponseCallback<GroupInfo>
     ) : ComplexFetchController<GroupInfo>(callback){
 
-        private var members = FetchingData<Int>()
         private var friends = FetchingData<Int>()
         private var lastPostDate = FetchingData<Long>()
 
-        override val fetchingDataList = listOf(members, friends, lastPostDate)
+        override val fetchingDataList = listOf(friends, lastPostDate)
 
         override fun fetch() {
-            remoteGroupSource.getGroupMembers(group.id, false, FetchResponseCallback(members))
             remoteGroupSource.getGroupMembers(group.id, true, FetchResponseCallback(friends))
             remoteWallSource.getDateOfFirstPost(group.id, FetchResponseCallback(lastPostDate))
         }
@@ -78,7 +79,7 @@ class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSourc
             id = group.id,
             title = group.title,
             description = group.description,
-            membersInGroup = members.data!!,
+            membersInGroup = group.members,
             friendsInGroup = friends.data!!,
             lastPostDate = lastPostDate.data!!)
     }
@@ -90,7 +91,6 @@ class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSourc
             }
 
             override fun fail(error: Exception) {
-                Log.d("abacaba", "error $error")
                 callback.fail(error.localizedMessage ?: error.message ?: "Error leaving groups")
             }
         })

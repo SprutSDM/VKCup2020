@@ -1,16 +1,23 @@
 package ru.zakoulov.vkcupf.ui.groupInfo
 
 import android.app.Dialog
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 import ru.zakoulov.vkcupf.App
 import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.GroupInfo
@@ -30,6 +37,7 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
     private lateinit var bsBehavior: BottomSheetBehavior<FrameLayout>
     private lateinit var lastPost: TextView
     private lateinit var butCloseBs: View
+    private lateinit var butOpenGroup: Button
 
     override fun getTheme() = R.style.VkCupTheme_BottomSheetDialog
 
@@ -41,6 +49,7 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
             description = findViewById(R.id.group_description)
             lastPost = findViewById(R.id.group_last_post)
             butCloseBs = findViewById(R.id.but_close_bs)
+            butOpenGroup = findViewById(R.id.but_open_group)
         }
         return root
     }
@@ -69,6 +78,9 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
         butCloseBs.setOnClickListener {
             hideBs()
         }
+        butOpenGroup.setOnClickListener {
+            openGroup(groupId)
+        }
     }
 
     private fun setupGroupInfo(groupInfo: GroupInfo, dateFormatter: DateFormatter) {
@@ -79,12 +91,16 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
             if (groupInfo.membersInGroup < 1000) groupInfo.membersInGroup else 1000,
             groupInfo.membersInGroup.toShortPretty()
         )
-        val friends = resources.getQuantityString(
-            R.plurals.friends,
-            if (groupInfo.friendsInGroup < 1000) groupInfo.friendsInGroup else 1000,
-            groupInfo.friendsInGroup.toShortPretty()
-        )
-        followers.text = getString(R.string.followers_info, subscribers, friends)
+        if (groupInfo.friendsInGroup == -1) {
+            followers.text = getString(R.string.members_info, subscribers)
+        } else {
+            val friends = resources.getQuantityString(
+                R.plurals.friends,
+                if (groupInfo.friendsInGroup < 1000) groupInfo.friendsInGroup else 1000,
+                groupInfo.friendsInGroup.toShortPretty()
+            )
+            followers.text = getString(R.string.followers_info, subscribers, friends)
+        }
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -99,6 +115,18 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
 
     private fun hideBs() {
         bsBehavior.state = BottomSheetBehavior.STATE_HIDDEN
+    }
+
+    private fun openGroup(groupId: Int) {
+        val url = "https://vk.com/public$groupId"
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse(url)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(requireContext(), R.string.fail_open_group, Toast.LENGTH_LONG).show()
+        }
     }
 
     companion object {

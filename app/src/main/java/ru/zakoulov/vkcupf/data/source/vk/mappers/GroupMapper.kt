@@ -11,7 +11,8 @@ class GroupMapper : Mapper<VkGroup, Group> {
             id = input.id,
             title = input.title,
             description = input.description,
-            img = input.img
+            img = input.img,
+            members = input.membersCount
         )
     }
 }
