@@ -59,7 +59,7 @@ class GroupsFragment : Fragment() {
             adapter = viewAdapter
         }
         unsubscribe.setOnClickListener {
-            groupRepository.leaveGroups(viewAdapter.getSelectedGroups(), object : CommonResponseCallback<Int> {
+            groupRepository.leaveGroups(viewAdapter.selectedGroups.toList(), object : CommonResponseCallback<Int> {
                 override fun success(response: Int) {
                     if (!isAdded) { return }
                     Toast.makeText(requireContext(), R.string.unsubscribe_successful, Toast.LENGTH_LONG).show()
@@ -71,14 +71,13 @@ class GroupsFragment : Fragment() {
                     Toast.makeText(requireContext(), R.string.unsubscribe_fail, Toast.LENGTH_LONG).show()
                 }
             })
-            Log.d("abacaba" , viewAdapter.getSelectedGroups().toString())
         }
 
         groupRepository.getGroups().observe(viewLifecycleOwner) {
             when (it) {
                 is RequestStatus.Success -> {
                     showLoaded()
-                    viewAdapter.setGroups(it.data)
+                    it.data?.let { viewAdapter.groups = it }
                 }
                 is RequestStatus.Fail -> {
                     showLoaded()

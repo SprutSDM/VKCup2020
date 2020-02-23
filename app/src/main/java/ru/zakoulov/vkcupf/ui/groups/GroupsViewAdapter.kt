@@ -20,26 +20,17 @@ class GroupsViewAdapter(
     private val callback: GroupsCallback
 ) : RecyclerView.Adapter<GroupsViewAdapter.GroupViewHolder>() {
 
-    private var wrappedGroups: List<GroupWrapper> = wrapGroups(groups)
-    private var countOfSelectedGroups = 0
+    var groups: List<Group> = groups
+        set(value) {
+            val groupsDiffCallback = GroupsDiffCallback(field, value)
+            val groupsDiffResult = DiffUtil.calculateDiff(groupsDiffCallback, false)
+            field = value
+            groupsDiffResult.dispatchUpdatesTo(this)
+            selectedGroups.clear()
+            callback.countOfSelectedItemsChanged(selectedGroups.size)
+        }
 
-    init {
-        setGroups(groups)
-    }
-
-    fun setGroups(groups: List<Group>?) {
-        groups ?: return
-        val newWrappedGroups = wrapGroups(groups)
-        val groupsDiffCallback = GroupsDiffCallback(this.wrappedGroups, newWrappedGroups)
-        val groupsDiffResult = DiffUtil.calculateDiff(groupsDiffCallback, false)
-        this.wrappedGroups = newWrappedGroups
-        countOfSelectedGroups = 0
-        groupsDiffResult.dispatchUpdatesTo(this)
-        callback.countOfSelectedItemsChanged(countOfSelectedGroups)
-
-    }
-
-    private fun wrapGroups(groups: List<Group>) = groups.map { GroupWrapper(it, false) }
+    val selectedGroups = mutableSetOf<Group>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val documentView = LayoutInflater.from(parent.context)
@@ -47,29 +38,31 @@ class GroupsViewAdapter(
         return GroupViewHolder(documentView)
     }
 
-    override fun getItemCount() = wrappedGroups.size
+    override fun getItemCount() = groups.size
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        val wrappedGroup = wrappedGroups[position]
+        val group = groups[position]
         holder.apply {
-            setIcon(wrappedGroup.group.img)
-            setTitle(wrappedGroup.group.title)
-            setSelected(wrappedGroup.selected)
+            setIcon(group.img)
+            setTitle(group.title)
+            setSelected(group in selectedGroups)
         }
         holder.groupItem.setOnClickListener {
-            wrappedGroup.switchSelected()
-            holder.setSelected(wrappedGroup.selected, true)
+            if (group in selectedGroups) {
+                selectedGroups.remove(group)
+                holder.setSelected(false, true)
+            } else {
+                selectedGroups.add(group)
+                holder.setSelected(true, true)
+            }
 
-            countOfSelectedGroups += if (wrappedGroup.selected) 1 else -1
-            callback.countOfSelectedItemsChanged(countOfSelectedGroups)
+            callback.countOfSelectedItemsChanged(selectedGroups.size)
         }
         holder.groupItem.setOnLongClickListener {
-            callback.showGroupInfo(wrappedGroup.group)
+            callback.showGroupInfo(group)
             true
         }
     }
-
-    fun getSelectedGroups() = wrappedGroups.filter { it.selected }.map { it.group }
 
     class GroupViewHolder(val groupItem: View) : RecyclerView.ViewHolder(groupItem) {
 
@@ -110,12 +103,6 @@ class GroupsViewAdapter(
 
         fun setTitle(title: String) {
             groupItem.findViewById<TextView>(R.id.group_title).text = title
-        }
-    }
-
-    class GroupWrapper(val group: Group, var selected: Boolean) {
-        fun switchSelected() {
-            selected = !selected
         }
     }
 }
