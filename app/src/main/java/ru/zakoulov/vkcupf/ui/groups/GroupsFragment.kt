@@ -72,10 +72,7 @@ class GroupsFragment : Fragment() {
     private fun showGroupInfo(group: Group) {
         val groupInfo = GroupInfoFragment()
         val bundle = Bundle()
-        bundle.putString(GroupInfoFragment.KEY_GROUP_TITLE, group.title)
-        bundle.putString(GroupInfoFragment.KEY_GROUP_FOLLOWERS, "followers")
-        bundle.putString(GroupInfoFragment.KEY_GROUP_DESCRIPTION, "description")
-        bundle.putString(GroupInfoFragment.KEY_GROUP_LAST_POST, "last post was today")
+        bundle.putInt(GroupInfoFragment.KEY_GROUP_ID, group.id)
         groupInfo.arguments = bundle
         groupInfo.show(requireActivity().supportFragmentManager, groupInfo.tag)
     }

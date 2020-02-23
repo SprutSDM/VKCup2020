@@ -12,7 +12,7 @@ class VkGetGroupMembersRequest(
         addParam("group_id", groupId)
         addParam("count", 0)
         if (onlyFriends) {
-            addParam("fields", "friends")
+            addParam("filter", "friends")
         }
     }
 

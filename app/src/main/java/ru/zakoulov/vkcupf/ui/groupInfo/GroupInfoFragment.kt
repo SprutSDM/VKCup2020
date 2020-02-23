@@ -10,9 +10,13 @@ import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import ru.zakoulov.vkcupf.App
 import ru.zakoulov.vkcupf.R
+import ru.zakoulov.vkcupf.data.GroupRepository
 
 class GroupInfoFragment : BottomSheetDialogFragment() {
+
+    private lateinit var groupRepository: GroupRepository
 
     private lateinit var title: TextView
     private lateinit var followers: TextView
@@ -40,11 +44,12 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
         if (savedInstanceState != null) {
             return
         }
+        groupRepository = (requireActivity().application as App).groupRepository
 
-        title.text = arguments?.getString(KEY_GROUP_TITLE) ?: return dismiss()
-        followers.text = arguments?.getString(KEY_GROUP_FOLLOWERS) ?: return dismiss()
-        description.text = arguments?.getString(KEY_GROUP_DESCRIPTION) ?: return dismiss()
-        lastPost.text = arguments?.getString(KEY_GROUP_LAST_POST) ?: return dismiss()
+        val groupId = arguments?.getInt(KEY_GROUP_ID) ?: return dismiss()
+        val group = groupRepository.getGroupById(groupId) ?: return dismiss()
+        groupRepository.getGroupInfo(group)
+        title.text = group.title
         butCloseBs.setOnClickListener {
             hideBs()
         }
@@ -65,9 +70,6 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
-        const val KEY_GROUP_TITLE = "key_group_title"
-        const val KEY_GROUP_FOLLOWERS = "key_group_followers"
-        const val KEY_GROUP_DESCRIPTION = "key_group_description"
-        const val KEY_GROUP_LAST_POST = "key_group_last_post"
+        const val KEY_GROUP_ID = "key_group_id"
     }
 }
