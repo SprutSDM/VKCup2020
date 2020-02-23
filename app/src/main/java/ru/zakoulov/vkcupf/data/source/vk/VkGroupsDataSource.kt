@@ -8,19 +8,19 @@ import ru.zakoulov.vkcupf.data.Group
 import ru.zakoulov.vkcupf.data.source.CommonResponseCallback
 import ru.zakoulov.vkcupf.data.source.GroupsDataSource
 import ru.zakoulov.vkcupf.data.source.vk.mappers.GroupMapper
-import ru.zakoulov.vkcupf.data.source.vk.models.VkGroups
+import ru.zakoulov.vkcupf.data.source.vk.models.VkGroup
 import ru.zakoulov.vkcupf.data.source.vk.requests.VkGetGroupMembersRequest
-import ru.zakoulov.vkcupf.data.source.vk.requests.VkGetGroupsRequest
+import ru.zakoulov.vkcupf.data.source.vk.requests.VkGetGroupsCommand
 
 class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSource {
 
     private val gson = Gson()
     private val jsonParser = JsonParser()
 
-    override fun getGroups(count: Int, offset: Int, callback: CommonResponseCallback<List<Group>>) {
-        VK.execute(VkGetGroupsRequest(gson, jsonParser, count, offset), object : VKApiCallback<VkGroups> {
-            override fun success(result: VkGroups) {
-                callback.success(result.items.map { groupMapper.map(it)})
+    override fun getAllGroups(callback: CommonResponseCallback<List<Group>>) {
+        VK.execute(VkGetGroupsCommand(gson, jsonParser), object : VKApiCallback<List<VkGroup>> {
+            override fun success(result: List<VkGroup>) {
+                callback.success(result.map { groupMapper.map(it) })
             }
 
             override fun fail(error: Exception) {
