@@ -9,11 +9,13 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
-import kotlinx.android.synthetic.main.activity_main.*
+import ru.zakoulov.vkcupf.ui.error.ErrorFragment
 import ru.zakoulov.vkcupf.ui.groups.GroupsFragment
 import ru.zakoulov.vkcupf.ui.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
+
+    private var shouldNavigateAfterOnActivityResult: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,16 +24,24 @@ class MainActivity : AppCompatActivity() {
 //        setSupportActionBar(toolbar)
         if (savedInstanceState == null) {
             if (VK.isLoggedIn()) {
-                navigateToGroups()
+                navigateToGroups(true)
             } else {
                 navigateToWelcome()
             }
         }
 
         (application as App).tokenExpired.observe(this) {
-            if (it != null && it != 0) {
+            if (it == true) {
                 navigateToWelcome()
             }
+        }
+    }
+
+    override fun onPostResume() {
+        super.onPostResume()
+        if (shouldNavigateAfterOnActivityResult) {
+            shouldNavigateAfterOnActivityResult = false
+            navigateToGroups(true)
         }
     }
 
@@ -39,21 +49,33 @@ class MainActivity : AppCompatActivity() {
         VK.login(this, listOf(VKScope.WALL, VKScope.GROUPS))
     }
 
-    fun navigateToWelcome() = navigateTo(WelcomeFragment.instance)
+    fun navigateToWelcome() = navigateTo(WelcomeFragment.instance, WelcomeFragment.TAG)
 
-    fun navigateToGroups() = navigateTo(GroupsFragment.INSTANCE)
+    fun navigateToGroups(needFetchGroups: Boolean = false) {
+        if (needFetchGroups) {
+            (application as App).groupRepository.getAllGroups()
+        }
+        navigateTo(GroupsFragment.INSTANCE, GroupsFragment.TAG)
+    }
 
-    private fun navigateTo(fragment: Fragment) {
+    fun showError() {
+        if (supportFragmentManager.findFragmentByTag(WelcomeFragment.TAG)?.isVisible == true) {
+            return
+        }
+        navigateTo(ErrorFragment.INSTANCE, ErrorFragment.TAG)
+    }
+
+    private fun navigateTo(fragment: Fragment, tagFragment: String) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .commitAllowingStateLoss()
+            .replace(R.id.container, fragment, tagFragment)
+            .commitNow()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                (application as App).groupRepository.getAllGroups()
-                navigateToGroups()
+                (application as App).tokenExpired.value = false
+                shouldNavigateAfterOnActivityResult = true
             }
 
             override fun onLoginFailed(errorCode: Int) {

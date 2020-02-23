@@ -29,5 +29,6 @@ class WelcomeFragment : Fragment() {
 
     companion object {
         val instance: WelcomeFragment by lazy { WelcomeFragment() }
+        const val TAG = "WelcomeFragment"
     }
 }

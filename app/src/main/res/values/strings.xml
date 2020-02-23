@@ -3,6 +3,8 @@
     <string name="fragment_welcome_title">Авторизация</string>
     <string name="login">Войти</string>
     <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
+    <string name="retry">Обновить</string>
+    <string name="error_load_data">Произошла ошибка при&#160;загрузке&#160;данных.\nПроверьте подключение к сети.</string>
 
     <string name="header_title">Отписаться от сообществ</string>
     <string name="header_description">Коснитесь и удерживайте,\nчтобы увидеть информацию\nо сообществе</string>

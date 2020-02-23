@@ -6,12 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupf.App
+import ru.zakoulov.vkcupf.MainActivity
 import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.Group
 import ru.zakoulov.vkcupf.data.GroupRepository
@@ -24,6 +27,7 @@ class GroupsFragment : Fragment() {
     private lateinit var unsubscribeFrame: FrameLayout
     private lateinit var unsubscribeCounter: TextView
     private lateinit var unsubscribe: View
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: GroupsViewAdapter
@@ -39,6 +43,7 @@ class GroupsFragment : Fragment() {
             unsubscribeFrame = findViewById(R.id.unsubscribe_frame)
             unsubscribeCounter = findViewById(R.id.unsubscribe_counter)
             unsubscribe = findViewById(R.id.unsubscribe)
+            progressBar = findViewById(R.id.progress_bar)
         }
         return root
     }
@@ -58,11 +63,19 @@ class GroupsFragment : Fragment() {
 
         groupRepository.getGroups().observe(viewLifecycleOwner) {
             when (it) {
-                is RequestStatus.Success -> viewAdapter.setGroups(it.data)
-                is RequestStatus.Fail -> {
-                    it.viewed = true
+                is RequestStatus.Success -> {
+                    showLoaded()
+                    viewAdapter.setGroups(it.data)
                 }
-                is RequestStatus.Loading -> Unit
+                is RequestStatus.Fail -> {
+                    showLoaded()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_LONG).show()
+                    it.viewed = true
+                    (requireActivity() as MainActivity).showError()
+                }
+                is RequestStatus.Loading -> {
+                    showLoading()
+                }
             }
         }
     }
@@ -74,6 +87,14 @@ class GroupsFragment : Fragment() {
             unsubscribeFrame.visibility = View.VISIBLE
             unsubscribeCounter.text = countSelectedGroups.toString()
         }
+    }
+
+    private fun showLoading() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun showLoaded() {
+        progressBar.visibility = View.GONE
     }
 
     private fun showGroupInfo(group: Group) {
@@ -99,5 +120,6 @@ class GroupsFragment : Fragment() {
         val INSTANCE: GroupsFragment by lazy { GroupsFragment() }
 
         const val NUMBER_OF_COLUMNS = 3
+        const val TAG = "GroupsFragment"
     }
 }

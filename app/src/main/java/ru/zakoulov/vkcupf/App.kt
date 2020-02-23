@@ -14,22 +14,17 @@ class App : Application() {
 
     lateinit var groupRepository: GroupRepository
 
-    val tokenExpired = MutableLiveData<Int>()
-
-    private var countOfTokenExpiration: Int = 0
+    val tokenExpired = MutableLiveData<Boolean>(false)
 
     override fun onCreate() {
         super.onCreate()
         VK.addTokenExpiredHandler(tokenTracker)
         groupRepository = GroupRepository(VkGroupsDataSource(GroupMapper()), WallRepository(VkWallDataSource()))
-        if (VK.isLoggedIn()) {
-            groupRepository.getAllGroups()
-        }
     }
 
     private val tokenTracker = object: VKTokenExpiredHandler {
         override fun onTokenExpired() {
-            tokenExpired.value = ++countOfTokenExpiration
+            tokenExpired.value = true
         }
     }
 }
