@@ -21,23 +21,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 //        setSupportActionBar(toolbar)
         if (savedInstanceState == null) {
-//            if (VK.isLoggedIn()) {
-////                navigateToPoster()
-//            } else {
-//                navigateToWelcome()
-//            }
-            navigateToGroups()
+            if (VK.isLoggedIn()) {
+                navigateToGroups()
+            } else {
+                navigateToWelcome()
+            }
         }
 
-//        (application as App).tokenExpired.observe(this) {
-//            if (it != null && it != 0) {
-//                navigateToWelcome()
-//            }
-//        }
+        (application as App).tokenExpired.observe(this) {
+            if (it != null && it != 0) {
+                navigateToWelcome()
+            }
+        }
     }
 
     fun login() {
-        VK.login(this, listOf(VKScope.WALL, VKScope.PHOTOS))
+        VK.login(this, listOf(VKScope.WALL, VKScope.GROUPS))
     }
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance)
@@ -53,7 +52,8 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-//                navigateToPoster()
+                (application as App).groupRepository.getAllGroups()
+                navigateToGroups()
             }
 
             override fun onLoginFailed(errorCode: Int) {

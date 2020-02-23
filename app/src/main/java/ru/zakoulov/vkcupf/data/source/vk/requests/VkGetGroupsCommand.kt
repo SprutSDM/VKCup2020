@@ -1,5 +1,6 @@
 package ru.zakoulov.vkcupf.data.source.vk.requests
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.vk.api.sdk.VKApiManager
@@ -24,6 +25,7 @@ class VkGetGroupsCommand(
                 .args("count", CHUNK_LIMIT)
                 .args("offset", result.size)
                 .args("fields", "description")
+                .args("extended", 1)
                 .version(manager.config.version)
                 .build()
             val callResult = manager.execute(call, ResponseApiParser(gson, jsonParser))
@@ -49,6 +51,6 @@ class VkGetGroupsCommand(
     }
 
     companion object {
-        const val CHUNK_LIMIT = 1000
+        const val CHUNK_LIMIT = 9
     }
 }

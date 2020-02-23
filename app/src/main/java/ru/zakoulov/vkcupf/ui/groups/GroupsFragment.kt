@@ -41,56 +41,7 @@ class GroupsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewManager = GridLayoutManager(this.context, NUMBER_OF_COLUMNS)
-        viewAdapter = GroupsViewAdapter(listOf(
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу1"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу2"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу3"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу4"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу5"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу6"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу7"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу8"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу9"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу10"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу11"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу12"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу13"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу14"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу15"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу16"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу17"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу18"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу19"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу20"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу21"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу22"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу23"),
-            Group(img = "https://sun9-59.userapi.com/c855736/v855736730/24450/q37RDmw7vXA.jpg?ava=1",
-                title = "Пикабу24")
-        ), callback)
+        viewAdapter = GroupsViewAdapter(emptyList(), callback)
         recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter

@@ -8,10 +8,10 @@ import ru.zakoulov.vkcupf.data.source.WallDataSource
 
 class WallRepository(
     private val remoteSource: WallDataSource
-) {
+): WallDataSource {
     private val cacheDateOfFirstPost: SparseArray<Long> = SparseArray()
 
-    fun getDateOfFirstPost(groupId: Int, callback: CommonResponseCallback<Long>) {
+    override fun getDateOfFirstPost(groupId: Int, callback: CommonResponseCallback<Long>) {
         if (cacheDateOfFirstPost.contains(groupId)) {
             callback.success(cacheDateOfFirstPost.get(groupId))
             return
