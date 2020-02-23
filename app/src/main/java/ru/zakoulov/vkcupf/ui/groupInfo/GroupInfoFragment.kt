@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.lifecycle.observe
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.zakoulov.vkcupf.App
 import ru.zakoulov.vkcupf.R
+import ru.zakoulov.vkcupf.data.GroupInfo
 import ru.zakoulov.vkcupf.data.GroupRepository
+import ru.zakoulov.vkcupf.data.RequestStatus
 
 class GroupInfoFragment : BottomSheetDialogFragment() {
 
@@ -48,11 +51,22 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
 
         val groupId = arguments?.getInt(KEY_GROUP_ID) ?: return dismiss()
         val group = groupRepository.getGroupById(groupId) ?: return dismiss()
-        groupRepository.getGroupInfo(group)
+        groupRepository.getGroupInfo(group).observe(viewLifecycleOwner) {
+            when (it) {
+                is RequestStatus.Success -> it.data?.let { setupGroupInfo(it)}
+            }
+        }
         title.text = group.title
         butCloseBs.setOnClickListener {
             hideBs()
         }
+    }
+
+    private fun setupGroupInfo(groupInfo: GroupInfo) {
+        title.text = groupInfo.title
+        description.text = groupInfo.description
+        followers.text = "${groupInfo.membersInGroup} ${groupInfo.friendsInGroup}"
+        lastPost.text = groupInfo.lastPostDate.toString()
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

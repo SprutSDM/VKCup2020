@@ -1,9 +1,9 @@
 package ru.zakoulov.vkcupf.data
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.SparseArray
+import androidx.core.util.contains
+import androidx.core.util.set
 import ru.zakoulov.vkcupf.data.source.CommonResponseCallback
-import ru.zakoulov.vkcupf.data.source.GroupStatus
 import ru.zakoulov.vkcupf.data.source.GroupsDataSource
 import ru.zakoulov.vkcupf.data.source.LiveDataResponseCallback
 import ru.zakoulov.vkcupf.data.source.WallDataSource
@@ -13,33 +13,33 @@ class GroupRepository(
     private val remoteWallSource: WallDataSource
 ) {
 
-    private val groups = MutableLiveData<List<Group>>()
-    fun getGroups(): LiveData<List<Group>> = groups
+    private val groups = StatusLiveData<List<Group>>(null)
+    fun getGroups(): StatusLiveData<List<Group>> = groups
 
-    private val groupStatus = MutableLiveData<GroupStatus>()
-    fun getGroupStatus(): LiveData<GroupStatus> = groupStatus
+    private val groupsInfo = SparseArray<StatusLiveData<GroupInfo>>()
 
     fun getAllGroups() {
-        groupStatus.value = GroupStatus.Loading()
+        groups.value = RequestStatus.Loading(groups.value?.data)
         remoteGroupSource.getAllGroups(object : CommonResponseCallback<List<Group>> {
             override fun success(response: List<Group>) {
-                groupStatus.value = GroupStatus.Success()
-                groups.value = response.reversed()
+                groups.value = RequestStatus.Success(response.reversed())
             }
 
             override fun fail(failMessage: String) {
-                groupStatus.value = GroupStatus.Fail(failMessage)
+                groups.value = RequestStatus.Fail(groups.value?.data, failMessage)
             }
         })
     }
 
-    fun getGroupById(groupId: Int): Group? = groups.value?.find { it.id == groupId }
+    fun getGroupById(groupId: Int): Group? = groups.value?.data?.find { it.id == groupId }
 
-    fun getGroupInfo(group: Group): LiveData<GroupInfo> {
-        val groupInfo = MutableLiveData<GroupInfo>()
-        remoteGroupSource.getGroupInfo(group, remoteWallSource, LiveDataResponseCallback(groupInfo) {
-            // Handle error
-        })
+    fun getGroupInfo(group: Group): StatusLiveData<GroupInfo> {
+        if (group.id in groupsInfo) {
+            return groupsInfo[group.id]
+        }
+        val groupInfo: StatusLiveData<GroupInfo> = StatusLiveData(RequestStatus.Loading<GroupInfo>(null))
+        groupsInfo[group.id] = groupInfo
+        remoteGroupSource.getGroupInfo(group, remoteWallSource, LiveDataResponseCallback(groupInfo))
         return groupInfo
     }
 }

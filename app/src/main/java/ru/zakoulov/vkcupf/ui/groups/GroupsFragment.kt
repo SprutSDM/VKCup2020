@@ -11,10 +11,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import ru.zakoulov.vkcupf.App
 import ru.zakoulov.vkcupf.R
 import ru.zakoulov.vkcupf.data.Group
 import ru.zakoulov.vkcupf.data.GroupRepository
+import ru.zakoulov.vkcupf.data.RequestStatus
 import ru.zakoulov.vkcupf.ui.groupInfo.GroupInfoFragment
 
 class GroupsFragment : Fragment() {
@@ -56,7 +58,13 @@ class GroupsFragment : Fragment() {
         }
 
         groupRepository.getGroups().observe(viewLifecycleOwner) {
-            viewAdapter.setGroups(it)
+            when (it) {
+                is RequestStatus.Success -> viewAdapter.setGroups(it.data)
+                is RequestStatus.Fail -> {
+                    it.viewed = true
+                }
+                is RequestStatus.Loading -> Unit
+            }
         }
     }
 

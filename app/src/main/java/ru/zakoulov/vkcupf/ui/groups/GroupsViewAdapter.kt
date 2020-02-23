@@ -26,7 +26,8 @@ class GroupsViewAdapter(
         setGroups(groups)
     }
 
-    fun setGroups(groups: List<Group>) {
+    fun setGroups(groups: List<Group>?) {
+        groups ?: return
         this.wrappedGroups = wrapGroups(groups)
         notifyDataSetChanged()
     }
