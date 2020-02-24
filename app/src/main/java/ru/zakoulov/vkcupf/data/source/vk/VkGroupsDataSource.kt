@@ -1,5 +1,6 @@
 package ru.zakoulov.vkcupf.data.source.vk
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.vk.api.sdk.VK
@@ -28,6 +29,7 @@ class VkGroupsDataSource(private val groupMapper: GroupMapper) : GroupsDataSourc
             }
 
             override fun fail(error: Exception) {
+                Log.d("abacaba", "error ${error}")
                 callback.fail(error.localizedMessage ?: error.message ?: "Error getting groups")
             }
         })
