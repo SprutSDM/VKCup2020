@@ -16,21 +16,16 @@
         android:elevation="4dp"
         android:clipToPadding="false">
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/close_city_picker"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_gravity="center_vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_cancel_outline_28"
-                android:tint="@color/citiesHeaderCancel"
-                android:layout_gravity="center"/>
-        </FrameLayout>
+            android:padding="10dp"
+            android:src="@drawable/ic_cancel_outline_28"
+            android:tint="@color/vkPrimary"
+            android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/group_info_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -44,6 +39,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_cities"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
