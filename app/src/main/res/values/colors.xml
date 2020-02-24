@@ -10,4 +10,6 @@
 
     <color name="shopTitle">#000000</color>
     <color name="shopDescription">#909499</color>
+    <color name="productTitle">#71757A</color>
+    <color name="productPrice">#000000</color>
 </resources>
