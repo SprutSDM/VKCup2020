@@ -7,5 +7,6 @@
     <color name="textEditFill">#F2F3F5</color>
     <color name="textEditBorders">#E1E3E6</color>
 
-
+    <color name="shopTitle">#000000</color>
+    <color name="shopDescription">#909499</color>
 </resources>
