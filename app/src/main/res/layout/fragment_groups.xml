@@ -1,18 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:layout_weight="1"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/unsubscribe_frame"/>
+        android:layout_weight="1">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="false"
+            android:background="@android:color/white"
+            android:theme="@style/VkCupTheme.Final.AppBarOverlay">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="false"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:collapsedTitleTextAppearance="@style/VkCupTheme.Toolbar.Collapsed"
+                app:titleEnabled="false"
+                app:toolbarId="@+id/toolbar">
+
+                <LinearLayout
+                    android:layout_width="296dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingTop="32dp"
+                    android:paddingBottom="32dp"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="-0.4" >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/header_title"
+                        android:textColor="@color/headerTitle"
+                        android:fontFamily="sans-serif-medium"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        android:gravity="center">
+                    </TextView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/header_description"
+                        android:textColor="@color/headerDescription"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/VkCupTheme.Final.PopupOverlay">
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/toolbar_title"
+                        android:textSize="20sp"
+                        android:visibility="invisible"
+                        android:textColor="@android:color/black"
+                        android:fontFamily="sans-serif-medium"/>
+                </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <android.widget.ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/unsubscribe_frame"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
     <FrameLayout
         android:id="@+id/unsubscribe_frame"
         android:layout_width="match_parent"
@@ -22,12 +108,10 @@
         android:paddingBottom="12dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:clickable="true"
-        android:focusable="true"
         android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:clickable="true"
+        android:focusable="true">
+
         <LinearLayout
             android:id="@+id/unsubscribe"
             android:layout_width="match_parent"
@@ -35,6 +119,7 @@
             android:orientation="horizontal"
             android:background="@drawable/shape_button"
             android:gravity="center">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,6 +127,7 @@
                 android:textSize="16sp"
                 android:fontFamily="sans-serif-medium"
                 android:textColor="@android:color/white"/>
+
             <TextView
                 android:id="@+id/unsubscribe_counter"
                 android:layout_width="wrap_content"
@@ -56,15 +142,6 @@
                 android:textSize="15sp"
                 android:textColor="@color/counterText"
                 android:background="@drawable/shape_counter"/>
-            </LinearLayout>
+        </LinearLayout>
     </FrameLayout>
-    <android.widget.ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

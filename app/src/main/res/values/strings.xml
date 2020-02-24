@@ -12,6 +12,7 @@
     <string name="unsubscribe_fail">Не получилось отписаться от сообществ</string>
     <string name="fail_open_group">Ошибка при открытии группы</string>
     <string name="unsubscribe">Отписаться</string>
+    <string name="toolbar_title">Сообщества</string>
     <string name="open_group">Открыть</string>
     <string name="last_post_args">Последняя запись %1$s</string>
     <string name="followers_info">%1$s · %2$s</string>

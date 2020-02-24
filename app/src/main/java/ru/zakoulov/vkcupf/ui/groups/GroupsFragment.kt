@@ -1,10 +1,10 @@
 package ru.zakoulov.vkcupf.ui.groups
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import ru.zakoulov.vkcupf.App
 import ru.zakoulov.vkcupf.MainActivity
 import ru.zakoulov.vkcupf.R
@@ -21,6 +22,7 @@ import ru.zakoulov.vkcupf.data.GroupRepository
 import ru.zakoulov.vkcupf.data.RequestStatus
 import ru.zakoulov.vkcupf.data.source.CommonResponseCallback
 import ru.zakoulov.vkcupf.ui.groupInfo.GroupInfoFragment
+import kotlin.math.abs
 
 class GroupsFragment : Fragment() {
 
@@ -29,10 +31,14 @@ class GroupsFragment : Fragment() {
     private lateinit var unsubscribeCounter: TextView
     private lateinit var unsubscribe: View
     private lateinit var progressBar: ProgressBar
+    private lateinit var toolbarTitle: TextView
+    private lateinit var appBarLayout: AppBarLayout
 
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: GroupsViewAdapter
     private lateinit var groupRepository: GroupRepository
+
+    private var isTitleVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,7 +51,11 @@ class GroupsFragment : Fragment() {
             unsubscribeCounter = findViewById(R.id.unsubscribe_counter)
             unsubscribe = findViewById(R.id.unsubscribe)
             progressBar = findViewById(R.id.progress_bar)
+            toolbarTitle = findViewById(R.id.toolbar_title)
+            appBarLayout = findViewById(R.id.app_bar)
         }
+        startAlphaAnimation(toolbarTitle, View.INVISIBLE, 0)
+        toolbarTitle.visibility = View.VISIBLE
         return root
     }
 
@@ -90,6 +100,33 @@ class GroupsFragment : Fragment() {
                 }
             }
         }
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val maxScroll = appBarLayout.totalScrollRange
+            val percentage = abs(verticalOffset) / maxScroll.toFloat()
+
+            handleAnimationOnTitle(percentage)
+        })
+    }
+
+    private fun handleAnimationOnTitle(percentage: Float) {
+        if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
+            if (isTitleVisible) {
+                startAlphaAnimation(toolbarTitle, View.VISIBLE, ANIMATION_DURATION)
+                isTitleVisible = false
+            }
+        } else {
+            if (!isTitleVisible) {
+                startAlphaAnimation(toolbarTitle, View.INVISIBLE, ANIMATION_DURATION)
+                isTitleVisible = true
+            }
+        }
+    }
+
+    private fun startAlphaAnimation(v: View, visibility: Int, duration: Long) {
+        val alphaAnimation = if (visibility == View.VISIBLE) AlphaAnimation(0f, 1f) else AlphaAnimation(1f, 0f)
+        alphaAnimation.duration = duration
+        alphaAnimation.fillAfter = true
+        v.startAnimation(alphaAnimation)
     }
 
     private fun updateUnsubscribeFrame(countSelectedGroups: Int) {
@@ -132,5 +169,8 @@ class GroupsFragment : Fragment() {
 
         const val NUMBER_OF_COLUMNS = 3
         const val TAG = "GroupsFragment"
+
+        const val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
+        const val ANIMATION_DURATION = 200L
     }
 }

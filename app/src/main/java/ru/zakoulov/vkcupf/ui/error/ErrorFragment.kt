@@ -8,7 +8,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import ru.zakoulov.vkcupf.MainActivity
 import ru.zakoulov.vkcupf.R
-import ru.zakoulov.vkcupf.ui.groups.GroupsFragment
 
 class ErrorFragment : Fragment() {
 

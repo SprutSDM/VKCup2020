@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigateTo(fragment: Fragment, tagFragment: String) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, fragment, tagFragment)
-            .commitNow()
+            .commit()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
