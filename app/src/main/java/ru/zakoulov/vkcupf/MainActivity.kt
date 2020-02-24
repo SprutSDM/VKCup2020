@@ -62,6 +62,10 @@ class MainActivity : AppCompatActivity() {
         if (supportFragmentManager.findFragmentByTag(WelcomeFragment.TAG)?.isVisible == true) {
             return
         }
+        if ((application as App).tokenExpired.value == true) {
+            navigateToWelcome()
+            return
+        }
         navigateTo(ErrorFragment.INSTANCE, ErrorFragment.TAG)
     }
 

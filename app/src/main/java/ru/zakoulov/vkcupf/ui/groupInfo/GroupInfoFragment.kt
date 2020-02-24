@@ -74,7 +74,7 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
             }
         }
         title.text = group.title
-        description.text = group.description.ifEmpty { "Описание отсутствует" }
+        description.text = group.description.ifEmpty { getString(R.string.no_description) }
         butCloseBs.setOnClickListener {
             hideBs()
         }
@@ -84,8 +84,13 @@ class GroupInfoFragment : BottomSheetDialogFragment() {
     }
 
     private fun setupGroupInfo(groupInfo: GroupInfo, dateFormatter: DateFormatter) {
-        val formattedDate = dateFormatter.getFormattedDate(groupInfo.lastPostDate * 1000)
-        lastPost.text = getString(R.string.last_post_args, formattedDate)
+        if (groupInfo.lastPostDate == 0L) {
+            lastPost.text = getString(R.string.no_last_post)
+        } else {
+            val formattedDate = dateFormatter.getFormattedDate(groupInfo.lastPostDate * 1000)
+            lastPost.text = getString(R.string.last_post_args, formattedDate)
+        }
+
         val subscribers = resources.getQuantityString(
             R.plurals.subscribers,
             if (groupInfo.membersInGroup < 1000) groupInfo.membersInGroup else 1000,

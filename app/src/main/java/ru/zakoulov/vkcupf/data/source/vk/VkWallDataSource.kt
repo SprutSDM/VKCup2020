@@ -15,13 +15,13 @@ class VkWallDataSource : WallDataSource {
     private val jsonParser = JsonParser()
 
     override fun getDateOfFirstPost(groupId: Int, callback: CommonResponseCallback<Long>) {
-        VK.execute(VkGetFirstPostRequest(gson, jsonParser, groupId), object : VKApiCallback<VkPost?> {
-            override fun success(result: VkPost?) {
-                callback.success(result?.date ?: 0)
+        VK.execute(VkGetFirstPostRequest(gson, jsonParser, groupId), object : VKApiCallback<VkPost> {
+            override fun success(result: VkPost) {
+                callback.success(result.date)
             }
 
             override fun fail(error: Exception) {
-                callback.fail(error.localizedMessage ?: error.message ?: "Error getting groups")
+                callback.fail(error.localizedMessage ?: error.message ?: "Error getting date of first post.")
             }
         })
     }

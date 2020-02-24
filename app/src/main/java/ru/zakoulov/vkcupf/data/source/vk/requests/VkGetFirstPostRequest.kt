@@ -10,14 +10,15 @@ class VkGetFirstPostRequest(
     gson: Gson,
     jsonParser: JsonParser,
     groupId: Int
-) : VKRequestGson<VkPost?>(gson, jsonParser, "wall.get") {
+) : VKRequestGson<VkPost>(gson, jsonParser, "wall.get") {
 
     init {
         addParam("owner_id", -groupId)
         addParam("count", 1)
     }
 
-    override fun gsonParse(response: String): VkPost? {
-        return gson.fromJson(jsonParser.parse(response).asJsonObject["response"], VkWall::class.java).items.firstOrNull()
+    override fun gsonParse(response: String): VkPost {
+        return gson.fromJson(jsonParser.parse(response).asJsonObject["response"], VkWall::class.java)
+            .items.firstOrNull() ?: VkPost(0)
     }
 }

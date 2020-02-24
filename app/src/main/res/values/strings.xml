@@ -14,6 +14,8 @@
     <string name="unsubscribe">Отписаться</string>
     <string name="toolbar_title">Сообщества</string>
     <string name="open_group">Открыть</string>
+    <string name="no_last_post">Нет ни одной записи</string>
+    <string name="no_description">Описание отсутствует</string>
     <string name="last_post_args">Последняя запись %1$s</string>
     <string name="followers_info">%1$s · %2$s</string>
     <string name="members_info">%1$s</string>
