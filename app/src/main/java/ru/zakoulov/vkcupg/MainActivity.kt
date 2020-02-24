@@ -10,6 +10,7 @@ import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
 import ru.zakoulov.vkcupg.ui.error.ErrorFragment
+import ru.zakoulov.vkcupg.ui.shopslist.ShopsListFragment
 import ru.zakoulov.vkcupg.ui.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -21,18 +22,19 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            if (VK.isLoggedIn()) {
-//                navigateToGroups(true)
-            } else {
-                navigateToWelcome()
-            }
+            navigateToShops()
+//            if (VK.isLoggedIn()) {
+////                navigateToGroups(true)
+//            } else {
+//                navigateToWelcome()
+//            }
         }
 
-        (application as App).tokenExpired.observe(this) {
-            if (it == true) {
-                navigateToWelcome()
-            }
-        }
+//        (application as App).tokenExpired.observe(this) {
+//            if (it == true) {
+//                navigateToWelcome()
+//            }
+//        }
     }
 
     override fun onPostResume() {
@@ -49,12 +51,9 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance, WelcomeFragment.TAG)
 
-//    fun navigateToGroups(needFetchGroups: Boolean = false) {
-//        if (needFetchGroups) {
-//            (application as App).groupRepository.getAllGroups()
-//        }
-//        navigateTo(GroupsFragment.INSTANCE, GroupsFragment.TAG)
-//    }
+    fun navigateToShops() {
+        navigateTo(ShopsListFragment.INSTANCE, ShopsListFragment.TAG)
+    }
 
     fun showError() {
         if (supportFragmentManager.findFragmentByTag(WelcomeFragment.TAG)?.isVisible == true) {
@@ -72,6 +71,7 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.container, fragment, tagFragment)
             .commit()
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {

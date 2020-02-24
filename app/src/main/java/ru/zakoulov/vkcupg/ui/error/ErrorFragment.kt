@@ -25,7 +25,7 @@ class ErrorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         butRetry.setOnClickListener {
-            (requireActivity() as MainActivity).navigateToGroups(true)
+//            (requireActivity() as MainActivity).navigateToGroups(true)
         }
     }
 

@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="VkCupTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="VkCupTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/vkPrimary</item>
         <item name="colorPrimaryDark">@color/vkPrimary</item>
         <item name="colorAccent">@color/vkPrimary</item>
