@@ -2,6 +2,7 @@
 <resources>
     <color name="vkPrimary">#4986CC</color>
     <color name="vkPrimaryDark">#376499</color>
+    <color name="vkSecondary">#3F8AE0</color>
     <color name="buttonDisabled">#818C99</color>
     <color name="textEditHint">#818C99</color>
     <color name="textEditFill">#F2F3F5</color>
