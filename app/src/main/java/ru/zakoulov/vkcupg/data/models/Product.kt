@@ -6,3 +6,8 @@ data class Product(
     val priceText: String,
     val photo: String
 )
+
+data class Products(
+    val count: Int,
+    val items: List<Product>
+)

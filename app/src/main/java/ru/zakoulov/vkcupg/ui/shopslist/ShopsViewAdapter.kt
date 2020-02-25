@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupg.R
-import ru.zakoulov.vkcupg.data.models.Shop
+import ru.zakoulov.vkcupg.data.models.Market
 
 class ShopsViewAdapter(
-    shops: List<Shop>
+    markets: List<Market>
 ) : RecyclerView.Adapter<ShopsViewAdapter.ShopViewHolder>() {
 
-    var shops: List<Shop> = shops
+    var markets: List<Market> = markets
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -24,10 +24,10 @@ class ShopsViewAdapter(
         return ShopViewHolder(documentView)
     }
 
-    override fun getItemCount() = shops.size
+    override fun getItemCount() = markets.size
 
     override fun onBindViewHolder(holder: ShopViewHolder, position: Int) {
-        val shop = shops[position]
+        val shop = markets[position]
         holder.apply {
             setTitle(shop.title)
             setDescription(shop.description)
