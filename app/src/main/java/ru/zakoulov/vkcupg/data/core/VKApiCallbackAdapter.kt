@@ -1,7 +1,11 @@
+// © Zakoulov Ilya <zakoylov@gmail.com>
 package ru.zakoulov.vkcupg.data.core
 
 import com.vk.api.sdk.VKApiCallback
 
+/**
+ * The adapter that transform [VKApiCallback] to [CommonResponseCallback]
+ */
 class VKApiCallbackAdapter<VK, R, M: Mapper<VK, R>>(
     private val commonResponseCallback: CommonResponseCallback<R>,
     private val errorMessage: String,

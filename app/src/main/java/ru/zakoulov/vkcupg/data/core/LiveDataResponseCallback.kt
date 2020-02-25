@@ -1,6 +1,9 @@
 // © Zakoulov Ilya <zakoylov@gmail.com>
 package ru.zakoulov.vkcupg.data.core
 
+/**
+ * The LiveData wrapper over [CommonResponseCallback]
+ */
 class LiveDataResponseCallback<T>(
     private val data: StatusLiveData<T>
 ) : CommonResponseCallback<T> {

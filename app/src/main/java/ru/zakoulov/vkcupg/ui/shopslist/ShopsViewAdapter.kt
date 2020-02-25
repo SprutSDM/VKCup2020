@@ -30,7 +30,7 @@ class ShopsViewAdapter(
         val shop = markets[position]
         holder.apply {
             setTitle(shop.title)
-            setDescription(shop.description)
+//            setDescription(shop.description)
         }
     }
 
