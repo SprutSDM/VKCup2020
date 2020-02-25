@@ -9,6 +9,8 @@
     <string name="city">Город</string>
     <string name="favorites_add">Добавить в избранное</string>
     <string name="favorites_remove">Удалить из избранного</string>
+    <string name="market_is_closed">Закрытая группа</string>
+    <string name="market_is_opened">Открытая группа</string>
 
     <integer name="com_vk_sdk_AppId">7333804</integer>
 </resources>

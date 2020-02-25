@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName
 data class VkMarket(
     val id: Int,
     val name: String,
-    @SerializedName("photo_200") val photo: String
+    @SerializedName("photo_200") val photo: String,
+    @SerializedName("is_closed") val isClosed: Int
 )
 
 data class VkMarkets(

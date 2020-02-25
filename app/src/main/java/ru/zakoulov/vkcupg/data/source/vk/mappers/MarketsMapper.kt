@@ -10,7 +10,12 @@ class MarketsMapper : Mapper<VkMarkets, Markets> {
         return Markets(
             count = input.count,
             markets = input.items.map {
-                Market(title = it.name)
+                Market(
+                    id = it.id,
+                    title = it.name,
+                    photo = it.photo,
+                    isClosed = it.isClosed == 1
+                )
             }
         )
     }

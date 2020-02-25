@@ -18,7 +18,7 @@ class ProductsListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_products, container, false).apply {
-            recyclerView = findViewById(R.id.recycler_view_shops)
+            recyclerView = findViewById(R.id.recycler_view_products)
         }
     }
 

@@ -1,7 +1,10 @@
 package ru.zakoulov.vkcupg.data.models
 
 data class Market(
-    val title: String
+    val id: Int,
+    val title: String,
+    val photo: String,
+    val isClosed: Boolean
 )
 
 data class Markets(

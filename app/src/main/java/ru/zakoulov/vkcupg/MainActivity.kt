@@ -4,13 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
 import ru.zakoulov.vkcupg.ui.error.ErrorFragment
-import ru.zakoulov.vkcupg.ui.shopslist.ShopsListFragment
+import ru.zakoulov.vkcupg.ui.marketslist.MarketsListFragment
 import ru.zakoulov.vkcupg.ui.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -52,7 +51,7 @@ class MainActivity : AppCompatActivity() {
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance, WelcomeFragment.TAG)
 
     fun navigateToShops() {
-        navigateTo(ShopsListFragment.INSTANCE, ShopsListFragment.TAG)
+        navigateTo(MarketsListFragment.INSTANCE, MarketsListFragment.TAG)
     }
 
     fun showError() {

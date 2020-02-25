@@ -16,10 +16,10 @@
         android:padding="@dimen/group_image_border"
         android:layout_gravity="center_vertical">
         <ImageView
-            android:id="@+id/shop_img"
+            android:id="@+id/market_icon"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shape_image"/>
+            android:background="@drawable/shape_image_rounded"/>
     </FrameLayout>
 
     <LinearLayout
@@ -29,7 +29,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="12dp">
         <TextView
-            android:id="@+id/shop_title"
+            android:id="@+id/market_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
@@ -37,7 +37,7 @@
             android:fontFamily="sans-serif"
             android:textColor="@color/shopTitle"/>
         <TextView
-            android:id="@+id/shop_description"
+            android:id="@+id/market_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="13sp"
