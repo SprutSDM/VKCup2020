@@ -1,5 +1,6 @@
 package ru.zakoulov.vkcupg.data
 
+import ru.zakoulov.vkcupg.data.DatabaseRepository.Companion.COUNTRY_ID
 import ru.zakoulov.vkcupg.data.core.LiveDataResponseCallback
 import ru.zakoulov.vkcupg.data.core.SparseDataStorage
 import ru.zakoulov.vkcupg.data.core.SparseDataStorageCallback
@@ -22,7 +23,7 @@ class MarketsRepository(
                 }
             }
             remoteSource.fetchMarkets(
-                countryId = 1,
+                countryId = COUNTRY_ID,
                 cityId = key,
                 count = NUM_OF_MARKETS_FOR_FETCHING,
                 offset = data.data.markets.size,

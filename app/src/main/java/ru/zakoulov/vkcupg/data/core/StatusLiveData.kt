@@ -14,6 +14,7 @@ class StatusLiveData<T>(value: RequestStatus<T>) : MutableLiveData<RequestStatus
     fun isFailed() = this is RequestStatus.Fail<*>
     fun isSuccessed() = this is RequestStatus.Success<*>
     fun isLoading() = this is RequestStatus.Loading<*>
+    fun isEmpty() = this is RequestStatus.Empty<*>
 
     fun setLoading() {
         value = RequestStatus.Loading(data)
