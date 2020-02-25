@@ -61,13 +61,19 @@ class MarketsListFragment : Fragment(), MarketCallbacks {
                 is RequestStatus.Loading, is RequestStatus.Empty -> showLoading()
             }
         }
+        activity?.setTitle(R.string.title_fragment_empty)
+        databaseRepository.city.observe(viewLifecycleOwner) {
+            activity?.title = getString(R.string.title_fragment_list_of_products, it.name)
+        }
         butReload.setOnClickListener {
-            marketsRepository.fetchNewData(databaseRepository.getCurrentCity().id)
+            if (databaseRepository.getCities().isSuccessed()) {
+                marketsRepository.fetchNewData(databaseRepository.city.value!!)
+            }
         }
     }
 
     private fun observeMarkets() {
-        marketsRepository.getMarkets(databaseRepository.getCurrentCity().id).observe(viewLifecycleOwner) {
+        marketsRepository.getMarkets(databaseRepository.city.value!!).observe(viewLifecycleOwner) {
             when (it) {
                 is RequestStatus.Success -> {
                     showLoaded()
@@ -79,7 +85,7 @@ class MarketsListFragment : Fragment(), MarketCallbacks {
         }
     }
 
-    override fun fetchNewData() = marketsRepository.fetchNewData(databaseRepository.getCurrentCity().id, true)
+    override fun fetchNewData() = marketsRepository.fetchNewData(databaseRepository.city.value!!, true)
 
     private fun showLoading() {
         recyclerView.visibility = View.GONE

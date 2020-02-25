@@ -34,6 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
             android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:fontFamily="sans-serif"
             android:textColor="@color/shopTitle"/>
         <TextView
@@ -41,6 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="13sp"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:fontFamily="sans-serif"
             android:textColor="@color/shopDescription"/>
     </LinearLayout>

@@ -4,10 +4,12 @@ package ru.zakoulov.vkcupg.data.core
 /**
  * The LiveData wrapper over [CommonResponseCallback]
  */
-class ReplaceLiveDataResponseCallback<T>(
-    private val data: StatusLiveData<T>
+class LiveDataResponseCallback<T>(
+    private val data: StatusLiveData<T>,
+    private val onSuccess: (T) -> Unit = {}
 ) : CommonResponseCallback<T> {
     override fun success(response: T) {
+        onSuccess(response)
         data.value = RequestStatus.Success(response)
     }
 

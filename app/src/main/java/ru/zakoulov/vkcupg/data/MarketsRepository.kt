@@ -7,6 +7,7 @@ import ru.zakoulov.vkcupg.data.DatabaseRepository.Companion.COUNTRY_ID
 import ru.zakoulov.vkcupg.data.core.CommonResponseCallback
 import ru.zakoulov.vkcupg.data.core.RequestStatus
 import ru.zakoulov.vkcupg.data.core.StatusLiveData
+import ru.zakoulov.vkcupg.data.models.City
 import ru.zakoulov.vkcupg.data.models.Markets
 import ru.zakoulov.vkcupg.data.source.MarketsDataSource
 
@@ -16,24 +17,24 @@ class MarketsRepository(
 
     private val markets = SparseArray<StatusLiveData<Markets>>()
 
-    fun getMarkets(cityId: Int): StatusLiveData<Markets> {
-        if (cityId in markets) {
-            markets[cityId].let {
+    fun getMarkets(city: City): StatusLiveData<Markets> {
+        if (city.id in markets) {
+            markets[city.id].let {
                 if (it.isFailed()) {
                     it.setLoading()
-                    fetchNewData(cityId)
+                    fetchNewData(city)
                 }
                 return it
             }
         }
         val newData = StatusLiveData(RequestStatus.Empty(Markets(-1, emptyList())))
-        markets[cityId] = newData
-        fetchNewData(cityId)
+        markets[city.id] = newData
+        fetchNewData(city)
         return newData
     }
 
-    fun fetchNewData(cityId: Int, quiet: Boolean = false) {
-        val cityMarkets = markets[cityId]
+    fun fetchNewData(city: City, quiet: Boolean = false) {
+        val cityMarkets = markets[city.id]
         if (cityMarkets.isLoading()) {
             return
         }
@@ -42,7 +43,7 @@ class MarketsRepository(
             return
         }
         cityMarkets.setLoading(quiet)
-        remoteSource.fetchMarkets(COUNTRY_ID, cityId, NUM_OF_MARKETS_FOR_FETCHING, cityMarkets.data.markets.size,
+        remoteSource.fetchMarkets(COUNTRY_ID, city.id, NUM_OF_MARKETS_FOR_FETCHING, cityMarkets.data.markets.size,
             object : CommonResponseCallback<Markets> {
                 override fun success(response: Markets) {
                     cityMarkets.value = RequestStatus.Success(Markets(
@@ -51,7 +52,7 @@ class MarketsRepository(
                 }
 
                 override fun fail(failMessage: String) {
-                    markets[cityId].setFail(failMessage)
+                    markets[city.id].setFail(failMessage)
                 }
             })
     }

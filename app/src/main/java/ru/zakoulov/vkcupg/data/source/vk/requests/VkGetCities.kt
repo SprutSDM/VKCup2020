@@ -10,7 +10,7 @@ class VkGetCities(
     gson: Gson,
     jsonParser: JsonParser,
     countryId: Int
-) : VKRequestGson<VkCities>(gson, jsonParser, "database.getCountries") {
+) : VKRequestGson<VkCities>(gson, jsonParser, "database.getCities") {
 
     init {
         addParam("country_id", countryId)
