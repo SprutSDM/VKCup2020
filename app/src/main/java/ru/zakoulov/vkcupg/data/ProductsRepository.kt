@@ -1,6 +1,6 @@
 package ru.zakoulov.vkcupg.data
 
-import ru.zakoulov.vkcupg.data.core.LiveDataResponseCallback
+import ru.zakoulov.vkcupg.data.core.ReplaceLiveDataResponseCallback
 import ru.zakoulov.vkcupg.data.core.SparseDataStorage
 import ru.zakoulov.vkcupg.data.core.SparseDataStorageCallback
 import ru.zakoulov.vkcupg.data.core.StatusLiveData
@@ -25,7 +25,7 @@ class ProductsRepository(
                 marketId = key,
                 count = NUM_OF_PRODUCTS_FOR_FETCHING,
                 offset = data.data.products.size,
-                callback = LiveDataResponseCallback(data)
+                callback = ReplaceLiveDataResponseCallback(data)
             )
         }
     })

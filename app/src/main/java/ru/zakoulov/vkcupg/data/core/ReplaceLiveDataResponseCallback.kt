@@ -4,7 +4,7 @@ package ru.zakoulov.vkcupg.data.core
 /**
  * The LiveData wrapper over [CommonResponseCallback]
  */
-class LiveDataResponseCallback<T>(
+class ReplaceLiveDataResponseCallback<T>(
     private val data: StatusLiveData<T>
 ) : CommonResponseCallback<T> {
     override fun success(response: T) {

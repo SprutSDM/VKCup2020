@@ -4,11 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.observe
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
-import ru.zakoulov.vkcupg.ui.error.ErrorFragment
 import ru.zakoulov.vkcupg.ui.marketslist.MarketsListFragment
 import ru.zakoulov.vkcupg.ui.welcome.WelcomeFragment
 
@@ -21,48 +21,36 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            navigateToShops()
-//            if (VK.isLoggedIn()) {
-////                navigateToGroups(true)
-//            } else {
-//                navigateToWelcome()
-//            }
+            if (VK.isLoggedIn()) {
+                navigateToMarkets()
+            } else {
+                navigateToWelcome()
+            }
         }
 
-//        (application as App).tokenExpired.observe(this) {
-//            if (it == true) {
-//                navigateToWelcome()
-//            }
-//        }
+        (application as App).tokenExpired.observe(this) {
+            if (it == true) {
+                navigateToWelcome()
+            }
+        }
     }
 
     override fun onPostResume() {
         super.onPostResume()
         if (shouldNavigateAfterOnActivityResult) {
             shouldNavigateAfterOnActivityResult = false
-//            navigateToGroups(true)
+            navigateToMarkets()
         }
     }
 
     fun login() {
-        VK.login(this, listOf(VKScope.WALL, VKScope.GROUPS))
+        VK.login(this, listOf(VKScope.MARKET, VKScope.GROUPS))
     }
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance, WelcomeFragment.TAG)
 
-    fun navigateToShops() {
+    fun navigateToMarkets() {
         navigateTo(MarketsListFragment.INSTANCE, MarketsListFragment.TAG)
-    }
-
-    fun showError() {
-        if (supportFragmentManager.findFragmentByTag(WelcomeFragment.TAG)?.isVisible == true) {
-            return
-        }
-        if ((application as App).tokenExpired.value == true) {
-            navigateToWelcome()
-            return
-        }
-        navigateTo(ErrorFragment.INSTANCE, ErrorFragment.TAG)
     }
 
     private fun navigateTo(fragment: Fragment, tagFragment: String) {

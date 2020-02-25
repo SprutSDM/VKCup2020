@@ -1,9 +1,11 @@
 package ru.zakoulov.vkcupg.data
 
+import android.util.SparseArray
+import androidx.core.util.contains
+import androidx.core.util.set
 import ru.zakoulov.vkcupg.data.DatabaseRepository.Companion.COUNTRY_ID
-import ru.zakoulov.vkcupg.data.core.LiveDataResponseCallback
-import ru.zakoulov.vkcupg.data.core.SparseDataStorage
-import ru.zakoulov.vkcupg.data.core.SparseDataStorageCallback
+import ru.zakoulov.vkcupg.data.core.CommonResponseCallback
+import ru.zakoulov.vkcupg.data.core.RequestStatus
 import ru.zakoulov.vkcupg.data.core.StatusLiveData
 import ru.zakoulov.vkcupg.data.models.Markets
 import ru.zakoulov.vkcupg.data.source.MarketsDataSource
@@ -12,26 +14,47 @@ class MarketsRepository(
     private val remoteSource: MarketsDataSource
 ) {
 
-    private val markets = SparseDataStorage(object : SparseDataStorageCallback<Markets> {
-        override fun initData(key: Int): Markets = Markets(0, emptyList())
+    private val markets = SparseArray<StatusLiveData<Markets>>()
 
-        override fun fetchData(key: Int, data: StatusLiveData<Markets>) {
-            // Already have all markets, don't DDoS VK
-            data.data.let {
-                if (it.count == it.markets.size) {
-                    return
+    fun getMarkets(cityId: Int): StatusLiveData<Markets> {
+        if (cityId in markets) {
+            markets[cityId].let {
+                if (it.isFailed()) {
+                    it.setLoading()
+                    fetchNewData(cityId)
                 }
+                return it
             }
-            remoteSource.fetchMarkets(
-                countryId = COUNTRY_ID,
-                cityId = key,
-                count = NUM_OF_MARKETS_FOR_FETCHING,
-                offset = data.data.markets.size,
-                callback = LiveDataResponseCallback(data))
         }
-    })
+        val newData = StatusLiveData(RequestStatus.Empty(Markets(-1, emptyList())))
+        markets[cityId] = newData
+        fetchNewData(cityId)
+        return newData
+    }
 
-    fun getMarkets(cityId: Int): StatusLiveData<Markets> = markets[cityId]
+    fun fetchNewData(cityId: Int, quiet: Boolean = false) {
+        val cityMarkets = markets[cityId]
+        if (cityMarkets.isLoading()) {
+            return
+        }
+        // Already have all data. Don't DDoS VK
+        if (cityMarkets.data.count == cityMarkets.data.markets.size) {
+            return
+        }
+        cityMarkets.setLoading(quiet)
+        remoteSource.fetchMarkets(COUNTRY_ID, cityId, NUM_OF_MARKETS_FOR_FETCHING, cityMarkets.data.markets.size,
+            object : CommonResponseCallback<Markets> {
+                override fun success(response: Markets) {
+                    cityMarkets.value = RequestStatus.Success(Markets(
+                        count = response.count,
+                        markets = cityMarkets.data.markets + response.markets))
+                }
+
+                override fun fail(failMessage: String) {
+                    markets[cityId].setFail(failMessage)
+                }
+            })
+    }
 
     companion object {
         const val NUM_OF_MARKETS_FOR_FETCHING = 20

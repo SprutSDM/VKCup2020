@@ -9,14 +9,18 @@ import androidx.lifecycle.MutableLiveData
 class StatusLiveData<T>(value: RequestStatus<T>) : MutableLiveData<RequestStatus<T>>(value) {
 
     val data: T
-        get() = value?.data!!
+        get() = value!!.data
 
-    fun isFailed() = this is RequestStatus.Fail<*>
-    fun isSuccessed() = this is RequestStatus.Success<*>
-    fun isLoading() = this is RequestStatus.Loading<*>
-    fun isEmpty() = this is RequestStatus.Empty<*>
+    fun isFailed() = value!!.isFail()
+    fun isSuccessed() = value!!.isSuccess()
+    fun isLoading() = value!!.isLoading()
+    fun isEmpty() = value!!.isEmpty()
 
-    fun setLoading() {
-        value = RequestStatus.Loading(data)
+    fun setLoading(quiet: Boolean = false) {
+        value = RequestStatus.Loading(data, quiet)
+    }
+
+    fun setFail(message: String) {
+        value = RequestStatus.Fail(data, message)
     }
 }
