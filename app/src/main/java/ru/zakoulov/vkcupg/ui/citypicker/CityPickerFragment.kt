@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import ru.zakoulov.vkcupg.App
 import ru.zakoulov.vkcupg.R
+import ru.zakoulov.vkcupg.data.DatabaseRepository
+import ru.zakoulov.vkcupg.data.models.City
 
-class CityPickerFragment : BottomSheetDialogFragment() {
+class CityPickerFragment : BottomSheetDialogFragment(), CityPickerCallback {
 
     private lateinit var butCloseCityPicker: View
     private lateinit var recyclerView: RecyclerView
@@ -21,6 +24,8 @@ class CityPickerFragment : BottomSheetDialogFragment() {
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: CitiesViewAdapter
     private lateinit var bsBehavior: BottomSheetBehavior<FrameLayout>
+
+    private lateinit var databaseRepository: DatabaseRepository
 
     override fun getTheme() = R.style.VkCupTheme_BottomSheetDialog
 
@@ -33,8 +38,9 @@ class CityPickerFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        databaseRepository = (requireActivity().application as App).databaseRepository
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = CitiesViewAdapter(emptyList())
+        viewAdapter = CitiesViewAdapter(databaseRepository.getCities().data, databaseRepository.city.value!!,this)
         recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
@@ -49,5 +55,12 @@ class CityPickerFragment : BottomSheetDialogFragment() {
             bsBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         }
         return bottomSheetDialog
+    }
+
+    override fun pickCity(city: City) {
+        if (databaseRepository.city.value != city) {
+            databaseRepository.city.value = city
+        }
+        dismiss()
     }
 }

@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"/>
     <ImageView
+        android:id="@+id/city_selected_img"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:padding="12dp"
