@@ -9,5 +9,5 @@ data class Product(
 
 data class Products(
     val count: Int,
-    val items: List<Product>
+    val products: List<Product>
 )

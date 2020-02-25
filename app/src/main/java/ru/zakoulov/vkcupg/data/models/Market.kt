@@ -1,11 +1,10 @@
 package ru.zakoulov.vkcupg.data.models
 
 data class Market(
-    val title: String,
-    val description: String
+    val title: String
 )
 
 data class Markets(
     val count: Int,
-    val items: List<Market>
+    val markets: List<Market>
 )

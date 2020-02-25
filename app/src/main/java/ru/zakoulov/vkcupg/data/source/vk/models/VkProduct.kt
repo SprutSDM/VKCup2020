@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class VkProduct(
     val id: Int,
     val title: String,
-    val description: Int,
+    val description: String,
     val price: VkProductPrice,
     @SerializedName("thumb_photo") val photo: String
 )
@@ -22,5 +22,5 @@ data class VkProductPriceCurrency(
 
 data class VkProducts(
     val count: Int,
-    val items: VkProduct
+    val items: List<VkProduct>
 )
