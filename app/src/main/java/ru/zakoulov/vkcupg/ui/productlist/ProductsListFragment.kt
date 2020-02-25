@@ -1,4 +1,4 @@
-package ru.zakoulov.vkcupg.ui.produtList
+package ru.zakoulov.vkcupg.ui.productlist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,10 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupg.R
-import ru.zakoulov.vkcupg.ui.error.ErrorFragment
 
 class ProductsListFragment : Fragment() {
 
@@ -35,7 +33,7 @@ class ProductsListFragment : Fragment() {
     }
 
     companion object {
-        val INSTANCE: ErrorFragment by lazy { ErrorFragment() }
+        val INSTANCE: ProductsListFragment by lazy { ProductsListFragment() }
 
         const val TAG = "ProductsListFragment"
         const val NUM_OF_COLUMNS = 2

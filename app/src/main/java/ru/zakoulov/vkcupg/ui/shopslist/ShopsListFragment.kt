@@ -18,7 +18,7 @@ class ShopsListFragment : Fragment() {
     private lateinit var viewAdapter: ShopsViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_shops, container, false).apply {
+        return inflater.inflate(R.layout.fragment_product_info, container, false).apply {
             recyclerView = findViewById(R.id.recycler_view_shops)
         }
     }
@@ -34,7 +34,7 @@ class ShopsListFragment : Fragment() {
     }
 
     companion object {
-        val INSTANCE: ErrorFragment by lazy { ErrorFragment() }
+        val INSTANCE: ShopsListFragment by lazy { ShopsListFragment() }
 
         const val TAG = "ShopsListFragment"
     }

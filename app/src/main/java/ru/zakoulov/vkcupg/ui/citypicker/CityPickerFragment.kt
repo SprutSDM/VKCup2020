@@ -1,4 +1,4 @@
-package ru.zakoulov.vkcupg.ui.cityPicker
+package ru.zakoulov.vkcupg.ui.citypicker
 
 import android.app.Dialog
 import android.os.Bundle

@@ -7,6 +7,8 @@
     <string name="error_load_data">Произошла ошибка при&#160;загрузке&#160;данных.\nПроверьте подключение к сети.</string>
 
     <string name="city">Город</string>
+    <string name="favorites_add">Добавить в избранное</string>
+    <string name="favorites_remove">Удалить из избранного</string>
 
     <integer name="com_vk_sdk_AppId">7333804</integer>
 </resources>

@@ -1,4 +1,4 @@
-package ru.zakoulov.vkcupg.ui.produtList
+package ru.zakoulov.vkcupg.ui.productlist
 
 import android.view.LayoutInflater
 import android.view.View
@@ -39,9 +39,9 @@ class ProductsViewAdapter(
 
     class ProductViewHolder(val productItem: View) : RecyclerView.ViewHolder(productItem) {
 
-        private val productTitle: TextView = productItem.findViewById(R.id.product_title)
-        private val productPhoto: ImageView = productItem.findViewById(R.id.product_photo)
-        private val productPrice: TextView = productItem.findViewById(R.id.product_price)
+        private val productTitle: TextView = productItem.findViewById(R.id.product_title_info)
+        private val productPhoto: ImageView = productItem.findViewById(R.id.product_photo_info)
+        private val productPrice: TextView = productItem.findViewById(R.id.product_price_info)
 
         fun setTitle(title: String) {
             productTitle.text = title
