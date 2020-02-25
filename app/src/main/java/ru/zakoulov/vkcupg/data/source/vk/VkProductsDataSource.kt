@@ -7,13 +7,13 @@ import ru.zakoulov.vkcupg.data.core.CommonResponseCallback
 import ru.zakoulov.vkcupg.data.core.Mapper
 import ru.zakoulov.vkcupg.data.core.VKApiCallbackAdapter
 import ru.zakoulov.vkcupg.data.models.Products
-import ru.zakoulov.vkcupg.data.source.ProductDataSource
+import ru.zakoulov.vkcupg.data.source.ProductsDataSource
 import ru.zakoulov.vkcupg.data.source.vk.models.VkProducts
 import ru.zakoulov.vkcupg.data.source.vk.requests.VkGetProductsRequest
 
 class VkProductsDataSource(
     private val productsMapper: Mapper<VkProducts, Products>
-) : ProductDataSource {
+) : ProductsDataSource {
 
     private val gson = Gson()
     private val jsonParser = JsonParser()

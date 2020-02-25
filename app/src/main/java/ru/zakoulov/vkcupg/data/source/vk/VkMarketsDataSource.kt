@@ -7,13 +7,13 @@ import ru.zakoulov.vkcupg.data.core.CommonResponseCallback
 import ru.zakoulov.vkcupg.data.core.Mapper
 import ru.zakoulov.vkcupg.data.core.VKApiCallbackAdapter
 import ru.zakoulov.vkcupg.data.models.Markets
-import ru.zakoulov.vkcupg.data.source.MarketDataSource
+import ru.zakoulov.vkcupg.data.source.MarketsDataSource
 import ru.zakoulov.vkcupg.data.source.vk.models.VkMarkets
 import ru.zakoulov.vkcupg.data.source.vk.requests.VkGetMarketsRequest
 
 class VkMarketsDataSource(
     private val marketsMapper: Mapper<VkMarkets, Markets>
-) : MarketDataSource {
+) : MarketsDataSource {
 
     private val gson = Gson()
     private val jsonParser = JsonParser()

@@ -5,10 +5,10 @@ import ru.zakoulov.vkcupg.data.core.SparseDataStorage
 import ru.zakoulov.vkcupg.data.core.SparseDataStorageCallback
 import ru.zakoulov.vkcupg.data.core.StatusLiveData
 import ru.zakoulov.vkcupg.data.models.Markets
-import ru.zakoulov.vkcupg.data.source.MarketDataSource
+import ru.zakoulov.vkcupg.data.source.MarketsDataSource
 
-class MarketRepository(
-    private val remoteMarketSource: MarketDataSource
+class MarketsRepository(
+    private val remoteSource: MarketsDataSource
 ) {
 
     private val markets = SparseDataStorage(object : SparseDataStorageCallback<Markets> {
@@ -21,7 +21,7 @@ class MarketRepository(
                     return
                 }
             }
-            remoteMarketSource.fetchMarkets(
+            remoteSource.fetchMarkets(
                 countryId = 1,
                 cityId = key,
                 count = NUM_OF_MARKETS_FOR_FETCHING,
