@@ -1,7 +1,6 @@
 // © Zakoulov Ilya <zakoylov@gmail.com>
 package ru.zakoulov.vkcupg.data.core
 
-import android.util.Log
 import com.vk.api.sdk.VKApiCallback
 
 /**
@@ -13,7 +12,6 @@ class VKApiCallbackAdapter<VK, R, M: Mapper<VK, R>>(
     private val mapper: M
 ) : VKApiCallback<VK> {
     override fun success(result: VK) {
-        Log.d("abacaba", "result $result")
         commonResponseCallback.success(mapper.map(result))
     }
 

@@ -12,7 +12,7 @@ class StatusLiveData<T>(value: RequestStatus<T>) : MutableLiveData<RequestStatus
         get() = value!!.data
 
     fun isFailed() = value!!.isFail()
-    fun isSuccessed() = value!!.isSuccess()
+    fun isSucceed() = value!!.isSuccess()
     fun isLoading() = value!!.isLoading()
     fun isEmpty() = value!!.isEmpty()
 

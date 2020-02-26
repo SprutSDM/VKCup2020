@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             if (VK.isLoggedIn()) {
+                (application as App).marketsRepository.fetchCities()
                 navigateToMarkets()
             } else {
                 navigateToWelcome()
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
             override fun onLogin(token: VKAccessToken) {
                 (application as App).tokenExpired.value = false
                 shouldNavigateAfterOnActivityResult = true
+                (application as App).marketsRepository.fetchCities()
             }
 
             override fun onLoginFailed(errorCode: Int) {

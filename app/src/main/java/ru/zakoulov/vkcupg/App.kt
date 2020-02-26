@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKTokenExpiredHandler
-import ru.zakoulov.vkcupg.data.DatabaseRepository
 import ru.zakoulov.vkcupg.data.MarketsRepository
 import ru.zakoulov.vkcupg.data.ProductsRepository
 import ru.zakoulov.vkcupg.data.source.vk.VkDatabaseDataSource
@@ -16,7 +15,6 @@ import ru.zakoulov.vkcupg.data.source.vk.mappers.ProductsMapper
 
 class App : Application() {
 
-    lateinit var databaseRepository: DatabaseRepository
     lateinit var marketsRepository: MarketsRepository
     lateinit var productsRepository: ProductsRepository
 
@@ -30,8 +28,7 @@ class App : Application() {
         val vkMarketsDataSource = VkMarketsDataSource(MarketsMapper())
         val vkProductsDataSource = VkProductsDataSource(ProductsMapper())
 
-        databaseRepository = DatabaseRepository(vkDatabaseDataSource)
-        marketsRepository = MarketsRepository(vkMarketsDataSource)
+        marketsRepository = MarketsRepository(vkMarketsDataSource, vkDatabaseDataSource)
         productsRepository = ProductsRepository(vkProductsDataSource)
     }
 
