@@ -36,6 +36,9 @@ class ProductsViewAdapter(
             setPrice(product.priceText)
             setPhoto(product.photo)
         }
+        holder.itemView.setOnClickListener {
+            callbacks.showMoreInfo(product)
+        }
         if (position + PRODUCTS_LOAD_OFFSET > products.size) {
             callbacks.fetchNewData()
         }

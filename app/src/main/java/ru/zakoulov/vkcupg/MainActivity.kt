@@ -4,13 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.observe
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
 import ru.zakoulov.vkcupg.ui.marketslist.MarketsListFragment
+import ru.zakoulov.vkcupg.ui.productinfo.ProductInfoFragment
 import ru.zakoulov.vkcupg.ui.productlist.ProductsListFragment
 import ru.zakoulov.vkcupg.ui.welcome.WelcomeFragment
 
@@ -59,9 +59,18 @@ class MainActivity : AppCompatActivity() {
     fun navigateToProducts(marketId: Int) {
         val fragment = ProductsListFragment()
         fragment.arguments = Bundle().apply {
-            putInt(ProductsListFragment.KEY_MERKET_ID, marketId)
+            putInt(ProductsListFragment.KEY_MARKET_ID, marketId)
         }
         navigateTo(fragment, ProductsListFragment.TAG, addToBackStack = true)
+    }
+
+    fun navigateToProductInfo(marketId: Int, productId: Int) {
+        val fragment = ProductInfoFragment()
+        fragment.arguments = Bundle().apply {
+            putInt(ProductInfoFragment.KEY_MARKET_ID, marketId)
+            putInt(ProductInfoFragment.KEY_PRODUCT_ID, productId)
+        }
+        navigateTo(fragment, ProductInfoFragment.TAG, addToBackStack = true)
     }
 
     fun navigateBack() {

@@ -15,4 +15,5 @@
     <color name="productTitleInfo">#000000</color>
     <color name="productPriceInfo">#000000</color>
     <color name="productDescriptionInfo">#000000</color>
+    <color name="favoriteFrameBackground">#EBEBEB</color>
 </resources>

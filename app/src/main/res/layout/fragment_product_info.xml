@@ -3,31 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:clipToPadding="false">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        app:toolbarId="@+id/toolbar">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/VkCupTheme.Final.AppBarOverlay">
+            android:theme="@style/VkCupTheme.Final.AppBarOverlay"
+            android:background="@android:color/white">
 
-            <ru.zakoulov.vkcupg.utils.SquareFrameLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@android:color/white"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-                <ImageView
-                    android:id="@+id/product_photo_info"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="false"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:collapsedTitleTextAppearance="@style/VkCupTheme.Toolbar.Collapsed">
+
+                <ru.zakoulov.vkcupg.utils.SquareFrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/shape_image"/>
-            </ru.zakoulov.vkcupg.utils.SquareFrameLayout>
+                    android:background="@android:color/white"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:layout_collapseMode="parallax"
+                    app:layout_collapseParallaxMultiplier="0.7">
+                    <ImageView
+                        android:id="@+id/product_photo_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </ru.zakoulov.vkcupg.utils.SquareFrameLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,10 +98,13 @@
         android:id="@+id/favorites_frame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/favoriteFrameBackground"
         android:paddingTop="12dp"
         android:paddingBottom="12dp"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp">
+        android:paddingEnd="16dp"
+        android:clipToPadding="false"
+        android:elevation="4dp">
 
         <Button
             android:id="@+id/but_favorites"

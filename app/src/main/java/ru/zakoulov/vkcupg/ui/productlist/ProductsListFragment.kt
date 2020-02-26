@@ -19,6 +19,7 @@ import ru.zakoulov.vkcupg.R
 import ru.zakoulov.vkcupg.data.MarketsRepository
 import ru.zakoulov.vkcupg.data.ProductsRepository
 import ru.zakoulov.vkcupg.data.core.RequestStatus
+import ru.zakoulov.vkcupg.data.models.Product
 
 class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
 
@@ -71,7 +72,7 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
                 marketsRepository.fetchNewData()
             }
         }
-        marketId = arguments?.getInt(KEY_MERKET_ID) ?: return
+        marketId = arguments?.getInt(KEY_MARKET_ID) ?: return
         val market = marketsRepository.currentMarkets.data.markets.find { it.id == marketId } ?: return
         showMarketName(market.title)
 
@@ -88,6 +89,10 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
     }
 
     override fun fetchNewData() = productsRepository.fetchNewData(marketId, true)
+
+    override fun showMoreInfo(product: Product){
+        (requireActivity() as MainActivity).navigateToProductInfo(marketId = marketId, productId = product.id)
+    }
 
     private fun showMarketName(marketName: String) {
         requireActivity().title = getString(R.string.title_fragment_list_of_products, marketName)
@@ -114,7 +119,7 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
 
     companion object {
         const val TAG = "ProductsListFragment"
-        const val KEY_MERKET_ID = "key_market_id"
+        const val KEY_MARKET_ID = "key_market_id"
         const val NUM_OF_COLUMNS = 2
     }
 }

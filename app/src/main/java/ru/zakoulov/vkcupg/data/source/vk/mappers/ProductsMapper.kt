@@ -11,6 +11,7 @@ class ProductsMapper : Mapper<VkProducts, Products> {
             count = input.count,
             products = input.items.map {
                 Product(
+                    id = it.id,
                     title = it.title,
                     description = it.description,
                     priceText = it.price.text,

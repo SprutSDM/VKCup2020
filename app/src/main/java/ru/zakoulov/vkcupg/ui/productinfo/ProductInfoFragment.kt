@@ -1,14 +1,22 @@
 package ru.zakoulov.vkcupg.ui.productinfo
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.squareup.picasso.Picasso
+import ru.zakoulov.vkcupg.App
+import ru.zakoulov.vkcupg.MainActivity
 import ru.zakoulov.vkcupg.R
+import ru.zakoulov.vkcupg.data.MarketsRepository
+import ru.zakoulov.vkcupg.data.ProductsRepository
+import ru.zakoulov.vkcupg.data.models.Product
 
 class ProductInfoFragment : Fragment() {
 
@@ -17,24 +25,64 @@ class ProductInfoFragment : Fragment() {
     private lateinit var productPhoto: ImageView
     private lateinit var productDescription: TextView
     private lateinit var productPrice: TextView
+    private lateinit var toolbar: Toolbar
+
+    private lateinit var marketsRepository: MarketsRepository
+    private lateinit var productsRepository: ProductsRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_product_info, container, false).apply {
+        val root = inflater.inflate(R.layout.fragment_product_info, container, false).apply {
             butFavorite = findViewById(R.id.but_favorites)
             productTitle = findViewById(R.id.product_title_info)
             productDescription = findViewById(R.id.product_description_info)
             productPhoto = findViewById(R.id.product_photo_info)
             productPrice = findViewById(R.id.product_price_info)
+            toolbar = findViewById(R.id.toolbar)
         }
+        (requireActivity() as MainActivity).apply {
+            setSupportActionBar(toolbar)
+        }
+        return root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity().application as App).let {
+            marketsRepository = it.marketsRepository
+            productsRepository = it.productsRepository
+        }
+
+        val marketId = arguments?.getInt(KEY_MARKET_ID) ?: return
+        val productId = arguments?.getInt(KEY_PRODUCT_ID) ?: return
+
+        val market = marketsRepository.currentMarkets.data.markets.find { it.id == marketId } ?: return
+        val product = productsRepository.getProducts(marketId).data.products.find { it.id == productId} ?: return
+
+        showMarketName(market.title)
+        setProductInfo(product)
+    }
+
+    private fun setProductInfo(product: Product) {
+        productTitle.text = product.title
+        productPrice.text = product.priceText
+        productDescription.text = product.description
+        productPhoto.clipToOutline = true
+        Picasso.get()
+            .load(product.photo)
+            .fit()
+            .centerCrop()
+            .into(productPhoto)
+    }
+
+    private fun showMarketName(marketName: String) {
+        requireActivity().title = getString(R.string.title_fragment_list_of_products, marketName)
     }
 
     companion object {
-        val INSTANCE: ProductInfoFragment by lazy { ProductInfoFragment() }
-
         const val TAG = "ProductInfoFragment"
+
+        const val KEY_MARKET_ID = "key_market_id"
+        const val KEY_PRODUCT_ID = "key_product_id"
     }
 }
