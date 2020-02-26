@@ -11,8 +11,9 @@
     <string name="favorites_remove">Удалить из избранного</string>
     <string name="market_is_closed">Закрытая группа</string>
     <string name="market_is_opened">Открытая группа</string>
-    <string name="title_fragment_list_of_products">Магазины в %1$s</string>
+    <string name="title_fragment_list_of_markets">Магазины в %1$s</string>
     <string name="title_fragment_empty">Магазины</string>
+    <string name="title_fragment_list_of_products">Товары сообщества %1$s</string>
 
     <integer name="com_vk_sdk_AppId">7333804</integer>
 </resources>

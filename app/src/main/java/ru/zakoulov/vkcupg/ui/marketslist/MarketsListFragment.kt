@@ -19,9 +19,10 @@ import ru.zakoulov.vkcupg.MainActivity
 import ru.zakoulov.vkcupg.R
 import ru.zakoulov.vkcupg.data.MarketsRepository
 import ru.zakoulov.vkcupg.data.core.RequestStatus
+import ru.zakoulov.vkcupg.data.models.Market
 import ru.zakoulov.vkcupg.ui.citypicker.CityPickerFragment
 
-class MarketsListFragment : Fragment(), MarketCallbacks {
+class MarketsListFragment : Fragment(), MarketAdapterCallbacks {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -98,8 +99,10 @@ class MarketsListFragment : Fragment(), MarketCallbacks {
 
     override fun fetchNewData() = marketsRepository.fetchNewData(true)
 
+    override fun navigateToProducts(market: Market) = (requireActivity() as MainActivity).navigateToProducts(market.id)
+
     private fun showCityName(cityName: String) {
-        requireActivity().title = getString(R.string.title_fragment_list_of_products, cityName)
+        requireActivity().title = getString(R.string.title_fragment_list_of_markets, cityName)
         dropDownIcon.visibility = View.VISIBLE
     }
 

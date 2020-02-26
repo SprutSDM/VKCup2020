@@ -11,7 +11,8 @@ import ru.zakoulov.vkcupg.R
 import ru.zakoulov.vkcupg.data.models.Product
 
 class ProductsViewAdapter(
-    products: List<Product>
+    products: List<Product>,
+    private val callbacks: ProductAdapterCallbacks
 ) : RecyclerView.Adapter<ProductsViewAdapter.ProductViewHolder>() {
 
     var products: List<Product> = products
@@ -35,13 +36,16 @@ class ProductsViewAdapter(
             setPrice(product.priceText)
             setPhoto(product.photo)
         }
+        if (position + PRODUCTS_LOAD_OFFSET > products.size) {
+            callbacks.fetchNewData()
+        }
     }
 
-    class ProductViewHolder(val productItem: View) : RecyclerView.ViewHolder(productItem) {
+    class ProductViewHolder(productItem: View) : RecyclerView.ViewHolder(productItem) {
 
-        private val productTitle: TextView = productItem.findViewById(R.id.product_title_info)
-        private val productPhoto: ImageView = productItem.findViewById(R.id.product_photo_info)
-        private val productPrice: TextView = productItem.findViewById(R.id.product_price_info)
+        private val productTitle: TextView = productItem.findViewById(R.id.product_title)
+        private val productPhoto: ImageView = productItem.findViewById(R.id.product_photo)
+        private val productPrice: TextView = productItem.findViewById(R.id.product_price)
 
         fun setTitle(title: String) {
             productTitle.text = title
@@ -59,5 +63,8 @@ class ProductsViewAdapter(
                 .centerCrop()
                 .into(productPhoto)
         }
+    }
+    companion object {
+        const val PRODUCTS_LOAD_OFFSET = 10
     }
 }

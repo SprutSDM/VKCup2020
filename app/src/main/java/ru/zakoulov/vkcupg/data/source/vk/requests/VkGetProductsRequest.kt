@@ -19,7 +19,7 @@ class VkGetProductsRequest(
 ) : VKRequestGson<VkProducts>(gson, jsonParser, "market.get") {
 
     init {
-        addParam("owner_id", marketId)
+        addParam("owner_id", -marketId)
         addParam("count", count)
         addParam("offset", offset)
     }

@@ -8,8 +8,8 @@ import androidx.core.util.set
 /**
  * The class that manages fetching new data and their status
  */
-class SparseDataStorage<D>(
-    private val callback: SparseDataStorageCallback<D>
+class SparseStorage<D>(
+    private val callback: SparseStorageCallback<D>
 ) {
     private val data: SparseArray<StatusLiveData<D>> = SparseArray()
 
@@ -17,15 +17,22 @@ class SparseDataStorage<D>(
         if (key in data) {
             data[key].let {
                 if (it.isFailed()) {
-                    it.setLoading()
                     callback.fetchData(key, it)
                 }
                 return it
             }
         }
-        val newData = StatusLiveData(RequestStatus.Loading(callback.initData(key)))
+        val newData = StatusLiveData(RequestStatus.Empty(callback.initData(key)))
         data[key] = newData
         callback.fetchData(key, newData)
         return newData
+    }
+
+    fun fetchNewData(key: Int, quiet: Boolean = false) {
+        if (key !in data) {
+            get(key)
+        } else {
+            callback.fetchData(key, data[key], quiet)
+        }
     }
 }

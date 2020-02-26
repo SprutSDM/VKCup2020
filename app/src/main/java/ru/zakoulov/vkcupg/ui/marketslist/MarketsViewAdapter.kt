@@ -12,7 +12,7 @@ import ru.zakoulov.vkcupg.data.models.Market
 
 class MarketsViewAdapter(
     markets: List<Market>,
-    private val callbacks: MarketCallbacks
+    private val callbacks: MarketAdapterCallbacks
 ) : RecyclerView.Adapter<MarketsViewAdapter.MarketViewHolder>() {
 
     var markets: List<Market> = markets
@@ -35,6 +35,9 @@ class MarketsViewAdapter(
             setTitle(market.title)
             setDescription(market.isClosed)
             setIcon(market.photo)
+        }
+        holder.itemView.setOnClickListener {
+            callbacks.navigateToProducts(market)
         }
         if (position + MARKETS_LOAD_OFFSET > markets.size) {
             callbacks.fetchNewData()
