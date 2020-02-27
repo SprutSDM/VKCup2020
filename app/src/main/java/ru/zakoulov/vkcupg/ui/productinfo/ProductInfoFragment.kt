@@ -1,7 +1,6 @@
 package ru.zakoulov.vkcupg.ui.productinfo
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,10 +55,9 @@ class ProductInfoFragment : Fragment() {
         val marketId = arguments?.getInt(KEY_MARKET_ID) ?: return
         val productId = arguments?.getInt(KEY_PRODUCT_ID) ?: return
 
-        val market = marketsRepository.currentMarkets.data.markets.find { it.id == marketId } ?: return
         val product = productsRepository.getProducts(marketId).data.products.find { it.id == productId} ?: return
 
-        showMarketName(market.title)
+        setFragmentTitle(product.title)
         setProductInfo(product)
     }
 
@@ -75,8 +73,8 @@ class ProductInfoFragment : Fragment() {
             .into(productPhoto)
     }
 
-    private fun showMarketName(marketName: String) {
-        requireActivity().title = getString(R.string.title_fragment_list_of_products, marketName)
+    private fun setFragmentTitle(title: String) {
+        requireActivity().title = title
     }
 
     companion object {
