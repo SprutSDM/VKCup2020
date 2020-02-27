@@ -38,6 +38,7 @@ class ProductInfoFragment : Fragment() {
             productPrice = findViewById(R.id.product_price_info)
             toolbar = findViewById(R.id.toolbar)
         }
+        toolbar.setNavigationIcon(R.drawable.ic_back_outline_28)
         (requireActivity() as MainActivity).apply {
             setSupportActionBar(toolbar)
         }
@@ -50,6 +51,10 @@ class ProductInfoFragment : Fragment() {
         (requireActivity().application as App).let {
             marketsRepository = it.marketsRepository
             productsRepository = it.productsRepository
+        }
+
+        toolbar.setNavigationOnClickListener {
+            (requireActivity() as MainActivity).navigateBack()
         }
 
         val marketId = arguments?.getInt(KEY_MARKET_ID) ?: return

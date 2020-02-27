@@ -46,6 +46,7 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
             errorContainer = findViewById(R.id.error_container)
             toolbar = findViewById(R.id.toolbar)
         }
+        toolbar.setNavigationIcon(R.drawable.ic_back_outline_28)
         (requireActivity() as MainActivity).apply {
             setSupportActionBar(toolbar)
         }
@@ -85,6 +86,9 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
                 is RequestStatus.Fail -> if (it.data.products.isEmpty()) showError(it.message)
                 is RequestStatus.Loading -> if (!it.quiet) showLoading()
             }
+        }
+        toolbar.setNavigationOnClickListener {
+            (requireActivity() as MainActivity).navigateBack()
         }
     }
 
