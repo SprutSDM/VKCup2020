@@ -1,6 +1,5 @@
 package ru.zakoulov.vkcupg.ui.productinfo
 
-import android.graphics.Point
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +8,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
-import com.squareup.picasso.MemoryPolicy
-import com.squareup.picasso.NetworkPolicy
+import androidx.lifecycle.observe
 import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupg.App
 import ru.zakoulov.vkcupg.MainActivity
 import ru.zakoulov.vkcupg.R
-import ru.zakoulov.vkcupg.data.MarketsRepository
+import ru.zakoulov.vkcupg.data.FavesRepository
 import ru.zakoulov.vkcupg.data.ProductsRepository
 import ru.zakoulov.vkcupg.data.models.Product
 
@@ -30,8 +27,8 @@ class ProductInfoFragment : Fragment() {
     private lateinit var productPrice: TextView
     private lateinit var toolbar: Toolbar
 
-    private lateinit var marketsRepository: MarketsRepository
     private lateinit var productsRepository: ProductsRepository
+    private lateinit var favesRepository: FavesRepository
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_product_info, container, false).apply {
@@ -56,8 +53,8 @@ class ProductInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         (requireActivity().application as App).let {
-            marketsRepository = it.marketsRepository
             productsRepository = it.productsRepository
+            favesRepository = it.favesRepository
         }
 
         toolbar.setNavigationOnClickListener {
@@ -66,6 +63,21 @@ class ProductInfoFragment : Fragment() {
 
         val marketId = arguments?.getInt(KEY_MARKET_ID) ?: return
         val productId = arguments?.getInt(KEY_PRODUCT_ID) ?: return
+
+        favesRepository.requestNewProductFaveStatus(marketId, productId)
+        favesRepository.getProductFaveStatus(marketId, productId).observe(viewLifecycleOwner) {
+            setupFavoriteButton(it)
+        }
+
+        butFavorite.setOnClickListener {
+            favesRepository.getProductFaveStatus(marketId, productId).value?.let {
+                if (it) {
+                    favesRepository.removeProductFromFaves(marketId, productId)
+                } else {
+                    favesRepository.addProductToFaves(marketId, productId)
+                }
+            }
+        }
 
         val product = productsRepository.getProducts(marketId).data.products.find { it.id == productId} ?: return
 
@@ -81,19 +93,24 @@ class ProductInfoFragment : Fragment() {
         val imageWidth = getImageWidth()
         Picasso.get()
             .load(product.photo)
-//            .fit()
             .resize(imageWidth, imageWidth)
             .into(productPhoto)
-//        Picasso.get()
-//            .load(product.photo)
-//            .fit()
-//            .into(productPhoto)
     }
 
     private fun getImageWidth() = (requireActivity() as MainActivity).getScreenWidth() / 2
 
     private fun setFragmentTitle(title: String) {
         requireActivity().title = title
+    }
+
+    private fun setupFavoriteButton(isFavorite: Boolean) {
+        if (isFavorite) {
+            butFavorite.setBackgroundResource(R.drawable.shape_button_gray)
+            butFavorite.setText(R.string.fave_remove)
+        } else {
+            butFavorite.setBackgroundResource(R.drawable.shape_button)
+            butFavorite.setText(R.string.fave_add)
+        }
     }
 
     companion object {

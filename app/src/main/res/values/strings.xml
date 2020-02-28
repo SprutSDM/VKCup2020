@@ -15,6 +15,8 @@
     <string name="title_fragment_empty">Магазины</string>
     <string name="title_fragment_list_of_products">Товары сообщества %1$s</string>
     <string name="market_closed_error">К сожалению, посмотреть товары у закрытого сообщества нельзя</string>
+    <string name="fave_add">Добавить в избранное</string>
+    <string name="fave_remove">Удалить из избранного</string>
     <string name="products_not_found">Кажется, у&#160;этого сообщества\nзакончились все&#160;товары&#160;:(\n\nПопробуйте позже</string>
 
     <integer name="com_vk_sdk_AppId">7333804</integer>

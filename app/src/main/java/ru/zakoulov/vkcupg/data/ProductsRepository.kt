@@ -1,6 +1,5 @@
 package ru.zakoulov.vkcupg.data
 
-import android.util.Log
 import ru.zakoulov.vkcupg.data.core.CommonResponseCallback
 import ru.zakoulov.vkcupg.data.core.RequestStatus
 import ru.zakoulov.vkcupg.data.core.SparseStorage

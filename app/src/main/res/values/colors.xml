@@ -15,5 +15,7 @@
     <color name="productTitleInfo">#000000</color>
     <color name="productPriceInfo">#000000</color>
     <color name="productDescriptionInfo">#000000</color>
-    <color name="favoriteFrameBackground">#EBEBEB</color>
+    <color name="favoriteFrameBackground">#F9F9F9</color>
+    <color name="buttonRemoveFavorite">#EDEEF0</color>
+    <color name="buttonRemoveFavoritePressed">#E1E2E4</color>
 </resources>
