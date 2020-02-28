@@ -14,6 +14,7 @@
     <string name="title_fragment_list_of_markets">Магазины в %1$s</string>
     <string name="title_fragment_empty">Магазины</string>
     <string name="title_fragment_list_of_products">Товары сообщества %1$s</string>
+    <string name="market_closed_error">К сожалению, посмотреть товары у закрытого сообщества нельзя</string>
 
     <integer name="com_vk_sdk_AppId">7333804</integer>
 </resources>

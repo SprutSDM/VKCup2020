@@ -14,7 +14,8 @@ class MarketsMapper : Mapper<VkMarkets, Markets> {
                     id = it.id,
                     title = it.name,
                     photo = it.photo,
-                    isClosed = it.isClosed == 1
+                    isClosed = it.isClosed == 1,
+                    isMember = it.isMember == 1
                 )
             }
         )

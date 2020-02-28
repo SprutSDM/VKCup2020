@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
@@ -99,7 +101,13 @@ class MarketsListFragment : Fragment(), MarketAdapterCallbacks {
 
     override fun fetchNewData() = marketsRepository.fetchNewData(true)
 
-    override fun navigateToProducts(market: Market) = (requireActivity() as MainActivity).navigateToProducts(market.id)
+    override fun navigateToProducts(market: Market) {
+        if (market.isClosed && !market.isMember) {
+            showToast(R.string.market_closed_error)
+        } else {
+            (requireActivity() as MainActivity).navigateToProducts(market.id)
+        }
+    }
 
     private fun showCityName(cityName: String) {
         requireActivity().title = getString(R.string.title_fragment_list_of_markets, cityName)
@@ -122,7 +130,15 @@ class MarketsListFragment : Fragment(), MarketAdapterCallbacks {
         recyclerView.visibility = View.GONE
         progressBar.visibility = View.GONE
         errorContainer.visibility = View.VISIBLE
+        showToast(message)
+    }
+
+    private fun showToast(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showToast(@StringRes message: Int) {
+        showToast(getString(message))
     }
 
     companion object {
