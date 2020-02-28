@@ -2,6 +2,8 @@ package ru.zakoulov.vkcupg
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import com.squareup.picasso.OkHttp3Downloader
+import com.squareup.picasso.Picasso
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKTokenExpiredHandler
 import ru.zakoulov.vkcupg.data.MarketsRepository
@@ -23,6 +25,15 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         VK.addTokenExpiredHandler(tokenTracker)
+
+        if (BuildConfig.DEBUG) {
+            val builder = Picasso.Builder(this)
+            builder.downloader(OkHttp3Downloader(this, Long.MAX_VALUE))
+            val build = builder.build()
+            build.setIndicatorsEnabled(true)
+            build.isLoggingEnabled = true
+            Picasso.setSingletonInstance(build)
+        }
 
         val vkDatabaseDataSource = VkDatabaseDataSource(CitiesMapper())
         val vkMarketsDataSource = VkMarketsDataSource(MarketsMapper())

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.TransitionInflater
 import ru.zakoulov.vkcupg.App
 import ru.zakoulov.vkcupg.MainActivity
 import ru.zakoulov.vkcupg.R
@@ -56,7 +58,7 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewManager = GridLayoutManager(this.context, NUM_OF_COLUMNS)
-        viewAdapter = ProductsViewAdapter(emptyList(), this)
+        viewAdapter = ProductsViewAdapter(emptyList(), this, getImageWidth())
         recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
@@ -94,8 +96,11 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
 
     override fun fetchNewData() = productsRepository.fetchNewData(marketId, true)
 
-    override fun showMoreInfo(product: Product){
-        (requireActivity() as MainActivity).navigateToProductInfo(marketId = marketId, productId = product.id)
+    override fun showMoreInfo(product: Product, sharedItem: View) {
+        (requireActivity() as MainActivity).navigateToProductInfo(
+            marketId = marketId,
+            productId = product.id,
+            sharedView = sharedItem)
     }
 
     private fun showMarketName(marketName: String) {
@@ -120,6 +125,8 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
         errorContainer.visibility = View.VISIBLE
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
+
+    private fun getImageWidth() = (requireActivity() as MainActivity).getScreenWidth() / 2
 
     companion object {
         const val TAG = "ProductsListFragment"

@@ -1,5 +1,6 @@
 package ru.zakoulov.vkcupg.ui.productinfo
 
+import android.graphics.Point
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +9,10 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
+import com.squareup.picasso.MemoryPolicy
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupg.App
 import ru.zakoulov.vkcupg.MainActivity
@@ -37,6 +41,9 @@ class ProductInfoFragment : Fragment() {
             productPhoto = findViewById(R.id.product_photo_info)
             productPrice = findViewById(R.id.product_price_info)
             toolbar = findViewById(R.id.toolbar)
+        }
+        arguments?.getString(KEY_TRANSITION_NAME)?.let { transitionName ->
+            productPhoto.transitionName = transitionName
         }
         toolbar.setNavigationIcon(R.drawable.ic_back_outline_28)
         (requireActivity() as MainActivity).apply {
@@ -71,12 +78,19 @@ class ProductInfoFragment : Fragment() {
         productPrice.text = product.priceText
         productDescription.text = product.description
         productPhoto.clipToOutline = true
+        val imageWidth = getImageWidth()
         Picasso.get()
             .load(product.photo)
-            .fit()
-            .centerCrop()
+//            .fit()
+            .resize(imageWidth, imageWidth)
             .into(productPhoto)
+//        Picasso.get()
+//            .load(product.photo)
+//            .fit()
+//            .into(productPhoto)
     }
+
+    private fun getImageWidth() = (requireActivity() as MainActivity).getScreenWidth() / 2
 
     private fun setFragmentTitle(title: String) {
         requireActivity().title = title
@@ -87,5 +101,6 @@ class ProductInfoFragment : Fragment() {
 
         const val KEY_MARKET_ID = "key_market_id"
         const val KEY_PRODUCT_ID = "key_product_id"
+        const val KEY_TRANSITION_NAME = "key_transition_name"
     }
 }
