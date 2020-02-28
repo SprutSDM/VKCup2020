@@ -6,9 +6,11 @@ import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKTokenExpiredHandler
+import ru.zakoulov.vkcupg.data.FavesRepository
 import ru.zakoulov.vkcupg.data.MarketsRepository
 import ru.zakoulov.vkcupg.data.ProductsRepository
 import ru.zakoulov.vkcupg.data.source.vk.VkDatabaseDataSource
+import ru.zakoulov.vkcupg.data.source.vk.VkFavesDataSource
 import ru.zakoulov.vkcupg.data.source.vk.VkMarketsDataSource
 import ru.zakoulov.vkcupg.data.source.vk.VkProductsDataSource
 import ru.zakoulov.vkcupg.data.source.vk.mappers.CitiesMapper
@@ -19,6 +21,7 @@ class App : Application() {
 
     lateinit var marketsRepository: MarketsRepository
     lateinit var productsRepository: ProductsRepository
+    lateinit var favesRepository: FavesRepository
 
     val tokenExpired = MutableLiveData<Boolean>(false)
 
@@ -35,12 +38,16 @@ class App : Application() {
             Picasso.setSingletonInstance(build)
         }
 
+        val productsMapper = ProductsMapper()
+
         val vkDatabaseDataSource = VkDatabaseDataSource(CitiesMapper())
         val vkMarketsDataSource = VkMarketsDataSource(MarketsMapper())
-        val vkProductsDataSource = VkProductsDataSource(ProductsMapper())
+        val vkProductsDataSource = VkProductsDataSource(productsMapper)
+        val vkFavesDataSource = VkFavesDataSource(productsMapper)
 
         marketsRepository = MarketsRepository(vkMarketsDataSource, vkDatabaseDataSource)
         productsRepository = ProductsRepository(vkProductsDataSource)
+        favesRepository = FavesRepository(vkFavesDataSource)
     }
 
     private val tokenTracker = object: VKTokenExpiredHandler {

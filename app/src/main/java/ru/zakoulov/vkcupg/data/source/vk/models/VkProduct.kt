@@ -7,7 +7,8 @@ data class VkProduct(
     val title: String,
     val description: String,
     val price: VkProductPrice,
-    @SerializedName("thumb_photo") val photo: String
+    @SerializedName("thumb_photo") val photo: String,
+    @SerializedName("is_favorite") val isFavorite: Boolean?
 )
 
 data class VkProductPrice(

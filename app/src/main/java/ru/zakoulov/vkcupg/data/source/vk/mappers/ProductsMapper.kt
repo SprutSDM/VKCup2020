@@ -15,7 +15,8 @@ class ProductsMapper : Mapper<VkProducts, Products> {
                     title = it.title,
                     description = it.description,
                     priceText = it.price.text,
-                    photo = it.photo
+                    photo = it.photo,
+                    isFavorite = it.isFavorite ?: false
                 )
             }
         )

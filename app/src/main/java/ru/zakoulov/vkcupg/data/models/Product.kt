@@ -5,7 +5,8 @@ data class Product(
     val title: String,
     val description: String,
     val priceText: String,
-    val photo: String
+    val photo: String,
+    val isFavorite: Boolean
 )
 
 data class Products(
