@@ -4,7 +4,7 @@
     <string name="login">Войти</string>
     <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
     <string name="retry">Обновить</string>
-    <string name="error_load_data">Произошла ошибка при&#160;загрузке&#160;данных.\nПроверьте подключение к сети.</string>
+    <string name="error_load_data">Произошла ошибка при&#160;загрузке&#160;данных.\n\nПроверьте подключение к сети.</string>
 
     <string name="city">Город</string>
     <string name="favorites_add">Добавить в избранное</string>
@@ -15,6 +15,7 @@
     <string name="title_fragment_empty">Магазины</string>
     <string name="title_fragment_list_of_products">Товары сообщества %1$s</string>
     <string name="market_closed_error">К сожалению, посмотреть товары у закрытого сообщества нельзя</string>
+    <string name="products_not_found">Кажется, у&#160;этого сообщества\nзакончились все&#160;товары&#160;:(\n\nПопробуйте позже</string>
 
     <integer name="com_vk_sdk_AppId">7333804</integer>
 </resources>

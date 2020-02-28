@@ -82,8 +82,12 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
         productsRepository.getProducts(marketId).observe(viewLifecycleOwner) {
             when (it) {
                 is RequestStatus.Success -> {
-                    showLoaded()
-                    viewAdapter.products = it.data.products
+                    if (it.data.products.isEmpty()) {
+                        showEmptyProducts()
+                    } else {
+                        showLoaded()
+                        viewAdapter.products = it.data.products
+                    }
                 }
                 is RequestStatus.Fail -> if (it.data.products.isEmpty()) showError(it.message)
                 is RequestStatus.Loading -> if (!it.quiet) showLoading()
@@ -119,11 +123,24 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
         recyclerView.visibility = View.VISIBLE
     }
 
-    private fun showError(message: String) {
+    private fun showError() {
         recyclerView.visibility = View.GONE
         progressBar.visibility = View.GONE
+        errorText.setText(R.string.error_load_data)
+        butReload.visibility = View.GONE
         errorContainer.visibility = View.VISIBLE
+    }
+
+    private fun showError(message: String) {
+        showError()
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showEmptyProducts() {
+        showError()
+        errorText.setText(R.string.products_not_found)
+        butReload.visibility = View.GONE
+        errorContainer.visibility = View.VISIBLE
     }
 
     private fun getImageWidth() = (requireActivity() as MainActivity).getScreenWidth() / 2
