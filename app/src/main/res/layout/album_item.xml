@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="6dp">
+    <ru.zakoulov.vkcupd.utils.SquareFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/album_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_image">
+        </ImageView>
+    </ru.zakoulov.vkcupd.utils.SquareFrameLayout>
+
+    <TextView
+        android:id="@+id/album_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:fontFamily="sans-serif"
+        android:maxLines="2"
+        android:ellipsize="end"/>
+    <TextView
+        android:id="@+id/album_count_photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="14sp"
+        android:textColor="@color/albumCountPhotos"
+        android:fontFamily="sans-serif"
+        android:maxLines="1"
+        android:ellipsize="end"/>
+</LinearLayout>

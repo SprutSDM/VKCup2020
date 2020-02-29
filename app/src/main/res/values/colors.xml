@@ -9,4 +9,6 @@
     <color name="textEditBorders">#E1E3E6</color>
     <color name="buttonTextDark">@color/vkSecondary</color>
     <color name="buttonTextLight">#FFFFFF</color>
+
+    <color name="albumCountPhotos">#909499</color>
 </resources>
