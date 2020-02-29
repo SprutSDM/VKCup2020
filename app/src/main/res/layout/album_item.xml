@@ -4,16 +4,30 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="6dp">
-    <ru.zakoulov.vkcupd.utils.SquareFrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
-            android:id="@+id/album_img"
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ru.zakoulov.vkcupd.utils.SquareFrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_image">
-        </ImageView>
-    </ru.zakoulov.vkcupd.utils.SquareFrameLayout>
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/album_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_background"
+                android:background="@drawable/shape_image">
+            </ImageView>
+        </ru.zakoulov.vkcupd.utils.SquareFrameLayout>
+        <ImageView
+            android:id="@+id/album_remove_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-4dp"
+            android:layout_marginEnd="-4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_remove_24"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/album_title"
