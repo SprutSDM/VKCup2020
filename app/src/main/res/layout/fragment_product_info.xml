@@ -116,6 +116,7 @@
             android:id="@+id/but_favorites"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:textSize="16sp"
             android:text="@string/fave_add"/>
     </FrameLayout>
 

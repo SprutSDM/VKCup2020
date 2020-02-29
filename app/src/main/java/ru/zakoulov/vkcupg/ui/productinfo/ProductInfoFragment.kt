@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import com.squareup.picasso.Picasso
@@ -107,9 +108,11 @@ class ProductInfoFragment : Fragment() {
         if (isFavorite) {
             butFavorite.setBackgroundResource(R.drawable.shape_button_gray)
             butFavorite.setText(R.string.fave_remove)
+            butFavorite.setTextColor(ContextCompat.getColor(requireContext(), R.color.buttonTextDark))
         } else {
             butFavorite.setBackgroundResource(R.drawable.shape_button)
             butFavorite.setText(R.string.fave_add)
+            butFavorite.setTextColor(ContextCompat.getColor(requireContext(), R.color.buttonTextLight))
         }
     }
 

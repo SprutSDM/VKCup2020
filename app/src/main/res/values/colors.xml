@@ -18,4 +18,6 @@
     <color name="favoriteFrameBackground">#F9F9F9</color>
     <color name="buttonRemoveFavorite">#EDEEF0</color>
     <color name="buttonRemoveFavoritePressed">#E1E2E4</color>
+    <color name="buttonTextDark">@color/vkSecondary</color>
+    <color name="buttonTextLight">#FFFFFF</color>
 </resources>
