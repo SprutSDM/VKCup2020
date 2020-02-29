@@ -1,17 +1,18 @@
 package ru.zakoulov.vkcupd
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKTokenExpiredHandler
+import ru.zakoulov.vkcupd.data.AlbumsRepository
+import ru.zakoulov.vkcupd.data.source.mock.MockAlbumDataSource
 
 class App : Application() {
 
-//    lateinit var marketsRepository: MarketsRepository
-//    lateinit var productsRepository: ProductsRepository
-//    lateinit var favesRepository: FavesRepository
+    lateinit var albumsRepository: AlbumsRepository
 
     val tokenExpired = MutableLiveData<Boolean>(false)
 
@@ -28,21 +29,20 @@ class App : Application() {
             Picasso.setSingletonInstance(build)
         }
 
-//        val productsMapper = ProductsMapper()
-//
-//        val vkDatabaseDataSource = VkDatabaseDataSource(CitiesMapper())
-//        val vkMarketsDataSource = VkMarketsDataSource(MarketsMapper())
-//        val vkProductsDataSource = VkProductsDataSource(productsMapper)
-//        val vkFavesDataSource = VkFavesDataSource(productsMapper)
-//
-//        marketsRepository = MarketsRepository(vkMarketsDataSource, vkDatabaseDataSource)
-//        productsRepository = ProductsRepository(vkProductsDataSource)
-//        favesRepository = FavesRepository(vkFavesDataSource)
+        val albumsDataSource = MockAlbumDataSource()
+
+        albumsRepository = AlbumsRepository(albumsDataSource)
     }
 
     private val tokenTracker = object: VKTokenExpiredHandler {
         override fun onTokenExpired() {
             tokenExpired.value = true
+        }
+    }
+
+    companion object {
+        fun getApp(context: Context): App {
+            return context as App
         }
     }
 }

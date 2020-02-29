@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             if (VK.isLoggedIn()) {
-//                (application as App).marketsRepository.fetchCities()
+                App.getApp(this).albumsRepository
 //                navigateToMarkets()
             } else {
                 navigateToWelcome()
