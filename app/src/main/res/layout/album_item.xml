@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <ImageView
-                android:id="@+id/album_img"
+                android:id="@+id/album_preview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_launcher_background"
@@ -40,7 +40,7 @@
         android:maxLines="2"
         android:ellipsize="end"/>
     <TextView
-        android:id="@+id/album_count_photos"
+        android:id="@+id/album_size"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"

@@ -14,7 +14,7 @@ class AlbumsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var viewAdapter: AlbumsViewAdatper
+    private lateinit var viewAdapter: AlbumsViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_album_list, container, false).apply {
@@ -26,7 +26,7 @@ class AlbumsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewManager = GridLayoutManager(this.context, NUMBER_OF_COLUMNS)
-        viewAdapter = AlbumsViewAdatper(emptyList())
+        viewAdapter = AlbumsViewAdapter(emptyList())
         recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
