@@ -1,4 +1,4 @@
-package ru.zakoulov.vkcupd.ui.albums
+package ru.zakoulov.vkcupd.ui.photos
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -15,21 +16,26 @@ import ru.zakoulov.vkcupd.MainActivity
 import ru.zakoulov.vkcupd.R
 import ru.zakoulov.vkcupd.data.AlbumsRepository
 import ru.zakoulov.vkcupd.data.core.RequestStatus
-import ru.zakoulov.vkcupd.data.models.Album
-import ru.zakoulov.vkcupd.ui.photos.PhotosFragment
 
-class AlbumsFragment : Fragment(), AlbumCallbacks {
+class PhotosFragment : Fragment(), PhotoCallbacks {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var toolbar: Toolbar
 
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var viewAdapter: AlbumsViewAdapter
+    private lateinit var viewAdapter: PhotosViewAdapter
 
     private lateinit var albumsRepository: AlbumsRepository
+    private var albumId: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_album_list, container, false).apply {
+        val root = inflater.inflate(R.layout.fragment_photos_list, container, false).apply {
             recyclerView = findViewById(R.id.recycler_view)
+            toolbar = findViewById(R.id.toolbar)
+        }
+        toolbar.setNavigationIcon(R.drawable.ic_back_outline_28)
+        MainActivity.getActivity(requireActivity()).apply {
+            setSupportActionBar(toolbar)
         }
         return root
     }
@@ -37,19 +43,24 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewManager = GridLayoutManager(this.context, NUMBER_OF_COLUMNS)
-        viewAdapter = AlbumsViewAdapter(emptyList(), this)
+        viewAdapter = PhotosViewAdapter(emptyList(), this)
         recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
         }
-        albumsRepository = App.getApp(requireActivity().application).albumsRepository
 
-        albumsRepository.albums.observe(viewLifecycleOwner) {
+        albumId = arguments?.getInt(KEY_ALBUM_ID) ?: return
+
+        albumsRepository = App.getApp(requireActivity().application).albumsRepository
+        albumsRepository.getPhotos(albumId).observe(viewLifecycleOwner) {
             when (it) {
-                is RequestStatus.Success -> viewAdapter.albums = it.data
+                is RequestStatus.Success -> viewAdapter.photos = it.data.photos
                 is RequestStatus.Fail -> showToast(it.message)
                 is RequestStatus.Loading -> showToast("LOADING")
             }
+        }
+        toolbar.setNavigationOnClickListener {
+            MainActivity.getActivity(requireActivity()).navigateBack()
         }
     }
 
@@ -65,14 +76,10 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
         albumsRepository.fetchNewAlbums(quiet = true)
     }
 
-    override fun showPhotosFromAlbum(album: Album) {
-        MainActivity.getActivity(requireActivity()).navigateToAlbumPhotos(album.id)
-    }
-
     companion object {
-        val instance: AlbumsFragment by lazy { AlbumsFragment() }
+        const val TAG = "PhotosFragment"
 
-        const val NUMBER_OF_COLUMNS = 2
-        const val TAG = "AlbumsFragment"
+        const val NUMBER_OF_COLUMNS = 3
+        const val KEY_ALBUM_ID = "key_album_id"
     }
 }

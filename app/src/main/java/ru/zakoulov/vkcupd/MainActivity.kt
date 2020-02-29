@@ -1,5 +1,6 @@
 package ru.zakoulov.vkcupd
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
 import ru.zakoulov.vkcupd.ui.albums.AlbumsFragment
+import ru.zakoulov.vkcupd.ui.photos.PhotosFragment
 import ru.zakoulov.vkcupd.ui.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -53,6 +55,14 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateToAlbums() = navigateTo(AlbumsFragment.instance, AlbumsFragment.TAG)
 
+    fun navigateToAlbumPhotos(albumId: Int) {
+        val fragment = PhotosFragment()
+        fragment.arguments = Bundle().apply {
+            putInt(PhotosFragment.KEY_ALBUM_ID, albumId)
+        }
+        navigateTo(fragment, PhotosFragment.TAG, addToBackStack = true)
+    }
+
     fun navigateBack() {
         supportFragmentManager.popBackStack()
     }
@@ -86,6 +96,12 @@ class MainActivity : AppCompatActivity() {
         }
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    companion object {
+        fun getActivity(activity: Activity): MainActivity {
+            return activity as MainActivity
         }
     }
 }

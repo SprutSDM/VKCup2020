@@ -22,7 +22,7 @@ class AlbumsRepository(
             return
         }
 
-        // Already have all albums, don't DDoS VK
+        // Already have all photos, don't DDoS VK
         if (totalCountOfAlbums == albums.data.size) {
             return
         }

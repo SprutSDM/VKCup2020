@@ -37,6 +37,9 @@ class AlbumsViewAdapter(
             setSize(album.size)
             setPreview(album.preview)
         }
+        holder.albumItem.setOnClickListener {
+            callbacks.showPhotosFromAlbum(album)
+        }
         if (position + ALBUMS_BEFORE_LOAD_OFFSET > albums.size) {
             callbacks.fetchNewData()
         }
