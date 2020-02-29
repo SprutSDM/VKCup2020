@@ -31,7 +31,7 @@ class MockAlbumDataSource : AlbumsDataSource {
             Album(
                 id = -9000,
                 title = "Фотографии с Викторией",
-                preview = "https://sun9-72.u...539/3UZyfBa5o6A.jpg",
+                preview = "https://sun9-72.userapi.com/c830109/v830109209/126539/3UZyfBa5o6A.jpg",
                 size = 13
             ),
             Album(

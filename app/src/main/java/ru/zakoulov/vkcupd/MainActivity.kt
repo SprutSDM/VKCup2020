@@ -10,6 +10,7 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.auth.VKAccessToken
 import com.vk.api.sdk.auth.VKAuthCallback
 import com.vk.api.sdk.auth.VKScope
+import ru.zakoulov.vkcupd.ui.albums.AlbumsFragment
 import ru.zakoulov.vkcupd.ui.welcome.WelcomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -22,8 +23,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
             if (VK.isLoggedIn()) {
-                App.getApp(this).albumsRepository
-//                navigateToMarkets()
+                App.getApp(application).albumsRepository.fetchNewAlbums()
+                navigateToAlbums()
             } else {
                 navigateToWelcome()
             }
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         super.onPostResume()
         if (shouldNavigateAfterOnActivityResult) {
             shouldNavigateAfterOnActivityResult = false
-//            navigateToMarkets()
+            navigateToAlbums()
         }
     }
 
@@ -50,35 +51,7 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance, WelcomeFragment.TAG)
 
-//    fun navigateToMarkets() {
-//        navigateTo(MarketsListFragment.INSTANCE, MarketsListFragment.TAG)
-//    }
-
-//    fun navigateToProducts(marketId: Int) {
-//        val fragment = ProductsListFragment()
-//        fragment.arguments = Bundle().apply {
-//            putInt(ProductsListFragment.KEY_MARKET_ID, marketId)
-//        }
-//        navigateTo(fragment, ProductsListFragment.TAG, addToBackStack = true)
-//    }
-
-//    fun navigateToProductInfo(marketId: Int, productId: Int, sharedView: View) {
-//        val transition = TransitionInflater.from(this)
-//            .inflateTransition(R.transition.image_shared_element_transition)
-//        val fragment = ProductInfoFragment()
-//        fragment.sharedElementEnterTransition = transition
-//        fragment.sharedElementReturnTransition = transition
-//        fragment.enterTransition = Fade().removeTarget(R.id.product_photo_info).removeTarget(sharedView)
-//        fragment.exitTransition = Fade().removeTarget(R.id.product_photo_info).removeTarget(sharedView)
-//        fragment.reenterTransition = Fade().removeTarget(R.id.product_photo_info).removeTarget(sharedView)
-//        fragment.returnTransition = Fade().removeTarget(R.id.product_photo_info).removeTarget(sharedView)
-//        fragment.arguments = Bundle().apply {
-//            putInt(ProductInfoFragment.KEY_MARKET_ID, marketId)
-//            putInt(ProductInfoFragment.KEY_PRODUCT_ID, productId)
-//            putString(ProductInfoFragment.KEY_TRANSITION_NAME, sharedView.transitionName)
-//        }
-//        navigateTo(fragment, ProductInfoFragment.TAG, addToBackStack = true, sharedElements = listOf(sharedView))
-//    }
+    fun navigateToAlbums() = navigateTo(AlbumsFragment.instance, AlbumsFragment.TAG)
 
     fun navigateBack() {
         supportFragmentManager.popBackStack()
@@ -102,9 +75,9 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val callback = object: VKAuthCallback {
             override fun onLogin(token: VKAccessToken) {
-                (application as App).tokenExpired.value = false
+                App.getApp(this@MainActivity.application).tokenExpired.value = false
                 shouldNavigateAfterOnActivityResult = true
-//                (application as App).marketsRepository.fetchCities()
+                App.getApp(this@MainActivity.application).albumsRepository.fetchNewAlbums()
             }
 
             override fun onLoginFailed(errorCode: Int) {

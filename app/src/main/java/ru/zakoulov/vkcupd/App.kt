@@ -41,8 +41,8 @@ class App : Application() {
     }
 
     companion object {
-        fun getApp(context: Context): App {
-            return context as App
+        fun getApp(application: Application): App {
+            return application as App
         }
     }
 }

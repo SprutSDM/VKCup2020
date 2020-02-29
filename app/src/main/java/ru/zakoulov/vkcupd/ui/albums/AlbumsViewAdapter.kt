@@ -11,7 +11,8 @@ import ru.zakoulov.vkcupd.R
 import ru.zakoulov.vkcupd.data.models.Album
 
 class AlbumsViewAdapter(
-    albums: List<Album>
+    albums: List<Album>,
+    private val callbacks: AlbumCallbacks
 ) : RecyclerView.Adapter<AlbumsViewAdapter.AlbumViewHolder>() {
 
     var albums: List<Album> = albums
@@ -36,6 +37,9 @@ class AlbumsViewAdapter(
             setSize(album.size)
             setPreview(album.preview)
         }
+        if (position + ALBUMS_BEFORE_LOAD_OFFSET > albums.size) {
+            callbacks.fetchNewData()
+        }
     }
 
     class AlbumViewHolder(val albumItem: View) : RecyclerView.ViewHolder(albumItem) {
@@ -49,15 +53,20 @@ class AlbumsViewAdapter(
         }
 
         fun setSize(size: Int) {
-            albumSize.text = albumItem.context.resources.getQuantityText(R.plurals.album_size, size)
+            albumSize.text = albumItem.context.resources.getQuantityString(R.plurals.album_size, size, size)
         }
 
         fun setPreview(img: String) {
+            albumPreview.clipToOutline = true
             Picasso.get()
                 .load(img)
                 .fit()
                 .centerCrop()
                 .into(albumPreview)
         }
+    }
+
+    companion object {
+        const val ALBUMS_BEFORE_LOAD_OFFSET = 10
     }
 }

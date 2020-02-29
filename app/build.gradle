@@ -11,7 +11,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "ru.zakoulov.vkcupg"
+        applicationId "ru.zakoulov.vkcupd"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -40,6 +40,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
+            applicationIdSuffix ".dev"
+
             minifyEnabled false
         }
     }
