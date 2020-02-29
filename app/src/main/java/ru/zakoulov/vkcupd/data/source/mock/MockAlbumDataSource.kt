@@ -1,13 +1,17 @@
 package ru.zakoulov.vkcupd.data.source.mock
 
+import android.util.SparseArray
+import androidx.core.util.set
 import ru.zakoulov.vkcupd.data.core.CommonResponseCallback
 import ru.zakoulov.vkcupd.data.models.Album
 import ru.zakoulov.vkcupd.data.models.Albums
+import ru.zakoulov.vkcupd.data.models.Photo
+import ru.zakoulov.vkcupd.data.models.Photos
 import ru.zakoulov.vkcupd.data.source.AlbumsDataSource
 
 class MockAlbumDataSource : AlbumsDataSource {
 
-    val data = Albums(
+    private val albumsMock = Albums(
         count = 5,
         albums = listOf(
             Album(
@@ -43,7 +47,26 @@ class MockAlbumDataSource : AlbumsDataSource {
         )
     )
 
+    private val photosMock = SparseArray<Photos>()
+    init {
+        albumsMock.albums.forEach {
+            photosMock[it.id] = Photos(
+                count = 1,
+                photos = listOf(
+                    Photo(
+                        id = 457242077,
+                        src = "https://sun9-62.userapi.com/c852136/v852136294/1f5783/SXyJDUfavy4.jpg"
+                    )
+                )
+            )
+        }
+    }
+
     override fun getAlbums(count: Int, offset: Int, callback: CommonResponseCallback<Albums>) {
-        callback.success(data)
+        callback.success(albumsMock)
+    }
+
+    override fun getPhotos(albumId: Int, count: Int, offset: Int, callback: CommonResponseCallback<Photos>) {
+        callback.success(photosMock[albumId])
     }
 }
