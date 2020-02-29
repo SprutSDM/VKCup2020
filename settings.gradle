@@ -1,2 +1,2 @@
-include ':vkcupa'
-rootProject.name='VK Cup A'
+include ':vkcupa', ':app'
+rootProject.name='VK Cup 2020'

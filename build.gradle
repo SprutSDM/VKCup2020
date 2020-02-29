@@ -10,14 +10,14 @@ buildscript {
         recyclerViewVersion = '1.1.0'
         gsonVersion = '2.8.5'
         picassoVersion = '2.71828'
-
+        materialVersion = '1.2.0-alpha04'
         vkAndroidSdkVersion = '2.2.0'
     }
 
     repositories {
         google()
         jcenter()
-        
+
     }
 
     dependencies {
