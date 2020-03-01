@@ -3,6 +3,7 @@ package ru.zakoulov.vkcupd.ui.albums
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.view.animation.OvershootInterpolator
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
@@ -17,6 +18,10 @@ class AlbumsViewAdapter(
     albums: List<Album>,
     private val callbacks: AlbumAdapterCallbacks
 ) : RecyclerView.Adapter<AlbumsViewAdapter.AlbumViewHolder>() {
+
+    init {
+        setHasStableIds(true)
+    }
 
     var albums: List<Album> = albums
         set(value) {
@@ -40,7 +45,7 @@ class AlbumsViewAdapter(
         holder.apply {
             setTitle(album.title)
             setSize(album.size)
-            setPreview(album.preview, album.id)
+            setPreview(album.preview, album.id, albumsState)
             setAlbumState(albumsState, album.id)
         }
         holder.albumItem.setOnClickListener {
@@ -53,6 +58,11 @@ class AlbumsViewAdapter(
         if (position + ALBUMS_BEFORE_LOAD_OFFSET > albums.size) {
             callbacks.fetchNewData()
         }
+    }
+
+
+    override fun onViewAttachedToWindow(holder: AlbumViewHolder) {
+        holder.animateAlbumPreview(albumsState)
     }
 
     fun transformAlbumsToRemoving() {
@@ -83,7 +93,7 @@ class AlbumsViewAdapter(
             albumSize.text = albumItem.context.resources.getQuantityString(R.plurals.album_size, size, size)
         }
 
-        fun setPreview(img: String, albumId: Int) {
+        fun setPreview(img: String, albumId: Int, albumsState: AlbumsState) {
             albumPreview.clipToOutline = true
             val requestCreator = Picasso.get()
                 .load(img)
@@ -94,6 +104,7 @@ class AlbumsViewAdapter(
             oldId = albumId
             requestCreator.centerCrop()
                 .into(albumPreview)
+            animateAlbumPreview(albumsState, albumId)
         }
 
         fun setAlbumState(albumsState: AlbumsState, albumId: Int) {
@@ -136,6 +147,16 @@ class AlbumsViewAdapter(
             anim.duration = 200
             anim.interpolator = if (active) OvershootInterpolator() else FastOutLinearInInterpolator()
             albumRemoveIcon.startAnimation(anim)
+        }
+
+        fun animateAlbumPreview(state: AlbumsState, albumId: Int = oldId) {
+            albumPreview.clearAnimation()
+
+            if (state == AlbumsState.REMOVE && albumId > 0) {
+                val animation = AnimationUtils.loadAnimation(albumPreview.context,
+                    R.anim.trembling)
+                albumPreview.startAnimation(animation)
+            }
         }
     }
 
