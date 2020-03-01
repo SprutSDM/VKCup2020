@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupd.R
@@ -16,9 +17,11 @@ class PhotosViewAdapter(
 
     var photos: List<Photo> = photos
         set(value) {
+            val difCallbacks = PhotosDiffCallbacks(field, value)
+            val difResult = DiffUtil.calculateDiff(difCallbacks)
             field = value
-            //TODO
-            notifyDataSetChanged()
+            difResult.dispatchUpdatesTo(this)
+//            notifyDataSetChanged()
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotosViewHolder {

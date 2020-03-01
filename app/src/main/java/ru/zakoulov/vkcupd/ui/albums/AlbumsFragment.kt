@@ -58,8 +58,8 @@ class AlbumsFragment : Fragment(), BackPressListener {
             butReload = findViewById(R.id.but_reload)
             errorContainer = findViewById(R.id.error_container)
             toolbar = findViewById(R.id.toolbar)
-            menuItemAdd = findViewById(R.id.add)
-            menuItemEdit = findViewById(R.id.edit)
+            menuItemAdd = toolbar.findViewById(R.id.add)
+            menuItemEdit = toolbar.findViewById(R.id.edit)
         }
         return root
     }

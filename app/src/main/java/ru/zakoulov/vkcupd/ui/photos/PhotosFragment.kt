@@ -51,7 +51,7 @@ class PhotosFragment : Fragment(), PhotoAdapterCallbacks {
             errorText = findViewById(R.id.error_text)
             butReload = findViewById(R.id.but_reload)
             errorContainer = findViewById(R.id.error_container)
-            menuItemAdd = findViewById(R.id.add)
+            menuItemAdd = toolbar.findViewById(R.id.add)
         }
         toolbar.setNavigationIcon(R.drawable.ic_back_outline_28)
         return root
