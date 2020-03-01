@@ -16,7 +16,7 @@
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/VkCupTheme.Final.PopupOverlay"
-            app:title="abacaba"/>
+            app:title="@string/albums_title"/>
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"

@@ -6,6 +6,9 @@
     <string name="retry">Обновить</string>
     <string name="error_load_data">Произошла ошибка при&#160;загрузке&#160;данных.\n\nПроверьте подключение к сети.</string>
 
+    <string name="albums_title">Альбомы</string>
+    <string name="albums_edit_title">Редактирование</string>
+
     <plurals name="album_size">
         <item quantity="zero">%1$d фотографий</item>
         <item quantity="one">%1$d фотография</item>

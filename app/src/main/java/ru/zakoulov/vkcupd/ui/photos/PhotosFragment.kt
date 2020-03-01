@@ -51,6 +51,7 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
 
         albumId = arguments?.getInt(KEY_ALBUM_ID) ?: return
 
+
         albumsRepository = App.getApp(requireActivity().application).albumsRepository
         albumsRepository.getPhotos(albumId).observe(viewLifecycleOwner) {
             when (it) {
@@ -58,6 +59,9 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
                 is RequestStatus.Fail -> showToast(it.message)
                 is RequestStatus.Loading -> showToast("LOADING")
             }
+        }
+        albumsRepository.albums.data.find { it.id == albumId }?.let {
+            toolbar.title = it.title
         }
         toolbar.setNavigationOnClickListener {
             MainActivity.getActivity(requireActivity()).navigateBack()
