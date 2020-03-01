@@ -14,6 +14,7 @@ import ru.zakoulov.vkcupd.data.source.AlbumsDataSource
 import ru.zakoulov.vkcupd.data.source.vk.models.VkAlbums
 import ru.zakoulov.vkcupd.data.source.vk.models.VkPhotos
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkCreateAlbumRequest
+import ru.zakoulov.vkcupd.data.source.vk.requests.VkDeleteAlbumRequest
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkGetAlbumsRequest
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkGetPhotosRequest
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkPhotoPostCommand
@@ -27,22 +28,32 @@ class VkAlbumsDataSource(
     private val jsonParser = JsonParser()
 
     override fun getAlbums(count: Int, offset: Int, callback: CommonResponseCallback<Albums>) {
-        VK.execute(VkGetAlbumsRequest(gson, jsonParser, count, offset),
+        VK.execute(
+            VkGetAlbumsRequest(gson, jsonParser, count, offset),
             VKApiCallbackAdapter(callback, "Error fetching albums", albumsMapper))
     }
 
     override fun getPhotos(albumId: Int, count: Int, offset: Int, callback: CommonResponseCallback<Photos>) {
-        VK.execute(VkGetPhotosRequest(gson, jsonParser, count, offset, albumId),
+        VK.execute(
+            VkGetPhotosRequest(gson, jsonParser, count, offset, albumId),
             VKApiCallbackAdapter(callback, "Error fetching photos", photosMapper))
     }
 
     override fun uploadPhoto(albumId: Int, photo: Uri, callback: CommonResponseCallback<Int>) {
-        VK.execute(VkPhotoPostCommand(albumId, listOf(photo)),
+        VK.execute(
+            VkPhotoPostCommand(albumId, listOf(photo)),
             VKApiCallbackAdapter(callback, "Error uploading photo", IntMapper))
     }
 
     override fun createAlbum(albumTitle: String, callback: CommonResponseCallback<Int>) {
-        VK.execute(VkCreateAlbumRequest(albumTitle),
+        VK.execute(
+            VkCreateAlbumRequest(albumTitle),
             VKApiCallbackAdapter(callback, "Error creating new album", IntMapper))
+    }
+
+    override fun removeAlbum(albumId: Int, callback: CommonResponseCallback<Int>) {
+        VK.execute(
+            VkDeleteAlbumRequest(albumId),
+            VKApiCallbackAdapter(callback, "Error removing album", IntMapper))
     }
 }

@@ -133,7 +133,13 @@ class AlbumsFragment : Fragment() {
         }
 
         override fun removeAlbum(album: Album) {
-            // TODO
+            if (album.id < 0) {
+                showToast(R.string.unable_to_remove_album)
+                return
+            }
+            albumsRepository.removeAlbum(album.id).observe(viewLifecycleOwner) {
+                showToast(if (it) R.string.success_remove_album else R.string.fail_remove_album)
+            }
         }
 
         override fun createAlbum() {
