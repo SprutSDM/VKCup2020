@@ -17,6 +17,7 @@
     <string name="fail_upload_photo">При загрузке фотографии произошла ошибка</string>
     <string name="success_remove_album">Альбом успешно удален</string>
     <string name="unable_to_remove_album">Этот альбом нельзя удалить!</string>
+    <string name="album_invalid_title">Минимальная длина названия альбома 2&#160;символа</string>
 
     <string name="fail_remove_album">При удалении альбома произошла ошибка</string>
     <string name="create_album_title">Новый альбом</string>

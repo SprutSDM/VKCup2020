@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.Toast
+import androidx.annotation.StringRes
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -43,9 +45,13 @@ class AlbumCreatorFragment : BottomSheetDialogFragment() {
         albumsRepository = App.getApp(requireActivity().application).albumsRepository
 
         butCreate.setOnClickListener {
-            hideKeyboard()
-            dismiss()
-            albumsRepository.createAlbum(albumNewTitleView.editableText.toString())
+            if (albumNewTitleView.editableText.toString().length < 2) {
+                showToast(R.string.album_invalid_title)
+            } else {
+                hideKeyboard()
+                dismiss()
+                albumsRepository.createAlbum(albumNewTitleView.editableText.toString())
+            }
         }
         butCloseBs.setOnClickListener {
             dismiss()
@@ -61,4 +67,9 @@ class AlbumCreatorFragment : BottomSheetDialogFragment() {
         }
         return bottomSheetDialog
     }
+
+    private fun showToast(message: String) = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
+    private fun showToast(@StringRes message: Int) = showToast(getString(message))
+
 }
