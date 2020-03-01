@@ -127,7 +127,7 @@ class ProductsListFragment : Fragment(), ProductAdapterCallbacks {
         recyclerView.visibility = View.GONE
         progressBar.visibility = View.GONE
         errorText.setText(R.string.error_load_data)
-        butReload.visibility = View.GONE
+        butReload.visibility = View.VISIBLE
         errorContainer.visibility = View.VISIBLE
     }
 
