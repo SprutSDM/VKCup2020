@@ -52,7 +52,13 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
-    <style name="VkCupTheme.Toolbar.Collapsed" parent="@android:style/TextAppearance.Medium">
+    <style name="VkCupTheme.Toolbar.TextCollapsed" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="VkCupTheme.Toolbar.TextExpanded" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@android:color/black</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">20sp</item>

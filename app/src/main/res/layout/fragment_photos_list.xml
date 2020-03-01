@@ -7,7 +7,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="124dp"
+        android:layout_height="120dp"
         android:fitsSystemWindows="false"
         android:background="@android:color/white"
         android:theme="@style/VkCupTheme.Final.AppBarOverlay">
@@ -19,7 +19,9 @@
             android:fitsSystemWindows="false"
             app:title="abacaba"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:collapsedTitleTextAppearance="@style/VkCupTheme.Toolbar.Collapsed"
+            app:collapsedTitleTextAppearance="@style/VkCupTheme.Toolbar.TextCollapsed"
+            app:expandedTitleTextAppearance="@style/VkCupTheme.Toolbar.TextExpanded"
+            app:expandedTitleMargin="16dp"
             app:toolbarId="@+id/toolbar">
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -36,6 +38,8 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="4dp"
+        android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </androidx.recyclerview.widget.RecyclerView>
