@@ -134,6 +134,7 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
 
     private fun showNoPhotos() {
         showError()
+        errorText.setText(R.string.error_not_photos)
         butReload.visibility = View.GONE
     }
 
