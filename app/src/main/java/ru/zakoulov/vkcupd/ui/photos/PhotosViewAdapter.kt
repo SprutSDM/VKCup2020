@@ -11,7 +11,7 @@ import ru.zakoulov.vkcupd.data.models.Photo
 
 class PhotosViewAdapter(
     photos: List<Photo>,
-    private val callbacks: PhotoCallbacks
+    private val callbacks: PhotoAdapterCallbacks
 ) : RecyclerView.Adapter<PhotosViewAdapter.PhotosViewHolder>() {
 
     var photos: List<Photo> = photos

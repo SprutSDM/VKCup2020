@@ -1,5 +1,5 @@
 package ru.zakoulov.vkcupd.ui.photos
 
-interface PhotoCallbacks {
+interface PhotoAdapterCallbacks {
     fun fetchNewData()
 }

@@ -21,9 +21,13 @@ import ru.zakoulov.vkcupd.data.AlbumsRepository
 import ru.zakoulov.vkcupd.data.core.RequestStatus
 import ru.zakoulov.vkcupd.data.models.Album
 import ru.zakoulov.vkcupd.ui.albumcreator.AlbumCreatorFragment
-import ru.zakoulov.vkcupd.ui.photos.PhotosFragment
+import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumOpenPhotosStrategy
+import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumRemoveAlbumsStrategy
+import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumViewStrategy
+import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumViewStrategyImpl
+import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumsStrategyCallbacks
 
-class AlbumsFragment : Fragment(), AlbumCallbacks {
+class AlbumsFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -34,10 +38,16 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
     private lateinit var menuItemAdd: View
     private lateinit var menuItemEdit: View
 
-    private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var viewManager: GridLayoutManager
     private lateinit var viewAdapter: AlbumsViewAdapter
 
     private lateinit var albumsRepository: AlbumsRepository
+
+    private val albumsStrategy: AlbumViewStrategy = AlbumViewStrategyImpl(
+        AlbumOpenPhotosStrategy(),
+        AlbumRemoveAlbumsStrategy(),
+        StrategyCallbacks()
+    )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_album_list, container, false).apply {
@@ -55,8 +65,9 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewManager = GridLayoutManager(this.context, NUMBER_OF_COLUMNS)
-        viewAdapter = AlbumsViewAdapter(emptyList(), this)
+        viewAdapter = AlbumsViewAdapter(emptyList(), AdapterCallbacks())
         recyclerView.apply {
             layoutManager = viewManager
             adapter = viewAdapter
@@ -79,19 +90,14 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
         }
 
         toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.add -> {
-                    showAlbumCreator()
-                    true
-                }
-                else -> false
-            }
+            albumsStrategy.onMenuItemClicked(it)
         }
-    }
 
-    private fun showAlbumCreator() {
-        val fragment = AlbumCreatorFragment()
-        fragment.show(requireActivity().supportFragmentManager, fragment.tag)
+        toolbar.setNavigationOnClickListener {
+            albumsStrategy.onNavButtonClicked()
+        }
+
+        albumsStrategy.showInterface()
     }
 
     private fun showLoading() {
@@ -121,12 +127,53 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
         showToast(getString(message))
     }
 
-    override fun fetchNewData() {
-        albumsRepository.fetchNewAlbums(quiet = true)
+    inner class StrategyCallbacks : AlbumsStrategyCallbacks {
+        override fun openPhotos(album: Album) {
+            MainActivity.getActivity(requireActivity()).navigateToAlbumPhotos(album.id)
+        }
+
+        override fun removeAlbum(album: Album) {
+            // TODO
+        }
+
+        override fun createAlbum() {
+            val fragment = AlbumCreatorFragment()
+            fragment.show(requireActivity().supportFragmentManager, fragment.tag)
+        }
+
+        override fun editAlbum() {
+            // TODO
+        }
+
+        override fun showRemoveAlbumsInterface() {
+            toolbar.setNavigationIcon(R.drawable.ic_cancel_outlne_28)
+            menuItemAdd.visibility = View.GONE
+            menuItemEdit.visibility = View.GONE
+            toolbar.setTitle(R.string.albums_edit_title)
+            viewAdapter.transformAlbumsToRemoving()
+        }
+
+        override fun showOpenPhotosInterface() {
+            toolbar.navigationIcon = null
+            menuItemAdd.visibility = View.VISIBLE
+            menuItemEdit.visibility = View.VISIBLE
+            toolbar.setTitle(R.string.albums_title)
+            viewAdapter.transformAlbumsToOpening()
+        }
     }
 
-    override fun showPhotosFromAlbum(album: Album) {
-        MainActivity.getActivity(requireActivity()).navigateToAlbumPhotos(album.id)
+    inner class AdapterCallbacks : AlbumAdapterCallbacks {
+        override fun fetchNewData() {
+            albumsRepository.fetchNewAlbums(quiet = true)
+        }
+
+        override fun onAlbumClicked(album: Album) {
+            albumsStrategy.onAlbumClicked(album)
+        }
+
+        override fun onAlbumLongClicker(album: Album) {
+            albumsStrategy.onAlbumLongClicked(album)
+        }
     }
 
     companion object {

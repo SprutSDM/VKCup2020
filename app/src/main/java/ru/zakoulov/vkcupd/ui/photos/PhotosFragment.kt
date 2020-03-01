@@ -27,7 +27,7 @@ import ru.zakoulov.vkcupd.data.AlbumsRepository
 import ru.zakoulov.vkcupd.data.core.RequestStatus
 import ru.zakoulov.vkcupd.utils.getAbsolutePathUri
 
-class PhotosFragment : Fragment(), PhotoCallbacks {
+class PhotosFragment : Fragment(), PhotoAdapterCallbacks {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var toolbar: Toolbar
