@@ -21,6 +21,10 @@ class AlbumOpenPhotosStrategy : AlbumViewStrategy {
                 callbacks.createAlbum()
                 true
             }
+            R.id.edit -> {
+                callbacks.showRemoveAlbumsInterface()
+                true
+            }
             else -> false
         }
     }
