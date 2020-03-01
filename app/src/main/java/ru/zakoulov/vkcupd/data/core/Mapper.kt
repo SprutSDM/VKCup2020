@@ -7,3 +7,7 @@ package ru.zakoulov.vkcupd.data.core
 interface Mapper<I, O> {
     fun map(input: I): O
 }
+
+object IntMapper : Mapper<Int, Int> {
+    override fun map(input: Int) = input
+}

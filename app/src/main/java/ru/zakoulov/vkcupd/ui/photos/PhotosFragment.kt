@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +25,7 @@ import ru.zakoulov.vkcupd.MainActivity
 import ru.zakoulov.vkcupd.R
 import ru.zakoulov.vkcupd.data.AlbumsRepository
 import ru.zakoulov.vkcupd.data.core.RequestStatus
+import ru.zakoulov.vkcupd.utils.getAbsolutePathUri
 
 class PhotosFragment : Fragment(), PhotoCallbacks {
 
@@ -189,7 +189,14 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == PICK_IMAGES && resultCode == Activity.RESULT_OK) {
             data?.data?.let {
-                // albumsRepository.uploadPhoto(albumId, it.getAbsolutePathUri(requireContext))
+                 albumsRepository.uploadPhoto(albumId, it.getAbsolutePathUri(requireContext()))
+                     .observe(viewLifecycleOwner) {
+                         showToast(if (it) {
+                             R.string.success_upload_photo
+                         } else {
+                             R.string.fail_upload_photo
+                         })
+                     }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)

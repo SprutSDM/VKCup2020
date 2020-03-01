@@ -1,5 +1,8 @@
 package ru.zakoulov.vkcupd.data
 
+import android.net.Uri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import ru.zakoulov.vkcupd.data.core.CommonResponseCallback
 import ru.zakoulov.vkcupd.data.core.RequestStatus
 import ru.zakoulov.vkcupd.data.core.SparseStorage
@@ -72,6 +75,20 @@ class AlbumsRepository(
 
     fun fetchNewPhotos(albumId: Int, quiet: Boolean = false) {
         photos.fetchNewData(albumId, quiet)
+    }
+
+    fun uploadPhoto(albumId: Int, photo: Uri) : LiveData<Boolean> {
+        val status = MutableLiveData<Boolean>()
+        remoteSource.uploadPhoto(albumId, photo, object : CommonResponseCallback<Int> {
+            override fun success(response: Int) {
+                status.value = true
+            }
+
+            override fun fail(failMessage: String) {
+                status.value = false
+            }
+        })
+        return status
     }
 
     companion object {

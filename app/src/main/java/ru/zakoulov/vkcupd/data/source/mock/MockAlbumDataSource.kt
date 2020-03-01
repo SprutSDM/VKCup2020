@@ -1,5 +1,6 @@
 package ru.zakoulov.vkcupd.data.source.mock
 
+import android.net.Uri
 import android.util.SparseArray
 import androidx.core.util.set
 import ru.zakoulov.vkcupd.data.core.CommonResponseCallback
@@ -68,5 +69,9 @@ class MockAlbumDataSource : AlbumsDataSource {
 
     override fun getPhotos(albumId: Int, count: Int, offset: Int, callback: CommonResponseCallback<Photos>) {
         callback.success(photosMock[albumId])
+    }
+
+    override fun uploadPhoto(albumId: Int, photo: Uri, callback: CommonResponseCallback<Int>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

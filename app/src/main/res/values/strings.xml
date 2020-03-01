@@ -10,6 +10,8 @@
     <string name="albums_edit_title">Редактирование</string>
     <string name="menu_title_add_photo">Добавить фотографию</string>
     <string name="chooser_title">Выбрать фотографии</string>
+    <string name="success_upload_photo">Фотография успешно загружена</string>
+    <string name="fail_upload_photo">При загрузке фотографии произошла ошибка</string>
 
     <plurals name="album_size">
         <item quantity="zero">%1$d фотографий</item>
