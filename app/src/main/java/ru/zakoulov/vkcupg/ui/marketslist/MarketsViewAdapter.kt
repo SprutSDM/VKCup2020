@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupg.R
@@ -17,8 +18,10 @@ class MarketsViewAdapter(
 
     var markets: List<Market> = markets
         set(value) {
+            val diff = MarketsDiff(field, value)
+            val diffResult = DiffUtil.calculateDiff(diff)
             field = value
-            notifyDataSetChanged()
+            diffResult.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarketViewHolder {

@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
@@ -20,8 +21,10 @@ class ProductsViewAdapter(
 
     var products: List<Product> = products
         set(value) {
+            val diff = ProductsDiff(field, value)
+            val diffResult = DiffUtil.calculateDiff(diff)
             field = value
-            notifyDataSetChanged()
+            diffResult.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
