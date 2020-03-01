@@ -10,6 +10,6 @@ interface AlbumViewStrategy {
     fun onAlbumLongClicked(album: Album)
     fun onMenuItemClicked(menuItem: MenuItem): Boolean
     fun onNavButtonClicked()
-    fun onBackPressed()
+    fun onBackPressed(): Boolean
     fun showInterface()
 }

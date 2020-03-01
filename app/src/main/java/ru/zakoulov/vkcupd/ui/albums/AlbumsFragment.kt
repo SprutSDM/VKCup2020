@@ -15,6 +15,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.zakoulov.vkcupd.App
+import ru.zakoulov.vkcupd.BackPressListener
 import ru.zakoulov.vkcupd.MainActivity
 import ru.zakoulov.vkcupd.R
 import ru.zakoulov.vkcupd.data.AlbumsRepository
@@ -27,7 +28,7 @@ import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumViewStrategy
 import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumViewStrategyImpl
 import ru.zakoulov.vkcupd.ui.albums.viewStrategy.AlbumsStrategyCallbacks
 
-class AlbumsFragment : Fragment() {
+class AlbumsFragment : Fragment(), BackPressListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -100,6 +101,8 @@ class AlbumsFragment : Fragment() {
         albumsStrategy.showInterface()
     }
 
+    override fun onBackPressed(): Boolean = albumsStrategy.onBackPressed()
+
     private fun showLoading() {
         recyclerView.visibility = View.GONE
         errorContainer.visibility = View.GONE
@@ -119,13 +122,9 @@ class AlbumsFragment : Fragment() {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-    }
+    private fun showToast(message: String) = Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
-    private fun showToast(@StringRes message: Int) {
-        showToast(getString(message))
-    }
+    private fun showToast(@StringRes message: Int) = showToast(getString(message))
 
     inner class StrategyCallbacks : AlbumsStrategyCallbacks {
         override fun openPhotos(album: Album) {
@@ -147,9 +146,7 @@ class AlbumsFragment : Fragment() {
             fragment.show(requireActivity().supportFragmentManager, fragment.tag)
         }
 
-        override fun editAlbum() {
-            // TODO
-        }
+        override fun editAlbum() = Unit
 
         override fun showRemoveAlbumsInterface() {
             toolbar.setNavigationIcon(R.drawable.ic_cancel_outlne_28)
@@ -169,17 +166,9 @@ class AlbumsFragment : Fragment() {
     }
 
     inner class AdapterCallbacks : AlbumAdapterCallbacks {
-        override fun fetchNewData() {
-            albumsRepository.fetchNewAlbums(quiet = true)
-        }
-
-        override fun onAlbumClicked(album: Album) {
-            albumsStrategy.onAlbumClicked(album)
-        }
-
-        override fun onAlbumLongClicker(album: Album) {
-            albumsStrategy.onAlbumLongClicked(album)
-        }
+        override fun fetchNewData() = albumsRepository.fetchNewAlbums(quiet = true)
+        override fun onAlbumClicked(album: Album) = albumsStrategy.onAlbumClicked(album)
+        override fun onAlbumLongClicker(album: Album)  = albumsStrategy.onAlbumLongClicked(album)
     }
 
     companion object {

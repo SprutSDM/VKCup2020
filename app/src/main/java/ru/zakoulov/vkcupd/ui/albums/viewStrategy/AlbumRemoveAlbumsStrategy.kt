@@ -15,6 +15,11 @@ class AlbumRemoveAlbumsStrategy : AlbumViewStrategy {
     override fun onAlbumLongClicked(album: Album) = Unit
     override fun onMenuItemClicked(menuItem: MenuItem) = false
     override fun onNavButtonClicked() = callbacks.showOpenPhotosInterface()
-    override fun onBackPressed() = callbacks.showOpenPhotosInterface()
+
+    override fun onBackPressed(): Boolean {
+        callbacks.showOpenPhotosInterface()
+        return true
+    }
+
     override fun showInterface() = callbacks.showRemoveAlbumsInterface()
 }

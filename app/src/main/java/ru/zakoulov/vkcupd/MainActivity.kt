@@ -47,9 +47,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun login() {
-        VK.login(this, listOf(VKScope.PHOTOS))
-    }
+    fun login() =VK.login(this, listOf(VKScope.PHOTOS))
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance, WelcomeFragment.TAG)
 
@@ -63,9 +61,7 @@ class MainActivity : AppCompatActivity() {
         navigateTo(fragment, PhotosFragment.TAG, addToBackStack = true)
     }
 
-    fun navigateBack() {
-        supportFragmentManager.popBackStack()
-    }
+    fun navigateBack() = supportFragmentManager.popBackStack()
 
     private fun navigateTo(fragment: Fragment,
                            tagFragment: String,
@@ -97,6 +93,15 @@ class MainActivity : AppCompatActivity() {
         if (data == null || !VK.onActivityResult(requestCode, resultCode, data, callback)) {
             super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    override fun onBackPressed() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.container)
+        (fragment as? BackPressListener)?.onBackPressed()?.let {
+            if (!it) {
+                super.onBackPressed()
+            }
+        } ?: super.onBackPressed()
     }
 
     companion object {

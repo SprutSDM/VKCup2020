@@ -26,6 +26,6 @@ class AlbumOpenPhotosStrategy : AlbumViewStrategy {
     }
 
     override fun onNavButtonClicked() = Unit
-    override fun onBackPressed() = Unit
+    override fun onBackPressed() = false
     override fun showInterface() = callbacks.showOpenPhotosInterface()
 }
