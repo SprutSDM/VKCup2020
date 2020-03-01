@@ -1,7 +1,6 @@
 package ru.zakoulov.vkcupd.data
 
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.zakoulov.vkcupd.data.core.CommonResponseCallback
@@ -33,7 +32,6 @@ class AlbumsRepository(
         val offset = if (removePrevious) 0 else albums.data.size
         remoteSource.getAlbums(NUM_OF_ALBUMS_FOR_FETCHING, offset, object : CommonResponseCallback<Albums> {
             override fun success(response: Albums) {
-                Log.d("abacaba", "$albums, offset $offset, resposne $response removePrevious $removePrevious")
                 totalCountOfAlbums = response.count
                 albums.value = RequestStatus.Success(
                     if (removePrevious) {
