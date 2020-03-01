@@ -4,6 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
@@ -21,6 +24,10 @@ import ru.zakoulov.vkcupd.ui.photos.PhotosFragment
 class AlbumsFragment : Fragment(), AlbumCallbacks {
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var errorText: TextView
+    private lateinit var butReload: Button
+    private lateinit var errorContainer: View
 
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: AlbumsViewAdapter
@@ -30,6 +37,10 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_album_list, container, false).apply {
             recyclerView = findViewById(R.id.recycler_view)
+            progressBar = findViewById(R.id.progress_bar)
+            errorText = findViewById(R.id.error_text)
+            butReload = findViewById(R.id.but_reload)
+            errorContainer = findViewById(R.id.error_container)
         }
         return root
     }
@@ -46,11 +57,38 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
 
         albumsRepository.albums.observe(viewLifecycleOwner) {
             when (it) {
-                is RequestStatus.Success -> viewAdapter.albums = it.data
-                is RequestStatus.Fail -> showToast(it.message)
-                is RequestStatus.Loading -> showToast("LOADING")
+                is RequestStatus.Success -> {
+                    showLoaded()
+                    viewAdapter.albums = it.data
+                }
+                is RequestStatus.Fail -> showError(it.message)
+                is RequestStatus.Loading -> if (!it.quiet) showLoading()
             }
         }
+
+        butReload.setOnClickListener {
+            albumsRepository.fetchNewAlbums()
+        }
+    }
+
+
+    private fun showLoading() {
+        recyclerView.visibility = View.GONE
+        errorContainer.visibility = View.GONE
+        progressBar.visibility = View.VISIBLE
+    }
+
+    private fun showLoaded() {
+        progressBar.visibility = View.GONE
+        errorContainer.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+    }
+
+    private fun showError(message: String) {
+        recyclerView.visibility = View.GONE
+        progressBar.visibility = View.GONE
+        errorContainer.visibility = View.VISIBLE
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
     }
 
     private fun showToast(message: String) {
