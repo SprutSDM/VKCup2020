@@ -45,8 +45,7 @@ class AlbumCreatorFragment : BottomSheetDialogFragment() {
         butCreate.setOnClickListener {
             hideKeyboard()
             dismiss()
-//            postsRepository.addPost(postMessageView.editableText.toString(),
-//                listOf(imageUri.getAbsolutePathUri(requireContext())))
+            albumsRepository.createAlbum(albumNewTitleView.editableText.toString())
         }
         butCloseBs.setOnClickListener {
             dismiss()

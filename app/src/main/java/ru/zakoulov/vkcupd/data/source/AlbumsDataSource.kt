@@ -12,4 +12,6 @@ interface AlbumsDataSource {
     fun getPhotos(albumId: Int, count: Int, offset: Int, callback: CommonResponseCallback<Photos>)
 
     fun uploadPhoto(albumId: Int, photo: Uri, callback: CommonResponseCallback<Int>)
+
+    fun createAlbum(albumTitle: String, callback: CommonResponseCallback<Int>)
 }

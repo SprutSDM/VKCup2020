@@ -104,6 +104,16 @@ class AlbumsRepository(
         return status
     }
 
+    fun createAlbum(albumTitle: String) {
+        remoteSource.createAlbum(albumTitle, object: CommonResponseCallback<Int> {
+            override fun success(response: Int) {
+                fetchNewAlbums(quiet = true, removePrevious = true)
+            }
+
+            override fun fail(failMessage: String) = Unit
+        })
+    }
+
     companion object {
         const val NUM_OF_ALBUMS_FOR_FETCHING = 20
         const val NUM_OF_PHOTOS_FOR_FETCHING = 40

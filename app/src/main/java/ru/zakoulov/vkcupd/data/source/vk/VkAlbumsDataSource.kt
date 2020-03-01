@@ -13,6 +13,7 @@ import ru.zakoulov.vkcupd.data.models.Photos
 import ru.zakoulov.vkcupd.data.source.AlbumsDataSource
 import ru.zakoulov.vkcupd.data.source.vk.models.VkAlbums
 import ru.zakoulov.vkcupd.data.source.vk.models.VkPhotos
+import ru.zakoulov.vkcupd.data.source.vk.requests.VkCreateAlbumRequest
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkGetAlbumsRequest
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkGetPhotosRequest
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkPhotoPostCommand
@@ -38,5 +39,10 @@ class VkAlbumsDataSource(
     override fun uploadPhoto(albumId: Int, photo: Uri, callback: CommonResponseCallback<Int>) {
         VK.execute(VkPhotoPostCommand(albumId, listOf(photo)),
             VKApiCallbackAdapter(callback, "Error uploading photo", IntMapper))
+    }
+
+    override fun createAlbum(albumTitle: String, callback: CommonResponseCallback<Int>) {
+        VK.execute(VkCreateAlbumRequest(albumTitle),
+            VKApiCallbackAdapter(callback, "Error creating new album", IntMapper))
     }
 }
