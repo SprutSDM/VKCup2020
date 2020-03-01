@@ -10,10 +10,13 @@ import ru.zakoulov.vkcupd.data.models.Albums
 import ru.zakoulov.vkcupd.data.models.Photos
 import ru.zakoulov.vkcupd.data.source.AlbumsDataSource
 import ru.zakoulov.vkcupd.data.source.vk.models.VkAlbums
+import ru.zakoulov.vkcupd.data.source.vk.models.VkPhotos
 import ru.zakoulov.vkcupd.data.source.vk.requests.VkGetAlbumsRequest
+import ru.zakoulov.vkcupd.data.source.vk.requests.VkGetPhotosRequest
 
 class VkAlbumsDataSource(
-    private val albumsMapper: Mapper<VkAlbums, Albums>
+    private val albumsMapper: Mapper<VkAlbums, Albums>,
+    private val photosMapper: Mapper<VkPhotos, Photos>
 ) : AlbumsDataSource {
 
     private val gson = Gson()
@@ -25,6 +28,7 @@ class VkAlbumsDataSource(
     }
 
     override fun getPhotos(albumId: Int, count: Int, offset: Int, callback: CommonResponseCallback<Photos>) {
-        
+        VK.execute(VkGetPhotosRequest(gson, jsonParser, count, offset, albumId),
+            VKApiCallbackAdapter(callback, "Error fetching photos", photosMapper))
     }
 }

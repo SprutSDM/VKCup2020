@@ -1,7 +1,6 @@
 package ru.zakoulov.vkcupd
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
@@ -9,6 +8,9 @@ import com.vk.api.sdk.VK
 import com.vk.api.sdk.VKTokenExpiredHandler
 import ru.zakoulov.vkcupd.data.AlbumsRepository
 import ru.zakoulov.vkcupd.data.source.mock.MockAlbumDataSource
+import ru.zakoulov.vkcupd.data.source.vk.VkAlbumsDataSource
+import ru.zakoulov.vkcupd.data.source.vk.mappers.AlbumsMapper
+import ru.zakoulov.vkcupd.data.source.vk.mappers.PhotosMapper
 
 class App : Application() {
 
@@ -29,8 +31,10 @@ class App : Application() {
             Picasso.setSingletonInstance(build)
         }
 
-        val albumsDataSource = MockAlbumDataSource()
+        val albumsDataSourceMocked = MockAlbumDataSource()
+        val albumsDataSource = VkAlbumsDataSource(AlbumsMapper(), PhotosMapper())
 
+//        albumsRepository = AlbumsRepository(albumsDataSourceMocked)
         albumsRepository = AlbumsRepository(albumsDataSource)
     }
 

@@ -73,7 +73,7 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
     }
 
     override fun fetchNewData() {
-        albumsRepository.fetchNewAlbums(quiet = true)
+        albumsRepository.fetchNewPhotos(albumId, quiet = true)
     }
 
     companion object {

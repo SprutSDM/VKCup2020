@@ -7,5 +7,5 @@ package ru.zakoulov.vkcupd.data.core
 interface SparseStorageCallback<D> {
     fun initData(key: Int): D
 
-    fun fetchData(key: Int, data: StatusLiveData<D>, size: Int, quiet: Boolean = false)
+    fun fetchData(key: Int, data: StatusLiveData<D>, quiet: Boolean = false)
 }

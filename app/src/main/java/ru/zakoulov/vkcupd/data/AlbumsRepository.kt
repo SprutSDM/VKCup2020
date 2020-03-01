@@ -21,12 +21,10 @@ class AlbumsRepository(
         if (albums.isLoading()) {
             return
         }
-
         // Already have all photos, don't DDoS VK
         if (totalCountOfAlbums == albums.data.size) {
             return
         }
-
         albums.setLoading(quiet)
         remoteSource.getAlbums(NUM_OF_ALBUMS_FOR_FETCHING, albums.data.size, object : CommonResponseCallback<Albums> {
             override fun success(response: Albums) {
@@ -43,7 +41,7 @@ class AlbumsRepository(
     private val photos = SparseStorage(object : SparseStorageCallback<Photos> {
         override fun initData(key: Int) = Photos(-1, emptyList())
 
-        override fun fetchData(key: Int, data: StatusLiveData<Photos>, size: Int, quiet: Boolean) {
+        override fun fetchData(key: Int, data: StatusLiveData<Photos>, quiet: Boolean) {
             if (data.isLoading()) {
                 return
             }
@@ -54,7 +52,7 @@ class AlbumsRepository(
                 }
             }
             data.setLoading(quiet)
-            remoteSource.getPhotos(key, NUM_OF_PHOTOS_FOR_FETCHING, size, object : CommonResponseCallback<Photos> {
+            remoteSource.getPhotos(key, NUM_OF_PHOTOS_FOR_FETCHING, data.data.photos.size, object : CommonResponseCallback<Photos> {
                 override fun success(response: Photos) {
                     data.value = RequestStatus.Success(
                         Photos(

@@ -18,14 +18,14 @@ class SparseStorage<D>(
         if (key in data) {
             data[key].let {
                 if (it.isFailed()) {
-                    callback.fetchData(key, it, data.size)
+                    callback.fetchData(key, it)
                 }
                 return it
             }
         }
         val newData = StatusLiveData(RequestStatus.Empty(callback.initData(key)))
         data[key] = newData
-        callback.fetchData(key, newData, data.size)
+        callback.fetchData(key, newData)
         return newData
     }
 
@@ -33,7 +33,7 @@ class SparseStorage<D>(
         if (key !in data) {
             get(key)
         } else {
-            callback.fetchData(key, data[key], data.size, quiet)
+            callback.fetchData(key, data[key], quiet)
         }
     }
 }

@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun login() {
-        VK.login(this, listOf(VKScope.MARKET, VKScope.GROUPS))
+        VK.login(this, listOf(VKScope.PHOTOS))
     }
 
     fun navigateToWelcome() = navigateTo(WelcomeFragment.instance, WelcomeFragment.TAG)
