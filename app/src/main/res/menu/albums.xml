@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/edit"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/menu_edit_item"
+        android:title="@string/menu_title_edit_album"/>
+
+    <item
+        android:id="@+id/add"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/menu_add_item"
+        android:title="@string/menu_title_add_album"/>
+</menu>

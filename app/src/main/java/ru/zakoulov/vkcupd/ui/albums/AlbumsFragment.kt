@@ -9,6 +9,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,6 +20,7 @@ import ru.zakoulov.vkcupd.R
 import ru.zakoulov.vkcupd.data.AlbumsRepository
 import ru.zakoulov.vkcupd.data.core.RequestStatus
 import ru.zakoulov.vkcupd.data.models.Album
+import ru.zakoulov.vkcupd.ui.albumcreator.AlbumCreatorFragment
 import ru.zakoulov.vkcupd.ui.photos.PhotosFragment
 
 class AlbumsFragment : Fragment(), AlbumCallbacks {
@@ -28,6 +30,9 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
     private lateinit var errorText: TextView
     private lateinit var butReload: Button
     private lateinit var errorContainer: View
+    private lateinit var toolbar: Toolbar
+    private lateinit var menuItemAdd: View
+    private lateinit var menuItemEdit: View
 
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: AlbumsViewAdapter
@@ -41,6 +46,9 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
             errorText = findViewById(R.id.error_text)
             butReload = findViewById(R.id.but_reload)
             errorContainer = findViewById(R.id.error_container)
+            toolbar = findViewById(R.id.toolbar)
+            menuItemAdd = findViewById(R.id.add)
+            menuItemEdit = findViewById(R.id.edit)
         }
         return root
     }
@@ -69,8 +77,22 @@ class AlbumsFragment : Fragment(), AlbumCallbacks {
         butReload.setOnClickListener {
             albumsRepository.fetchNewAlbums()
         }
+
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.add -> {
+                    showAlbumCreator()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
+    private fun showAlbumCreator() {
+        val fragment = AlbumCreatorFragment()
+        fragment.show(requireActivity().supportFragmentManager, fragment.tag)
+    }
 
     private fun showLoading() {
         recyclerView.visibility = View.GONE

@@ -12,11 +12,13 @@
         android:theme="@style/VkCupTheme.Final.AppBarOverlay"
         app:elevation="0dp">
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/VkCupTheme.Final.PopupOverlay"
-            app:title="@string/albums_title"/>
+            app:title="@string/albums_title"
+            app:menu="@menu/albums"/>
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
