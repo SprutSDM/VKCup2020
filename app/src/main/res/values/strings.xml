@@ -8,6 +8,7 @@
 
     <string name="albums_title">Альбомы</string>
     <string name="albums_edit_title">Редактирование</string>
+    <string name="menu_title_add_photo">Добавить фотографию</string>
 
     <plurals name="album_size">
         <item quantity="zero">%1$d фотографий</item>
