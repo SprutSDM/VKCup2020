@@ -3,8 +3,11 @@ package ru.zakoulov.vkcupd.ui.albums
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.OvershootInterpolator
+import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import ru.zakoulov.vkcupd.R
@@ -65,6 +68,7 @@ class AlbumsViewAdapter(
     class AlbumViewHolder(val albumItem: View) : RecyclerView.ViewHolder(albumItem) {
 
         private var oldId = -1
+        private var oldState: AlbumsState = AlbumsState.OPEN
 
         private val albumTitle: TextView = albumItem.findViewById(R.id.album_title)
         private val albumPreview: ImageView = albumItem.findViewById(R.id.album_preview)
@@ -96,18 +100,42 @@ class AlbumsViewAdapter(
             when (albumsState) {
                 AlbumsState.OPEN -> {
                     albumRemoveIcon.visibility = View.GONE
+                    if (shouldAnimate(albumsState, albumId)) {
+                        animateRemoveIcon(false)
+                    }
                     albumItem.alpha = 1f
                 }
                 AlbumsState.REMOVE -> {
                     if (albumId < 0) {
                         albumRemoveIcon.visibility = View.GONE
+                        if (shouldAnimate(albumsState, albumId)) {
+                            animateRemoveIcon(false)
+                        }
                         albumItem.alpha = 0.5f
                     } else {
                         albumItem.alpha = 1f
                         albumRemoveIcon.visibility = View.VISIBLE
+                        if (shouldAnimate(albumsState, albumId)) {
+                            animateRemoveIcon(true)
+                        }
                     }
                 }
             }
+            oldState = albumsState
+        }
+
+        private fun shouldAnimate(state: AlbumsState, albumId: Int) = oldState != state && albumId == oldId
+
+        private fun animateRemoveIcon(active: Boolean) {
+            val fromX = if (active) 0f else 1f
+            val toX = if (active) 1f else 0f
+            val fromY = if (active) 0f else 1f
+            val toY = if (active) 1f else 0f
+            val anim = ScaleAnimation(fromX, toX, fromY, toY,
+                albumRemoveIcon.measuredWidth.toFloat() / 2, albumRemoveIcon.measuredHeight.toFloat() / 2)
+            anim.duration = 200
+            anim.interpolator = if (active) OvershootInterpolator() else FastOutLinearInInterpolator()
+            albumRemoveIcon.startAnimation(anim)
         }
     }
 
