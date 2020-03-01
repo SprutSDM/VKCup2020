@@ -20,19 +20,25 @@ class AlbumsRepository(
 
     var albums: StatusLiveData<List<Album>> = StatusLiveData(RequestStatus.Empty(emptyList()))
 
-    fun fetchNewAlbums(quiet: Boolean = false) {
+    fun fetchNewAlbums(quiet: Boolean = false, removePrevious: Boolean = false) {
         if (albums.isLoading()) {
             return
         }
         // Already have all photos, don't DDoS VK
-        if (totalCountOfAlbums == albums.data.size) {
+        if (totalCountOfAlbums == albums.data.size && !removePrevious) {
             return
         }
         albums.setLoading(quiet)
-        remoteSource.getAlbums(NUM_OF_ALBUMS_FOR_FETCHING, albums.data.size, object : CommonResponseCallback<Albums> {
+        val offset = if (removePrevious) 0 else albums.data.size
+        remoteSource.getAlbums(NUM_OF_ALBUMS_FOR_FETCHING, offset, object : CommonResponseCallback<Albums> {
             override fun success(response: Albums) {
                 totalCountOfAlbums = response.count
-                albums.value = RequestStatus.Success(albums.data + response.albums)
+                albums.value = RequestStatus.Success(
+                    if (removePrevious) {
+                        response.albums
+                    } else {
+                        albums.data + response.albums
+                    })
             }
 
             override fun fail(failMessage: String) {
@@ -44,24 +50,29 @@ class AlbumsRepository(
     private val photos = SparseStorage(object : SparseStorageCallback<Photos> {
         override fun initData(key: Int) = Photos(-1, emptyList())
 
-        override fun fetchData(key: Int, data: StatusLiveData<Photos>, quiet: Boolean) {
+        override fun fetchData(key: Int, data: StatusLiveData<Photos>, quiet: Boolean, removePrevious: Boolean) {
             if (data.isLoading()) {
                 return
             }
             // Already have all photos, don't DDoS VK
             data.data.let {
-                if (it.count == it.photos.size) {
+                if (it.count == it.photos.size && !removePrevious) {
                     return
                 }
             }
             data.setLoading(quiet)
-            remoteSource.getPhotos(key, NUM_OF_PHOTOS_FOR_FETCHING, data.data.photos.size, object : CommonResponseCallback<Photos> {
+            val offset = if (removePrevious) 0 else data.data.photos.size
+            remoteSource.getPhotos(key, NUM_OF_PHOTOS_FOR_FETCHING, offset, object : CommonResponseCallback<Photos> {
                 override fun success(response: Photos) {
                     data.value = RequestStatus.Success(
-                        Photos(
-                            count = response.count,
-                            photos = data.data.photos + response.photos
-                    ))
+                        if (removePrevious) {
+                            response
+                        } else {
+                            Photos(
+                                count = response.count,
+                                photos = data.data.photos + response.photos
+                            )
+                        })
                 }
 
                 override fun fail(failMessage: String) {
@@ -73,8 +84,8 @@ class AlbumsRepository(
 
     fun getPhotos(albumId: Int) = photos[albumId]
 
-    fun fetchNewPhotos(albumId: Int, quiet: Boolean = false) {
-        photos.fetchNewData(albumId, quiet)
+    fun fetchNewPhotos(albumId: Int, quiet: Boolean = false, removePrevious: Boolean = false) {
+        photos.fetchNewData(albumId, quiet, removePrevious)
     }
 
     fun uploadPhoto(albumId: Int, photo: Uri) : LiveData<Boolean> {
@@ -82,6 +93,8 @@ class AlbumsRepository(
         remoteSource.uploadPhoto(albumId, photo, object : CommonResponseCallback<Int> {
             override fun success(response: Int) {
                 status.value = true
+                fetchNewPhotos(albumId, quiet = true, removePrevious = true)
+                fetchNewAlbums(quiet = true, removePrevious = true)
             }
 
             override fun fail(failMessage: String) {

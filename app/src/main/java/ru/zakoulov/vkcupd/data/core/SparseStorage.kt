@@ -4,7 +4,6 @@ package ru.zakoulov.vkcupd.data.core
 import android.util.SparseArray
 import androidx.core.util.contains
 import androidx.core.util.set
-import androidx.core.util.size
 
 /**
  * The class that manages fetching new data and their status
@@ -29,11 +28,11 @@ class SparseStorage<D>(
         return newData
     }
 
-    fun fetchNewData(key: Int, quiet: Boolean = false) {
+    fun fetchNewData(key: Int, quiet: Boolean = false, removePrevious: Boolean = false) {
         if (key !in data) {
             get(key)
         } else {
-            callback.fetchData(key, data[key], quiet)
+            callback.fetchData(key, data[key], quiet, removePrevious)
         }
     }
 }
