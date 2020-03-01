@@ -1,6 +1,13 @@
 package ru.zakoulov.vkcupd.ui.photos
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -80,6 +87,15 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
         toolbar.setNavigationOnClickListener {
             MainActivity.getActivity(requireActivity()).navigateBack()
         }
+        toolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.add -> {
+                    startChoosingPhoto()
+                    true
+                }
+                else -> false
+            }
+        }
 
         butReload.setOnClickListener {
             albumsRepository.fetchNewPhotos(albumId)
@@ -128,10 +144,64 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
         albumsRepository.fetchNewPhotos(albumId, quiet = true)
     }
 
+    private fun startChoosingPhoto() {
+        checkPermission()
+    }
+
+    private fun checkPermission() {
+        if (isPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE) ||
+            isPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            val permissions = arrayOf(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            requestPermissions(permissions, PERMISSION_CODE)
+        } else {
+            choosePhoto()
+        }
+    }
+
+    private fun isPermissionDenied(permission: String): Boolean {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return requireActivity().checkSelfPermission(permission) == PackageManager.PERMISSION_DENIED
+        }
+        return false
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                choosePhoto()
+            } else {
+                Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun choosePhoto() {
+        val pickIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        pickIntent.type = IMAGE_WILDCARD
+
+        val chooserIntent = Intent.createChooser(pickIntent, getString(R.string.chooser_title))
+
+        startActivityForResult(chooserIntent, PICK_IMAGES)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == PICK_IMAGES && resultCode == Activity.RESULT_OK) {
+            data?.data?.let {
+                // albumsRepository.uploadPhoto(albumId, it.getAbsolutePathUri(requireContext))
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     companion object {
         const val TAG = "PhotosFragment"
 
         const val NUMBER_OF_COLUMNS = 3
         const val KEY_ALBUM_ID = "key_album_id"
+        const val PICK_IMAGES = 48533
+        const val PERMISSION_CODE = 48534
+        const val IMAGE_WILDCARD = "image/*"
     }
 }
