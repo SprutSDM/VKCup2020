@@ -8,6 +8,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -35,6 +37,7 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
     private lateinit var errorText: TextView
     private lateinit var butReload: Button
     private lateinit var errorContainer: View
+    private lateinit var menuItemAdd: View
 
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewAdapter: PhotosViewAdapter
@@ -50,6 +53,7 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
             errorText = findViewById(R.id.error_text)
             butReload = findViewById(R.id.but_reload)
             errorContainer = findViewById(R.id.error_container)
+            menuItemAdd = findViewById(R.id.add)
         }
         toolbar.setNavigationIcon(R.drawable.ic_back_outline_28)
         return root
@@ -83,6 +87,9 @@ class PhotosFragment : Fragment(), PhotoCallbacks {
         }
         albumsRepository.albums.data.find { it.id == albumId }?.let {
             toolbar.title = it.title
+        }
+        if (albumId < 0) {
+            menuItemAdd.visibility = View.GONE
         }
         toolbar.setNavigationOnClickListener {
             MainActivity.getActivity(requireActivity()).navigateBack()
