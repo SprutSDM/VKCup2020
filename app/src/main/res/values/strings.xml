@@ -12,6 +12,9 @@
     <string name="chooser_title">Выбрать фотографии</string>
     <string name="success_upload_photo">Фотография успешно загружена</string>
     <string name="fail_upload_photo">При загрузке фотографии произошла ошибка</string>
+    <string name="create_album_title">Новый альбом</string>
+    <string name="new_album_title_hint">Название альбома</string>
+    <string name="create">Создать</string>
 
     <plurals name="album_size">
         <item quantity="zero">%1$d фотографий</item>
