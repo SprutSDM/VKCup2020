@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="vkPrimary">#4986CC</color>
+    <color name="vkPrimaryDark">#376499</color>
+    <color name="vkSecondary">#3F8AE0</color>
+    <color name="buttonDisabled">#818C99</color>
+    <color name="textEditHint">#818C99</color>
+    <color name="textEditFill">#F2F3F5</color>
+    <color name="textEditBorders">#E1E3E6</color>
+
+    <color name="shopTitle">#000000</color>
+    <color name="shopDescription">#909499</color>
+    <color name="productTitle">#71757A</color>
+    <color name="productPrice">#000000</color>
+    <color name="productTitleInfo">#000000</color>
+    <color name="productPriceInfo">#000000</color>
+    <color name="productDescriptionInfo">#000000</color>
+    <color name="favoriteFrameBackground">#F9F9F9</color>
+    <color name="buttonRemoveFavorite">#EDEEF0</color>
+    <color name="buttonRemoveFavoritePressed">#E1E2E4</color>
+    <color name="buttonTextDark">@color/vkSecondary</color>
+    <color name="buttonTextLight">#FFFFFF</color>
+</resources>
