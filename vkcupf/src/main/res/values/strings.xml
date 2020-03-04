@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">VK Cup F</string>
+    <string name="fragment_welcome_title">Авторизация</string>
+    <string name="login">Войти</string>
+    <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
+    <string name="retry">Обновить</string>
+    <string name="error_load_data">Произошла ошибка при&#160;загрузке&#160;данных.\nПроверьте подключение к сети.</string>
+
+    <string name="header_title">Отписаться от сообществ</string>
+    <string name="header_description">Коснитесь и удерживайте,\nчтобы увидеть информацию\nо сообществе</string>
+    <string name="unsubscribe_successful">Вы успешно отписались от сообществ</string>
+    <string name="unsubscribe_fail">Не получилось отписаться от сообществ</string>
+    <string name="fail_open_group">Ошибка при открытии группы</string>
+    <string name="unsubscribe">Отписаться</string>
+    <string name="toolbar_title">Сообщества</string>
+    <string name="open_group">Открыть</string>
+    <string name="no_last_post">Нет ни одной записи</string>
+    <string name="no_description">Описание отсутствует</string>
+    <string name="last_post_args">Последняя запись %1$s</string>
+    <string name="followers_info">%1$s · %2$s</string>
+    <string name="members_info">%1$s</string>
+
+    <plurals name="subscribers">
+        <item quantity="zero">%1$s подписчиков</item>
+        <item quantity="one">%1$s подписчик</item>
+        <item quantity="two">%1$s подписчика</item>
+        <item quantity="few">%1$s подписчика</item>
+        <item quantity="many">%1$s подписчиков</item>
+        <item quantity="other">%1$s подписчиков</item>
+    </plurals>
+
+    <plurals name="friends">
+        <item quantity="zero">друзей нет</item>
+        <item quantity="one">%1$s друг</item>
+        <item quantity="two">%1$s друга</item>
+        <item quantity="few">%1$s друга</item>
+        <item quantity="many">%1$s друзей</item>
+        <item quantity="other">%1$s друзей</item>
+    </plurals>
+
+    <string name="sdf_today">HH:mm</string>
+    <string name="sdf_yesterday">вчера</string>
+    <string name="sdf_this_year">d MMM</string>
+    <string name="sdf_old_year">d MMM yyyy</string>
+
+    <integer name="com_vk_sdk_AppId">7330241</integer>
+</resources>

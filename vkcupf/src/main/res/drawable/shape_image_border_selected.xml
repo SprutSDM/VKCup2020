@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="@android:color/transparent"/>
+            <stroke
+                android:color="@color/groupImageSelectedInnerBorder"
+                android:width="@dimen/group_image_selected_inner_border"/>
+        </shape>
+    </item><item>
+    <shape android:shape="oval">
+        <solid android:color="@android:color/transparent"/>
+        <stroke
+            android:color="@color/groupImageSelectedOuterBorder"
+            android:width="@dimen/group_image_selected_outer_border"/>
+    </shape>
+</item>
+
+</layer-list>
