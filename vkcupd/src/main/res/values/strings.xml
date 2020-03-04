@@ -1,0 +1,38 @@
+<resources>
+    <string name="app_name">VK Cup D</string>
+    <string name="fragment_welcome_title">Авторизация</string>
+    <string name="login">Войти</string>
+    <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
+    <string name="retry">Обновить</string>
+    <string name="error_load_data">Произошла ошибка при&#160;загрузке&#160;данных.\n\nПроверьте подключение к сети.</string>
+
+    <string name="albums_title">Альбомы</string>
+    <string name="albums_edit_title">Редактирование</string>
+    <string name="menu_title_add_photo">Добавить фотографию</string>
+    <string name="menu_title_add_album">Добавить альбом</string>
+    <string name="menu_title_edit_album">Редактировать альбом</string>
+    <string name="chooser_title">Выбрать фотографии</string>
+
+    <string name="success_upload_photo">Фотография успешно загружена</string>
+    <string name="fail_upload_photo">При загрузке фотографии произошла ошибка</string>
+    <string name="success_remove_album">Альбом успешно удален</string>
+    <string name="unable_to_remove_album">Этот альбом нельзя удалить!</string>
+    <string name="album_invalid_title">Минимальная длина названия альбома 2&#160;символа</string>
+
+    <string name="fail_remove_album">При удалении альбома произошла ошибка</string>
+    <string name="create_album_title">Новый альбом</string>
+    <string name="new_album_title_hint">Название альбома</string>
+    <string name="create">Создать</string>
+    <string name="error_not_photos">В этом альбоме пока что нет&#160;фотографий.\n\nДля того чтобы добавить новую&#160;фотографию, нажмите на значек плюсика сверху</string>
+
+    <plurals name="album_size">
+        <item quantity="zero">%1$d фотографий</item>
+        <item quantity="one">%1$d фотография</item>
+        <item quantity="two">%1$d фотографии</item>
+        <item quantity="few">%1$d фотографии</item>
+        <item quantity="many">%1$d фотографий</item>
+        <item quantity="other">%1$d фотографий</item>
+    </plurals>
+
+    <integer name="com_vk_sdk_AppId">7340465</integer>
+</resources>
