@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VK CupE</string>
+    <string name="app_name">VK Cup E</string>
     <string name="fragment_welcome_title">Авторизация</string>
     <string name="login">Войти</string>
     <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
