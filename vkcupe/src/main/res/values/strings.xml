@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">VK Cup E</string>
+    <string name="fragment_welcome_title">Авторизация</string>
+    <string name="login">Войти</string>
+    <string name="welcome_text">Пожалуйста, авторизуйтесь, для того чтобы продолжить!</string>
+    <string name="share_on_wall">Поделиться на стене</string>
+    <string name="hint_add_comment">Добавить комментарий</string>
+    <string name="post">Отправить</string>
+    <string name="title_share_photo">Делитесь фотографиями</string>
+    <string name="description_share_photo">Поделитесь фотографией на стене,\nи добавьте к ней описание.</string>
+    <string name="but_choose_photo">Выбрать фото</string>
+    <string name="post_publish_success">Пост был успешно опубликован!</string>
+    <string name="post_publish_fail">При публикации поста произошла ошибка</string>
+    <string name="chooser_title">Выбрать фотографию</string>
+
+    <integer name="com_vk_sdk_AppId">7327077</integer>
+</resources>
