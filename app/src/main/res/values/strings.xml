@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VK cup A</string>
+    <string name="app_name">VK Cup A</string>
     <string name="fragment_documents_title">Документы</string>
     <string name="fragment_welcome_title">Авторизация</string>
     <string name="fragment_dialog_rename_title">Переименовать документ</string>

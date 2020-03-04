@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Document viewer'
+rootProject.name='VK Cup A'
